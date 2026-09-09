@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | Stackly Equipment</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#000000',
+                        card: '#0a0a0a',
+                        border: '#222222',
+                    },
+                    fontSize: {
+                        'hero': 'clamp(3.5rem, 12vw, 12rem)',
+                    },
+                    letterSpacing: {
+                        'widest-lg': '0.25em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* General Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Parallax Hero */
+        .hero-bg {
+            will-change: transform;
+        }
+
+        /* Sticky Section Animations */
+        .step-block {
+            transition: color 0.5s ease;
+        }
+        .step-img {
+            transition: opacity 0.8s ease-in-out, transform 1.5s ease-out;
+            transform: scale(1.05);
+        }
+        .step-img.opacity-100 {
+            transform: scale(1);
+        }
+
+        /* Ticker Animation */
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+        }
+
+        /* Section Spacing Utility */
+        .section-py {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+        @media (min-width: 768px) {
+            .section-py {
+                padding-top: 8rem;
+                padding-bottom: 8rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .section-py {
+                padding-top: 10rem;
+                padding-bottom: 10rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans relative">
+
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="index.html" class="hover:text-gray-400 transition-colors">Home</a>
+            <a href="about.html" class="text-white transition-colors border-b border-white pb-1">About</a>
+            <a href="products.html" class="hover:text-gray-400 transition-colors">Products</a>
+        </nav>
+
+        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center">
+            <a href="404.html" class="inline-flex items-center">
+                <img src="images/stackly logo.webp" alt="Stackly" class="h-7 md:h-9 object-contain">
+            </a>
+        </div>
+
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="blog.html" class="hover:text-gray-400 transition-colors">Blog</a>
+            <a href="contact.html" class="hover:text-gray-400 transition-colors">Contact</a>
+            <a href="login.html" class="hover:text-gray-400 transition-colors">Sign In</a>
+        </nav>
+
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl z-50 focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-dark z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <nav class="flex flex-col space-y-7 text-xl sm:text-2xl uppercase tracking-[0.2em] text-center font-semibold">
+            <a href="index.html" class="mobile-link hover:text-gray-400">Home</a>
+            <a href="about.html" class="mobile-link text-white font-bold border-b border-white pb-1 inline-block mx-auto">About</a>
+            <a href="products.html" class="mobile-link hover:text-gray-400">Products</a>
+            <a href="blog.html" class="mobile-link hover:text-gray-400">Blog</a>
+            <a href="contact.html" class="mobile-link hover:text-gray-400">Contact</a>
+            <a href="login.html" class="mobile-link hover:text-gray-400">Sign In</a>
+            <a href="signup.html" class="mobile-link hover:text-gray-400">Sign Up</a>
+        </nav>
+        <div class="mt-12 text-xs uppercase tracking-[0.2em] text-gray-500">
+            Salem, Tamil Nadu • (555) 123-4567
+        </div>
+    </div>
+
+    <section class="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-dark">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <!-- Large scale factor to allow room for parallax downward movement -->
+            <img src="images/home about.webp" alt="Heavy Weights" class="hero-bg w-full h-[120%] object-cover opacity-60 -top-[10%] relative">
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/40 to-dark"></div>
+        </div>
+
+        <div class="z-10 text-center w-full relative px-4 mt-20">
+            <span class="reveal delay-100 text-sm md:text-base uppercase tracking-[0.4em] font-bold text-gray-400 mb-6 block">Our Story</span>
+            <h1 class="reveal delay-200 text-hero font-black leading-[0.85] tracking-tighter m-0 p-0 select-none drop-shadow-2xl">
+                FORGED IN
+            </h1>
+            <h1 class="reveal delay-300 text-hero font-black leading-[0.85] tracking-tighter m-0 p-0 select-none drop-shadow-2xl">
+                EXCELLENCE
+            </h1>
+        </div>
+    </section>
+
+    <section class="px-4 md:px-8 section-py bg-dark border-t border-border">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="flex flex-col lg:flex-row gap-12 lg:gap-24">
+                <div class="w-full lg:w-1/2">
+                    <h2 class="text-3xl md:text-5xl font-bold uppercase tracking-tighter leading-tight mb-8">
+                        Born in Salem.<br>Driven by passion.
+                    </h2>
+                    <div class="w-16 h-1 bg-white mb-8 reveal"></div>
+                </div>
+                
+                <div class="w-full lg:w-1/2 text-lg md:text-xl lg:text-2xl font-medium leading-relaxed uppercase tracking-wide text-gray-300">
+                    <p class="reveal delay-100 mb-8">
+                        In 2012, we noticed a critical gap in the fitness industry. Commercial gyms were paying exorbitant prices for reliable gear, while home athletes settled for flimsy materials. We set out to change the standard.
+                    </p>
+                    
+                    <p class="reveal delay-200">
+                        Every piece of Stackly equipment is manufactured from raw, high-grade steel. We don't just sell equipment; <span class="text-white font-bold">we manufacture confidence.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-4 md:px-8 py-20 bg-card border-y border-border">
+        <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-border">
+            <div class="pt-8 md:pt-0">
+                <div class="text-5xl md:text-7xl font-black mb-4"><span class="counter" data-target="12">0</span></div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Years of Engineering</p>
+            </div>
+            <div class="pt-12 md:pt-0">
+                <div class="text-5xl md:text-7xl font-black mb-4"><span class="counter" data-target="500">0</span>+</div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Facilities Outfitted</p>
+            </div>
+            <div class="pt-12 md:pt-0">
+                <div class="text-5xl md:text-7xl font-black mb-4"><span class="counter" data-target="50">0</span>k+</div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Tons of Steel Forged</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative bg-dark w-full">
+        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row">
+            
+            <!-- Left side: Text blocks that trigger the image change -->
+            <div class="w-full lg:w-1/2 py-20 lg:py-0 px-4 md:px-8">
+                <div class="lg:h-screen flex flex-col justify-center mb-24 lg:mb-0 step-block text-gray-600" data-step="1">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] mb-4">Step 01</p>
+                    <h3 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 text-inherit">Raw Materials</h3>
+                    <p class="text-lg md:text-xl uppercase tracking-wide leading-relaxed font-medium">We source only heavy-gauge, structural-grade steel. Before a single cut is made, raw materials undergo strict tolerance and load-bearing evaluations to ensure they meet commercial demands.</p>
+                    <img src="images/raw meterials.webp" class="w-full h-64 object-cover mt-8 block lg:hidden" alt="Steel Sparks">
+                </div>
+
+                <div class="lg:h-screen flex flex-col justify-center mb-24 lg:mb-0 step-block text-gray-600" data-step="2">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] mb-4">Step 02</p>
+                    <h3 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 text-inherit">Precision Welding</h3>
+                    <p class="text-lg md:text-xl uppercase tracking-wide leading-relaxed font-medium">Our master fabricators in Salem utilize advanced laser-cutting and robotic welding alongside hand-finished detailing. Every joint is sealed for a lifetime of structural integrity.</p>
+                    <img src="images/photo-1581009146145-b5ef050c2e1e.webp" class="w-full h-64 object-cover mt-8 block lg:hidden" alt="Factory Welding">
+                </div>
+
+                <div class="lg:h-screen flex flex-col justify-center step-block text-gray-600" data-step="3">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] mb-4">Step 03</p>
+                    <h3 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 text-inherit">Extreme Testing</h3>
+                    <p class="text-lg md:text-xl uppercase tracking-wide leading-relaxed font-medium">A rack isn't a Stackly rack until it survives our drop tests and static load trials. Finished with industrial-grade powder coat, our gear is built to withstand decades of abuse.</p>
+                    <img src="images/extreme testing.webp" class="w-full h-64 object-cover mt-8 block lg:hidden" alt="Barbell Loaded">
+                </div>
+            </div>
+
+            <!-- Right side: Sticky Image Container (Desktop Only) -->
+            <div class="hidden lg:block lg:w-1/2 h-screen sticky top-0 overflow-hidden bg-card border-l border-border">
+                <img id="step-img-1" src="images/raw meterials.webp" alt="Raw Materials" class="step-img absolute inset-0 w-full h-full object-cover opacity-100">
+                <img id="step-img-2" src="images/photo-1581009146145-b5ef050c2e1e.webp" alt="Welding" class="step-img absolute inset-0 w-full h-full object-cover opacity-0">
+                <img id="step-img-3" src="images/extreme testing.webp" alt="Testing" class="step-img absolute inset-0 w-full h-full object-cover opacity-0">
+                <div class="absolute inset-0 bg-black/20"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="w-full overflow-hidden bg-white text-black py-6 md:py-8 border-y border-border flex whitespace-nowrap">
+        <div class="ticker-move text-2xl md:text-4xl font-black uppercase tracking-tighter">
+            <span>BUILT TO LAST • COMMERCIAL GRADE • ENGINEERED IN SALEM • LIFETIME WARRANTY • PREMIUM QUALITY • </span>
+            <span>BUILT TO LAST • COMMERCIAL GRADE • ENGINEERED IN SALEM • LIFETIME WARRANTY • PREMIUM QUALITY • </span>
+            <span>BUILT TO LAST • COMMERCIAL GRADE • ENGINEERED IN SALEM • LIFETIME WARRANTY • PREMIUM QUALITY • </span>
+        </div>
+    </div>
+
+    <footer class="bg-dark border-t border-border pt-20 pb-10 px-4 md:px-8">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12 reveal">
+                <h3 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none max-w-lg">
+                    SUBSCRIBE FOR NEWSLETTER
+                </h3>
+                <form class="w-full lg:w-1/2 flex border-b border-border py-4" id="newsletter-form" onsubmit="event.preventDefault(); showSubscribeModal(); this.reset();">
+                    <label class="uppercase text-xs font-bold tracking-[0.2em] w-24 text-gray-500 flex items-center">EMAIL</label>
+                    <input type="email" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" required>
+                    <button type="submit" class="uppercase text-xs font-bold tracking-[0.2em] hover:text-gray-400 transition-colors pl-4">
+                        SUBSCRIBE
+                    </button>
+                </form>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-border pb-12 mb-12 reveal">
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4">Powered by</p>
+                    <p class="text-sm font-bold uppercase tracking-[0.2em]">Stackly Tech</p>
+                </div>
+                
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="index.html" class="hover:text-gray-400 transition-colors">HOME</a>
+                    <a href="about.html" class="text-white hover:text-gray-400 transition-colors">ABOUT</a>
+                    <a href="products.html" class="hover:text-gray-400 transition-colors">PRODUCTS</a>
+                </nav>
+
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="blog.html" class="hover:text-gray-400 transition-colors">BLOG</a>
+                    <a href="contact.html" class="hover:text-gray-400 transition-colors">CONTACT</a>
+                </nav>
+
+                <div class="text-xs text-gray-500 uppercase tracking-widest leading-relaxed flex flex-col justify-end">
+                    <a href="mailto:contact@stackly.in" class="text-white hover:text-gray-400 transition-colors mb-2 font-bold tracking-[0.2em]">CONTACT@STACKLY.IN</a>
+                    <p class="mb-4">(555) 123-4567</p>
+                    <p>Meyyanur Bypass Road, Salem, Tamil Nadu 636004</p>
+                    <div class="flex flex-wrap gap-4 mt-6 text-base text-white">
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full text-center reveal py-6">
+                <a href="404.html" class="inline-block hover:opacity-75 transition-opacity">
+                    <img src="images/stackly logo.webp" alt="Stackly" class="h-16 md:h-28 mx-auto object-contain opacity-80">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Header Background on Scroll
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('py-4');
+                    header.classList.remove('py-6');
+                } else {
+                    header.classList.add('py-6');
+                    header.classList.remove('py-4');
+                }
+            });
+
+            // Mobile Menu Logic
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            let menuOpen = false;
+
+            mobileBtn.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if (menuOpen) {
+                    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                    mobileBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                    mobileBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Standard Fade-up Reveal
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+            
+            // Apply observers and inline delays
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+                if(el.classList.contains('delay-100')) el.style.transitionDelay = '0.1s';
+                if(el.classList.contains('delay-200')) el.style.transitionDelay = '0.2s';
+                if(el.classList.contains('delay-300')) el.style.transitionDelay = '0.3s';
+                if(el.classList.contains('delay-400')) el.style.transitionDelay = '0.4s';
+                if(el.classList.contains('delay-500')) el.style.transitionDelay = '0.5s';
+            });
+
+            // Number Counter Animation
+            const counters = document.querySelectorAll('.counter');
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const target = parseInt(entry.target.getAttribute('data-target'));
+                        const duration = 2500;
+                        let startTime = null;
+                        
+                        function updateCount(timestamp) {
+                            if (!startTime) startTime = timestamp;
+                            const progress = timestamp - startTime;
+                            const current = Math.min(Math.floor((progress / duration) * target), target);
+                            entry.target.innerText = current;
+                            
+                            if (progress < duration) {
+                                window.requestAnimationFrame(updateCount);
+                            } else {
+                                entry.target.innerText = target; 
+                            }
+                        }
+                        window.requestAnimationFrame(updateCount);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(counter => counterObserver.observe(counter));
+
+            // Sticky Section Image Crossfade Logic
+            const stepBlocks = document.querySelectorAll('.step-block');
+            const stepObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const step = entry.target.getAttribute('data-step');
+                        
+                        // Hide all images
+                        document.querySelectorAll('.step-img').forEach(img => {
+                            img.classList.remove('opacity-100');
+                            img.classList.add('opacity-0');
+                        });
+                        
+                        // Show targeted image
+                        const targetImg = document.getElementById(`step-img-${step}`);
+                        if (targetImg) {
+                            targetImg.classList.remove('opacity-0');
+                            targetImg.classList.add('opacity-100');
+                        }
+                        
+                        // Highlight current text block, dim others
+                        stepBlocks.forEach(block => {
+                            block.classList.remove('text-white');
+                            block.classList.add('text-gray-600');
+                        });
+                        entry.target.classList.remove('text-gray-600');
+                        entry.target.classList.add('text-white');
+                    }
+                });
+            }, { 
+                threshold: 0.5, // Trigger when block is 50% visible in viewport 
+                rootMargin: "-10% 0px -10% 0px"
+            });
+            
+            stepBlocks.forEach(block => stepObserver.observe(block));
+
+            // Hero Parallax Effect
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const heroBg = document.querySelector('.hero-bg');
+                // Only animate if near the top to save performance
+                if (scrolled < window.innerHeight) {
+                    heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+                }
+            });
+
+        });
+
+        // Modern Website Modal (No Google/browser alerts)
+        function showSubscribeModal() {
+            const modal = document.getElementById('website-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+        function closeSubscribeModal() {
+            const modal = document.getElementById('website-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+        window.alert = function(msg) {
+            showSubscribeModal();
+        };
+    </script>
+
+    <!-- Website Popup Modal -->
+    <div id="website-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-[#0e1219] border border-white/15 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-left">
+            <button onclick="closeSubscribeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors text-lg" aria-label="Close modal">&times;</button>
+            <div class="flex items-start gap-3.5 mb-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-circle-check text-base"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white leading-tight">Successfully Subscribed</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Stackly Commercial Fitness</p>
+                </div>
+            </div>
+            <p class="text-xs sm:text-sm text-gray-300 leading-relaxed my-3">
+                Thank you for subscribing! You will receive equipment drops, facility guides, and engineering updates straight to your inbox.
+            </p>
+            <div class="flex items-center justify-end mt-5 pt-3 border-t border-white/10">
+                <button onclick="closeSubscribeModal()" class="btn-primary text-xs py-2 px-5 rounded-lg bg-white text-black font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors">Done</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

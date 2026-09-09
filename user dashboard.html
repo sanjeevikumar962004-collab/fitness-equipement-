@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard | Stackly Fitness Equipment</title>
+    <meta name="description" content="Manage your Stackly Fitness Equipment orders, wishlist, support tickets, and account details from your personal dashboard.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * { box-sizing: border-box; }
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --panel-hover: #121212;
+            --border: rgba(255,255,255,0.07);
+            --border-hover: rgba(255,255,255,0.15);
+            --text: #f3f4f6;
+            --muted: #6b7280;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        /* Sidebar */
+        .sidebar {
+            width: 230px;
+            min-height: 100vh;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-logo {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.7rem 1.25rem; color: var(--muted);
+            font-size: 0.8rem; font-weight: 500;
+            border-radius: 8px; margin: 2px 0.5rem;
+            transition: all 0.2s ease; cursor: pointer; text-decoration: none;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+        .nav-item.active { background: #fff; color: #000; }
+        .nav-item.active i { color: #000; }
+        .nav-item i { width: 16px; text-align: center; font-size: 0.85rem; }
+        .nav-section-label {
+            font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.15em; color: #3b3b3b; padding: 0.75rem 1.25rem 0.35rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 230px;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Topbar */
+        .topbar {
+            height: 60px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; padding: 0 1.5rem; gap: 1rem;
+            background: var(--bg); position: sticky; top: 0; z-index: 30;
+        }
+
+        /* Cards */
+        .stat-card {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 16px; padding: 1.25rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { border-color: var(--border-hover); background: var(--panel-hover); }
+        .panel-card {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 16px; transition: all 0.3s ease;
+        }
+        .panel-card:hover { border-color: var(--border-hover); }
+
+        /* Badge */
+        .badge {
+            display: inline-flex; align-items: center;
+            padding: 0.2rem 0.6rem; border-radius: 9999px;
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .badge-green { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+        .badge-yellow { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.2); }
+        .badge-red { background: rgba(239,68,68,0.12); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+        .badge-blue { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+        .badge-gray { background: rgba(107,114,128,0.12); color: #9ca3af; border: 1px solid rgba(107,114,128,0.2); }
+
+        /* Table */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th {
+            text-align: left; padding: 0.65rem 1rem;
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--muted); border-bottom: 1px solid var(--border);
+        }
+        .data-table td {
+            padding: 0.85rem 1rem; font-size: 0.82rem;
+            border-bottom: 1px solid var(--border); color: #d1d5db;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tbody tr { transition: background 0.2s ease; }
+        .data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+        /* Buttons */
+        .btn-primary {
+            background: #fff; color: #000;
+            padding: 0.5rem 1.1rem; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+            border: none; cursor: pointer; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .btn-primary:hover { background: #e5e5e5; transform: translateY(-1px); }
+        .btn-ghost {
+            background: transparent; color: var(--muted);
+            padding: 0.5rem 0.8rem; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 600;
+            border: 1px solid var(--border); cursor: pointer;
+            transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+        }
+        .btn-ghost:hover { color: #fff; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.03); }
+
+        /* Avatar */
+        .avatar { width: 36px; height: 36px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+
+        /* Progress */
+        .progress-track { background: rgba(255,255,255,0.06); height: 5px; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 5px; background: #fff; transition: width 1.2s ease; }
+
+        /* Wishlist Item */
+        .wish-item {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1rem 0; border-bottom: 1px solid var(--border);
+        }
+        .wish-item:last-child { border-bottom: none; }
+
+        /* Input */
+        .form-input {
+            width: 100%; background: #111; border: 1px solid var(--border);
+            color: #fff; border-radius: 10px; padding: 0.75rem 1rem;
+            font-size: 0.85rem; outline: none; transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .form-input::placeholder { color: #444; }
+        .form-input:focus { border-color: rgba(255,255,255,0.3); background: #161616; }
+        .form-input.input-error { border-color: #ef4444 !important; background: rgba(239,68,68,0.03); }
+        .form-input.input-success { border-color: #22c55e !important; }
+        .form-label { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #666; margin-bottom: 0.5rem; }
+        .error-msg { font-size: 0.7rem; color: #ef4444; margin-top: 0.3rem; display: none; }
+        .error-msg.show { display: block; }
+
+        /* Mobile */
+        .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 35; }
+        @media (max-width: 1023px) {
+            .sidebar { transform: translateX(-230px); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .mobile-overlay.show { display: block; }
+        }
+
+        /* Tabs */
+        .tab-btn { padding: 0.5rem 1rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.2s ease; cursor: pointer; background: none; border-left: none; border-right: none; border-top: none; }
+        .tab-btn.active { color: #fff; border-bottom-color: #fff; }
+        .tab-btn:hover { color: #e5e5e5; }
+
+        /* Tab Panel */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .delay-1 { animation-delay: 0.05s; } .delay-2 { animation-delay: 0.1s; } .delay-3 { animation-delay: 0.15s; }
+
+        /* Order track steps */
+        .order-step { display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .order-step-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #333; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #555; transition: all 0.3s; }
+        .order-step.done .order-step-circle { background: #fff; border-color: #fff; color: #000; }
+        .order-step.current .order-step-circle { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.1); }
+        .order-step-line { flex: 1; height: 1px; background: #222; margin: 0 4px; margin-top: -16px; }
+        .order-step-line.done { background: #fff; }
+
+        /* Product Card */
+        .product-card {
+            background: #0d0d0d; border: 1px solid var(--border);
+            border-radius: 14px; overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .product-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-overlay" id="mobile-overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <button onclick="window.location.href='404.html'" class="flex items-center hover:opacity-80 transition-opacity bg-transparent border-none p-0 cursor-pointer text-left" title="Stackly Home">
+                <img src="images/stackly logo.webp" alt="Stackly" class="h-6 object-contain">
+            </button>
+            <button onclick="closeSidebar()" class="lg:hidden text-gray-500 hover:text-white transition-colors focus:outline-none text-sm">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-3">
+            <div class="nav-section-label">My Portal</div>
+            <a href="javascript:void(0)" class="nav-item active" id="nav-overview" onclick="switchTab('overview')">
+                <i class="fa-solid fa-house"></i> Overview
+            </a>
+            <a href="javascript:void(0)" class="nav-item" id="nav-orders" onclick="switchTab('orders')">
+                <i class="fa-solid fa-box"></i> My Orders
+                <span class="ml-auto text-[9px] bg-yellow-500/15 text-yellow-400 px-1.5 py-0.5 rounded-full font-bold">3</span>
+            </a>
+            <a href="javascript:void(0)" class="nav-item" id="nav-wishlist" onclick="switchTab('wishlist')">
+                <i class="fa-solid fa-heart"></i> Wishlist
+                <span class="ml-auto text-[9px] bg-white/10 text-gray-300 px-1.5 py-0.5 rounded-full font-bold" id="wishlist-count-badge">3</span>
+            </a>
+
+            <div class="nav-section-label mt-2">Equipment & Hub</div>
+            <a href="javascript:void(0)" class="nav-item" id="nav-catalog" onclick="switchTab('catalog')">
+                <i class="fa-solid fa-dumbbell"></i> Browse Equipment
+            </a>
+            <a href="javascript:void(0)" class="nav-item" id="nav-blog" onclick="switchTab('blog')">
+                <i class="fa-solid fa-newspaper"></i> Training & Guides
+            </a>
+
+            <div class="nav-section-label mt-2">Account & Help</div>
+            <a href="javascript:void(0)" class="nav-item" id="nav-support" onclick="switchTab('support')">
+                <i class="fa-solid fa-headset"></i> Support Desk
+                <span class="ml-auto text-[9px] bg-blue-500/15 text-blue-400 px-1.5 py-0.5 rounded-full font-bold">1</span>
+            </a>
+            <a href="javascript:void(0)" class="nav-item" id="nav-profile" onclick="switchTab('profile')">
+                <i class="fa-solid fa-user-gear"></i> Profile & Security
+            </a>
+        </nav>
+
+        <div class="border-t border-white/5 p-4">
+            <div class="flex items-center gap-3">
+                <div class="avatar bg-white text-black text-xs font-black" id="user-avatar-sidebar">JD</div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-xs font-bold truncate" id="sidebar-name">John Doe</div>
+                    <div class="text-[10px] text-gray-500 truncate" id="sidebar-email">user@example.com</div>
+                </div>
+                <button onclick="confirmSignOut(event)" title="Sign Out" class="text-gray-500 hover:text-red-400 transition-colors text-sm bg-transparent border-none p-0 cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white transition-colors focus:outline-none mr-2">
+                <i class="fa-solid fa-bars text-sm"></i>
+            </button>
+            <div class="text-sm font-bold hidden sm:block" id="topbar-title">Dashboard</div>
+
+            <div class="ml-auto flex items-center gap-3">
+                <button onclick="switchTab('catalog')" class="btn-ghost hidden sm:inline-flex text-xs">
+                    <i class="fa-solid fa-cart-shopping text-xs"></i> Browse Store
+                </button>
+                <div class="avatar bg-white text-black text-xs font-black cursor-pointer" onclick="switchTab('profile')" id="user-avatar-top" title="Account Settings">JD</div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="p-4 md:p-6 flex-1">
+
+            <!-- OVERVIEW TAB -->
+            <div id="tab-overview" class="tab-panel active">
+                <!-- Welcome Banner -->
+                <div class="panel-card p-5 md:p-6 mb-6 fade-up relative overflow-hidden">
+                    <div class="absolute right-0 top-0 h-full w-48 bg-gradient-to-l from-white/3 to-transparent pointer-events-none"></div>
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Welcome back</div>
+                            <h1 class="text-2xl font-black uppercase tracking-tight" id="welcome-name">Champion</h1>
+                            <p class="text-sm text-gray-400 mt-1">Ready to upgrade your training facility today?</p>
+                        </div>
+                        <button onclick="switchTab('catalog')" class="btn-primary">
+                            <i class="fa-solid fa-dumbbell text-xs"></i> Browse Equipment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-card fade-up delay-1 cursor-pointer" onclick="switchTab('orders')">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">Total Orders</div>
+                        <div class="text-2xl font-black">12</div>
+                        <div class="text-xs text-gray-500 mt-1">Since joining</div>
+                    </div>
+                    <div class="stat-card fade-up delay-2">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">Total Spent</div>
+                        <div class="text-2xl font-black">₹5.4L</div>
+                        <div class="text-xs text-gray-500 mt-1">Lifetime value</div>
+                    </div>
+                    <div class="stat-card fade-up delay-3 cursor-pointer" onclick="switchTab('orders')">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">Active Orders</div>
+                        <div class="text-2xl font-black text-yellow-400">3</div>
+                        <div class="text-xs text-yellow-400/80 mt-1">In progress</div>
+                    </div>
+                    <div class="stat-card fade-up delay-2 cursor-pointer" onclick="switchTab('wishlist')">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">Wishlist Items</div>
+                        <div class="text-2xl font-black" id="stat-wishlist-num">3</div>
+                        <div class="text-xs text-gray-500 mt-1">Saved equipment</div>
+                    </div>
+                </div>
+
+                <!-- Latest Order Status + Quick Access -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-6">
+                    <!-- Latest Order Track -->
+                    <div class="panel-card p-5 xl:col-span-2 fade-up delay-1">
+                        <div class="flex items-center justify-between mb-5">
+                            <div>
+                                <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Order #STK-8821</div>
+                                <div class="font-bold text-sm">Pro Commercial Treadmill X9</div>
+                            </div>
+                            <span class="badge badge-yellow">Shipped</span>
+                        </div>
+
+                        <!-- Tracking Steps -->
+                        <div class="flex items-center mb-5">
+                            <div class="order-step done">
+                                <div class="order-step-circle"><i class="fa-solid fa-check text-xs"></i></div>
+                            </div>
+                            <div class="order-step-line done flex-1"></div>
+                            <div class="order-step done">
+                                <div class="order-step-circle"><i class="fa-solid fa-check text-xs"></i></div>
+                            </div>
+                            <div class="order-step-line done flex-1"></div>
+                            <div class="order-step current">
+                                <div class="order-step-circle"><i class="fa-solid fa-truck text-xs"></i></div>
+                            </div>
+                            <div class="order-step-line flex-1"></div>
+                            <div class="order-step">
+                                <div class="order-step-circle"><i class="fa-solid fa-house text-xs"></i></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-wider mb-5">
+                            <span>Confirmed</span>
+                            <span>Packed</span>
+                            <span class="text-yellow-400 font-bold">In Transit</span>
+                            <span>Delivered</span>
+                        </div>
+
+                        <div class="border-t border-white/5 pt-4 grid grid-cols-3 gap-4 text-xs">
+                            <div><div class="text-gray-500 mb-0.5">Order Date</div><div class="font-medium">Sep 5, 2026</div></div>
+                            <div><div class="text-gray-500 mb-0.5">Est. Delivery</div><div class="font-medium text-yellow-400">Sep 12, 2026</div></div>
+                            <div><div class="text-gray-500 mb-0.5">Amount</div><div class="font-bold">₹1,24,000</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Navigation -->
+                    <div class="panel-card p-5 fade-up delay-2">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Quick Navigation</div>
+                        <div class="font-bold text-sm mb-4">Dashboard Shortcuts</div>
+                        <div class="space-y-2">
+                            <button onclick="switchTab('catalog')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl bg-white/3 hover:bg-white/7 transition-all group border-none cursor-pointer text-white">
+                                <div class="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-dumbbell text-xs"></i></div>
+                                <div><div class="text-xs font-bold">Equipment Catalog</div><div class="text-[10px] text-gray-500">Commercial & Home Gear</div></div>
+                                <i class="fa-solid fa-arrow-right text-xs text-gray-600 ml-auto group-hover:text-white transition-colors"></i>
+                            </button>
+                            <button onclick="switchTab('orders')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl bg-white/3 hover:bg-white/7 transition-all group border-none cursor-pointer text-white">
+                                <div class="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-box text-xs"></i></div>
+                                <div><div class="text-xs font-bold">Track Shipments</div><div class="text-[10px] text-gray-500">View real-time status</div></div>
+                                <i class="fa-solid fa-arrow-right text-xs text-gray-600 ml-auto group-hover:text-white transition-colors"></i>
+                            </button>
+                            <button onclick="switchTab('support')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl bg-white/3 hover:bg-white/7 transition-all group border-none cursor-pointer text-white">
+                                <div class="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-headset text-xs"></i></div>
+                                <div><div class="text-xs font-bold">Support & Quotes</div><div class="text-[10px] text-gray-500">Contact equipment specialists</div></div>
+                                <i class="fa-solid fa-arrow-right text-xs text-gray-600 ml-auto group-hover:text-white transition-colors"></i>
+                            </button>
+                            <button onclick="switchTab('blog')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl bg-white/3 hover:bg-white/7 transition-all group border-none cursor-pointer text-white">
+                                <div class="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-newspaper text-xs"></i></div>
+                                <div><div class="text-xs font-bold">Fitness Guides</div><div class="text-[10px] text-gray-500">Training & maintenance tips</div></div>
+                                <i class="fa-solid fa-arrow-right text-xs text-gray-600 ml-auto group-hover:text-white transition-colors"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="panel-card fade-up delay-2">
+                    <div class="flex items-center justify-between p-5 border-b border-white/5">
+                        <div>
+                            <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Order History</div>
+                            <div class="font-bold text-sm">Recent Purchases</div>
+                        </div>
+                        <button class="btn-ghost text-xs" onclick="switchTab('orders')">View All <i class="fa-solid fa-arrow-right text-xs ml-1"></i></button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th class="hidden sm:table-cell">Product</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th class="hidden md:table-cell">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono text-xs text-gray-400">#STK-8821</td>
+                                    <td class="hidden sm:table-cell">Pro Treadmill X9</td>
+                                    <td class="font-bold">₹1,24,000</td>
+                                    <td><span class="badge badge-yellow">Shipped</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Sep 5, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-xs text-gray-400">#STK-8754</td>
+                                    <td class="hidden sm:table-cell">Adjustable Dumbbells 5-50kg</td>
+                                    <td class="font-bold">₹42,000</td>
+                                    <td><span class="badge badge-green">Delivered</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Aug 18, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-xs text-gray-400">#STK-8701</td>
+                                    <td class="hidden sm:table-cell">Olympic Barbell Set 180kg</td>
+                                    <td class="font-bold">₹68,500</td>
+                                    <td><span class="badge badge-green">Delivered</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Jul 30, 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORDERS TAB -->
+            <div id="tab-orders" class="tab-panel">
+                <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Order Management</div>
+                        <h2 class="text-xl font-black uppercase">My Orders</h2>
+                    </div>
+                    <button onclick="switchTab('catalog')" class="btn-primary text-xs">
+                        <i class="fa-solid fa-plus text-xs"></i> New Equipment Order
+                    </button>
+                </div>
+                <div class="panel-card">
+                    <div class="p-4 border-b border-white/5 flex flex-wrap gap-2">
+                        <button class="tab-btn active" onclick="filterOrders('all', this)">All (6)</button>
+                        <button class="tab-btn" onclick="filterOrders('active', this)">Active (3)</button>
+                        <button class="tab-btn" onclick="filterOrders('delivered', this)">Delivered (3)</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th class="hidden md:table-cell">Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="order-row active">
+                                    <td class="font-mono text-xs text-gray-400">#STK-8821</td>
+                                    <td>Pro Treadmill X9</td>
+                                    <td>1</td>
+                                    <td class="font-bold">₹1,24,000</td>
+                                    <td><span class="badge badge-yellow">Shipped</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Sep 5, 2026</td>
+                                    <td><button class="btn-ghost text-[11px] py-1" onclick="window.location.href='404.html'">Track</button></td>
+                                </tr>
+                                <tr class="order-row active">
+                                    <td class="font-mono text-xs text-gray-400">#STK-8820</td>
+                                    <td>Heavy Resistance Band Kit</td>
+                                    <td>2</td>
+                                    <td class="font-bold">₹8,000</td>
+                                    <td><span class="badge badge-blue">Processing</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Sep 7, 2026</td>
+                                    <td><button class="btn-ghost text-[11px] py-1" onclick="window.location.href='404.html'">View</button></td>
+                                </tr>
+                                <tr class="order-row active">
+                                    <td class="font-mono text-xs text-gray-400">#STK-8819</td>
+                                    <td>Urethane Weight Plates 20kg × 4</td>
+                                    <td>1</td>
+                                    <td class="font-bold">₹12,000</td>
+                                    <td><span class="badge badge-blue">Confirmed</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Sep 8, 2026</td>
+                                    <td><button class="btn-ghost text-[11px] py-1" onclick="window.location.href='404.html'">View</button></td>
+                                </tr>
+                                <tr class="order-row delivered">
+                                    <td class="font-mono text-xs text-gray-400">#STK-8754</td>
+                                    <td>Adjustable Dumbbells 5-50kg</td>
+                                    <td>1</td>
+                                    <td class="font-bold">₹42,000</td>
+                                    <td><span class="badge badge-green">Delivered</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Aug 18, 2026</td>
+                                    <td><button class="btn-ghost text-[11px] py-1" onclick="window.location.href='404.html'">Receipt</button></td>
+                                </tr>
+                                <tr class="order-row delivered">
+                                    <td class="font-mono text-xs text-gray-400">#STK-8701</td>
+                                    <td>Olympic Barbell Set 180kg</td>
+                                    <td>1</td>
+                                    <td class="font-bold">₹68,500</td>
+                                    <td><span class="badge badge-green">Delivered</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Jul 30, 2026</td>
+                                    <td><button class="btn-ghost text-[11px] py-1" onclick="window.location.href='404.html'">Receipt</button></td>
+                                </tr>
+                                <tr class="order-row delivered">
+                                    <td class="font-mono text-xs text-gray-400">#STK-8650</td>
+                                    <td>Commercial Multi-Bench Pro</td>
+                                    <td>2</td>
+                                    <td class="font-bold">₹38,000</td>
+                                    <td><span class="badge badge-green">Delivered</span></td>
+                                    <td class="hidden md:table-cell text-gray-500">Jun 15, 2026</td>
+                                    <td><button class="btn-ghost text-[11px] py-1" onclick="window.location.href='404.html'">Receipt</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WISHLIST TAB -->
+            <div id="tab-wishlist" class="tab-panel">
+                <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Saved Items</div>
+                        <h2 class="text-xl font-black uppercase">My Wishlist</h2>
+                    </div>
+                    <button onclick="switchTab('catalog')" class="btn-primary text-xs">
+                        <i class="fa-solid fa-plus text-xs"></i> Add More Gear
+                    </button>
+                </div>
+                <div class="panel-card p-5">
+                    <div class="space-y-0" id="wishlist-container">
+                        <div class="wish-item gap-4">
+                            <img src="images/Iron Beast Air Bike.webp" class="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-white/10" alt="Treadmill">
+                            <div class="flex-1 min-w-0">
+                                <div class="text-sm font-bold truncate">Commercial Treadmill X12 Pro</div>
+                                <div class="text-xs text-gray-500 mt-0.5">Cardio Equipment · Salem Warehouse</div>
+                                <div class="text-sm font-black mt-1">₹1,85,000</div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+                                <button class="btn-primary text-xs py-1.5 px-3" onclick="window.location.href='404.html'"><i class="fa-solid fa-cart-plus"></i> Order Now</button>
+                                <button class="btn-ghost text-xs py-1.5 px-2.5" onclick="removeWishlistItem(this)"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                        <div class="wish-item gap-4">
+                            <img src="images/Apex 3x3 Power Cage.webp" class="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-white/10" alt="Weight Rack">
+                            <div class="flex-1 min-w-0">
+                                <div class="text-sm font-bold truncate">Heavy Duty Power Squat Rack</div>
+                                <div class="text-xs text-gray-500 mt-0.5">Strength Training · In Stock (Salem)</div>
+                                <div class="text-sm font-black mt-1">₹35,000</div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+                                <button class="btn-primary text-xs py-1.5 px-3" onclick="window.location.href='404.html'"><i class="fa-solid fa-cart-plus"></i> Order Now</button>
+                                <button class="btn-ghost text-xs py-1.5 px-2.5" onclick="removeWishlistItem(this)"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                        <div class="wish-item gap-4">
+                            <img src="images/Modular 4-Bay Rig.webp" class="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-white/10" alt="Cable Machine">
+                            <div class="flex-1 min-w-0">
+                                <div class="text-sm font-bold truncate">Dual Cable Cross Machine Elite</div>
+                                <div class="text-xs text-gray-500 mt-0.5">Strength Training · Commercial Build</div>
+                                <div class="text-sm font-black mt-1">₹2,45,000</div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+                                <button class="btn-primary text-xs py-1.5 px-3" onclick="window.location.href='404.html'"><i class="fa-solid fa-cart-plus"></i> Pre-order</button>
+                                <button class="btn-ghost text-xs py-1.5 px-2.5" onclick="removeWishlistItem(this)"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BROWSE EQUIPMENT TAB (IN-DASHBOARD STORE) -->
+            <div id="tab-catalog" class="tab-panel">
+                <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Equipment Catalog</div>
+                        <h2 class="text-xl font-black uppercase">Browse Commercial Gear</h2>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
+                            <input type="text" id="catalog-search" oninput="filterCatalog()" class="bg-[#111] border border-white/10 text-white rounded-lg pl-8 pr-3 py-1.5 text-xs outline-none focus:border-white/30" placeholder="Search equipment...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Pills -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button class="tab-btn active text-xs" onclick="setCatalogCat('all', this)">All Equipment</button>
+                    <button class="tab-btn text-xs" onclick="setCatalogCat('cardio', this)">Cardio</button>
+                    <button class="tab-btn text-xs" onclick="setCatalogCat('strength', this)">Strength</button>
+                    <button class="tab-btn text-xs" onclick="setCatalogCat('weights', this)">Free Weights</button>
+                    <button class="tab-btn text-xs" onclick="setCatalogCat('recovery', this)">Recovery</button>
+                </div>
+
+                <!-- Equipment Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" id="catalog-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card cat-item cardio p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="relative mb-3 overflow-hidden rounded-lg bg-zinc-900 h-44">
+                                <img src="images/Iron Beast Air Bike.webp" alt="Pro Treadmill X9" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 badge badge-green">In Stock</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Cardio Series</div>
+                            <h3 class="font-bold text-sm text-white mt-1">Pro Commercial Treadmill X9</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">Commercial-grade 4.5HP AC motor with shock absorption deck and 22" HD touchscreen console.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">4.5 HP AC</span>
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">22 km/h</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                            <div>
+                                <div class="text-xs text-gray-500">Unit Price</div>
+                                <div class="text-base font-black text-white">₹1,24,000</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.location.href='404.html'" class="btn-primary text-xs py-1.5 px-3">Order Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card cat-item strength p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="relative mb-3 overflow-hidden rounded-lg bg-zinc-900 h-44">
+                                <img src="images/Apex 3x3 Power Cage.webp" alt="Smith Machine" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 badge badge-yellow">3 Left</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Strength Equipment</div>
+                            <h3 class="font-bold text-sm text-white mt-1">Commercial 3D Smith Machine</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">Linear bearing counter-balanced bar with dual cable crossover and integrated multi-grip chin-up.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">500kg Rated</span>
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Counterbalanced</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                            <div>
+                                <div class="text-xs text-gray-500">Unit Price</div>
+                                <div class="text-base font-black text-white">₹3,45,000</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.location.href='404.html'" class="btn-primary text-xs py-1.5 px-3">Order Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card cat-item weights p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="relative mb-3 overflow-hidden rounded-lg bg-zinc-900 h-44">
+                                <img src="images/free weights.webp" alt="Adjustable Dumbbells" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 badge badge-green">In Stock</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Free Weights</div>
+                            <h3 class="font-bold text-sm text-white mt-1">Smart Adjustable Dumbbell Set (5-50kg)</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">Fast turn-dial adjustment with knurled steel grip and aircraft-grade aluminum selector mechanism.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Pair (5-50kg)</span>
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Quick-Dial</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                            <div>
+                                <div class="text-xs text-gray-500">Unit Price</div>
+                                <div class="text-base font-black text-white">₹42,000</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.location.href='404.html'" class="btn-primary text-xs py-1.5 px-3">Order Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card cat-item weights p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="relative mb-3 overflow-hidden rounded-lg bg-zinc-900 h-44">
+                                <img src="images/salem power bar.webp" alt="Barbell Set" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 badge badge-green">In Stock</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Free Weights</div>
+                            <h3 class="font-bold text-sm text-white mt-1">Olympic Competition Barbell Set 180kg</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">20kg 215k PSI cerakote bar with calibrated rubber bumper plates and quick-release magnetic collars.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">215k PSI Bar</span>
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">180kg Bumpers</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                            <div>
+                                <div class="text-xs text-gray-500">Unit Price</div>
+                                <div class="text-base font-black text-white">₹68,500</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.location.href='404.html'" class="btn-primary text-xs py-1.5 px-3">Order Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="product-card cat-item cardio p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="relative mb-3 overflow-hidden rounded-lg bg-zinc-900 h-44">
+                                <img src="images/Heavy Prowler Sled.webp" alt="Air Rower" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 badge badge-green">In Stock</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Cardio Series</div>
+                            <h3 class="font-bold text-sm text-white mt-1">Hydro-Air Magnetic Rower RX-2</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">Dual air + magnetic resistance system with nickel-plated steel chain and Bluetooth PM5 sync monitor.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">16 Level Mag</span>
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">PM5 Bluetooth</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                            <div>
+                                <div class="text-xs text-gray-500">Unit Price</div>
+                                <div class="text-base font-black text-white">₹88,000</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.location.href='404.html'" class="btn-primary text-xs py-1.5 px-3">Order Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="product-card cat-item recovery p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="relative mb-3 overflow-hidden rounded-lg bg-zinc-900 h-44">
+                                <img src="images/conditioning.webp" alt="Cryo Recovery Tub" class="w-full h-full object-cover">
+                                <span class="absolute top-2 right-2 badge badge-blue">Pre-order</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Recovery & Wellness</div>
+                            <h3 class="font-bold text-sm text-white mt-1">Chilled Cryo Cold Plunge Tub</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">Integrated 1HP high-efficiency chiller with ozone filtration, military-grade drop-stitch thermal hull.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Down to 3°C</span>
+                                <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Ozone Filter</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                            <div>
+                                <div class="text-xs text-gray-500">Unit Price</div>
+                                <div class="text-base font-black text-white">₹2,15,000</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.location.href='404.html'" class="btn-primary text-xs py-1.5 px-3">Pre-order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRAINING & GUIDES (IN-DASHBOARD BLOG) -->
+            <div id="tab-blog" class="tab-panel">
+                <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Knowledge Hub</div>
+                        <h2 class="text-xl font-black uppercase">Training & Equipment Guides</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- Article 1 -->
+                    <div class="panel-card overflow-hidden flex flex-col justify-between">
+                        <img src="images/photo-1518310383802-640c2de311b2.webp" class="w-full h-40 object-cover" alt="Barbell maintenance">
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 text-[10px] text-gray-500 mb-2">
+                                    <span class="badge badge-gray">Equipment Care</span>
+                                    <span>5 min read</span>
+                                </div>
+                                <h3 class="font-bold text-sm text-white mb-2">How to Clean & Oil Olympic Barbells for Maximum Longevity</h3>
+                                <p class="text-xs text-gray-400">Routine maintenance steps to prevent rust, clean knurling, and preserve smooth spin in heavy commercial gyms.</p>
+                            </div>
+                            <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                                <span class="text-[10px] text-gray-500">Sep 1, 2026</span>
+                                <button class="btn-ghost text-xs py-1 px-2.5" onclick="window.location.href='404.html'">Read Guide</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 2 -->
+                    <div class="panel-card overflow-hidden flex flex-col justify-between">
+                        <img src="images/photo-1540497077202-7c8a3999166f.webp" class="w-full h-40 object-cover" alt="Gym layout">
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 text-[10px] text-gray-500 mb-2">
+                                    <span class="badge badge-gray">Facility Setup</span>
+                                    <span>8 min read</span>
+                                </div>
+                                <h3 class="font-bold text-sm text-white mb-2">Optimizing Floor Space for Commercial Functional Rigs</h3>
+                                <p class="text-xs text-gray-400">Crucial clearance rules, rubber tile thickness standards, and optimal traffic flows for 2,000+ sq ft training facilities.</p>
+                            </div>
+                            <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                                <span class="text-[10px] text-gray-500">Aug 24, 2026</span>
+                                <button class="btn-ghost text-xs py-1 px-2.5" onclick="window.location.href='404.html'">Read Guide</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 3 -->
+                    <div class="panel-card overflow-hidden flex flex-col justify-between">
+                        <img src="images/photo-1583454110551-21f2fa2afe61.webp" class="w-full h-40 object-cover" alt="Cardio calibration">
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 text-[10px] text-gray-500 mb-2">
+                                    <span class="badge badge-gray">Calibration</span>
+                                    <span>4 min read</span>
+                                </div>
+                                <h3 class="font-bold text-sm text-white mb-2">Treadmill Belt Tensioning & Deck Lubrication Guide</h3>
+                                <p class="text-xs text-gray-400">Step-by-step instructions on adjusting rear roller tension bolts and applying 100% silicone lubricant.</p>
+                            </div>
+                            <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+                                <span class="text-[10px] text-gray-500">Aug 10, 2026</span>
+                                <button class="btn-ghost text-xs py-1 px-2.5" onclick="window.location.href='404.html'">Read Guide</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUPPORT DESK TAB (IN-DASHBOARD SUPPORT) -->
+            <div id="tab-support" class="tab-panel">
+                <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Customer Service</div>
+                        <h2 class="text-xl font-black uppercase">Support Desk & Inquiries</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                    <!-- Submit Ticket Form -->
+                    <div class="panel-card p-5 xl:col-span-2">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Help Desk</div>
+                        <div class="font-bold text-sm mb-4">Open a New Support Ticket</div>
+                        <form id="support-ticket-form" onsubmit="handleSupportSubmit(event)" novalidate class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="form-label">Category *</label>
+                                    <select id="sup-cat" class="form-input">
+                                        <option value="">Select Category</option>
+                                        <option value="order">Order Tracking & Delivery</option>
+                                        <option value="equipment">Equipment Installation / Warranty</option>
+                                        <option value="quote">Commercial Facility Bulk Quote</option>
+                                        <option value="invoice">Invoicing & Billing</option>
+                                        <option value="other">General Question</option>
+                                    </select>
+                                    <div class="error-msg" id="sup-cat-err">Please choose a category.</div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Related Order / Equipment (Optional)</label>
+                                    <input type="text" id="sup-ref" class="form-input" placeholder="e.g. #STK-8821 or Treadmill X9">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Subject *</label>
+                                <input type="text" id="sup-subject" class="form-input" placeholder="Brief summary of your inquiry">
+                                <div class="error-msg" id="sup-subject-err">Subject must be at least 5 characters.</div>
+                            </div>
+                            <div>
+                                <label class="form-label">Message Details *</label>
+                                <textarea id="sup-msg" rows="4" class="form-input resize-none" placeholder="Provide full details so our Salem technical team can assist immediately..."></textarea>
+                                <div class="error-msg" id="sup-msg-err">Message must be at least 15 characters.</div>
+                            </div>
+                            <div class="flex items-center gap-3 pt-2">
+                                <button type="submit" class="btn-primary">
+                                    <i class="fa-solid fa-paper-plane text-xs"></i> Submit Ticket
+                                </button>
+                                <button type="reset" class="btn-ghost">Clear</button>
+                                <div class="text-xs text-green-400 hidden" id="sup-success"><i class="fa-solid fa-check mr-1"></i>Ticket submitted successfully! Ref: #TKT-8902</div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Direct Contact info -->
+                    <div class="space-y-5">
+                        <div class="panel-card p-5">
+                            <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Direct Assistance</div>
+                            <div class="font-bold text-sm mb-3">Salem Technical Facility</div>
+                            <div class="space-y-3 text-xs text-gray-300">
+                                <div class="flex items-start gap-3">
+                                    <i class="fa-solid fa-location-dot text-gray-500 mt-1"></i>
+                                    <div>
+                                        <div class="font-bold text-white">Stackly Equipment Hub</div>
+                                        <div class="text-gray-500">Meyyanur Bypass, Salem, TN 636004</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-phone text-gray-500"></i>
+                                    <div>+91 98765 43210 (Toll Free)</div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-envelope text-gray-500"></i>
+                                    <div>support@stacklyfitness.com</div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-clock text-gray-500"></i>
+                                    <div>Mon - Sat: 9:00 AM - 8:00 PM IST</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Tickets Summary -->
+                        <div class="panel-card p-5">
+                            <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Recent Tickets</div>
+                            <div class="font-bold text-sm mb-3">Ticket Status</div>
+                            <div class="space-y-2">
+                                <div class="p-3 bg-white/2 rounded-lg border border-white/5">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-mono text-xs text-gray-400">#TKT-8791</span>
+                                        <span class="badge badge-blue">In Progress</span>
+                                    </div>
+                                    <div class="text-xs font-bold text-white mt-1">Delivery time confirmation #STK-8821</div>
+                                    <div class="text-[10px] text-gray-500 mt-1">Technician assigned · Salem Logistics</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE TAB -->
+            <div id="tab-profile" class="tab-panel">
+                <div class="mb-5">
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Account Settings</div>
+                    <h2 class="text-xl font-black uppercase">Profile & Security</h2>
+                </div>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+                    <!-- Personal Info Form -->
+                    <div class="panel-card p-5">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Personal Info</div>
+                        <div class="font-bold text-sm mb-5">Edit Profile</div>
+                        <form id="profile-form" onsubmit="saveProfile(event)" novalidate class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="form-label">First Name *</label>
+                                    <input type="text" id="p-fname" class="form-input" placeholder="John" pattern="^[^0-9]*$" title="Numbers are not allowed in the first name field." required>
+                                    <div class="error-msg" id="p-fname-err">First name is required.</div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Last Name *</label>
+                                    <input type="text" id="p-lname" class="form-input" placeholder="Doe" pattern="^[^0-9]*$" title="Numbers are not allowed in the last name field." required>
+                                    <div class="error-msg" id="p-lname-err">Last name is required.</div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Email Address *</label>
+                                <input type="email" id="p-email" class="form-input" placeholder="you@example.com">
+                                <div class="error-msg" id="p-email-err">Enter a valid email address.</div>
+                            </div>
+                            <div>
+                                <label class="form-label">Phone Number *</label>
+                                <input type="tel" id="p-phone" class="form-input" placeholder="9876543210" pattern="[0-9]{10}" title="Phone number must be exactly 10 digits." required>
+                                <div class="error-msg" id="p-phone-err">Enter a valid 10-digit phone number.</div>
+                            </div>
+                            <div>
+                                <label class="form-label">Gym / Facility Name</label>
+                                <input type="text" id="p-gym" class="form-input" placeholder="e.g. Iron House Fitness, Salem">
+                            </div>
+                            <div class="pt-2 flex items-center gap-3">
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk text-xs"></i> Save Changes</button>
+                                <div class="text-xs text-green-400 hidden" id="profile-success"><i class="fa-solid fa-check mr-1"></i>Profile saved successfully!</div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Change Password Form -->
+                    <div class="panel-card p-5">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Security</div>
+                        <div class="font-bold text-sm mb-5">Change Password</div>
+                        <form id="pw-form" onsubmit="changePassword(event)" novalidate class="space-y-4">
+                            <div>
+                                <label class="form-label">Current Password *</label>
+                                <input type="password" id="curr-pw" class="form-input" placeholder="••••••••">
+                                <div class="error-msg" id="curr-pw-err">Current password is required.</div>
+                            </div>
+                            <div>
+                                <label class="form-label">New Password *</label>
+                                <input type="password" id="new-pw" class="form-input" placeholder="Min 8 characters">
+                                <div class="error-msg" id="new-pw-err">Password must be at least 8 characters.</div>
+                            </div>
+                            <div>
+                                <label class="form-label">Confirm New Password *</label>
+                                <input type="password" id="conf-pw" class="form-input" placeholder="Repeat new password">
+                                <div class="error-msg" id="conf-pw-err">Passwords do not match.</div>
+                            </div>
+                            <div class="pt-2 flex items-center gap-3">
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-key text-xs"></i> Update Password</button>
+                                <div class="text-xs text-green-400 hidden" id="pw-success"><i class="fa-solid fa-check mr-1"></i>Password updated successfully!</div>
+                            </div>
+                        </form>
+
+                        <!-- Danger Zone -->
+                        <div class="mt-6 pt-5 border-t border-white/5">
+                            <div class="text-[10px] uppercase tracking-widest text-red-500/60 mb-3">Session & Logout</div>
+                            <button class="btn-ghost border-red-500/20 text-red-400/80 hover:text-red-400 hover:border-red-400/40 text-xs" onclick="confirmSignOut()">
+                                <i class="fa-solid fa-right-from-bracket text-xs"></i> Sign Out of Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/5 px-6 py-4 flex flex-wrap justify-between items-center gap-3 text-xs text-gray-600">
+            <span>&copy; 2026 Stackly Fitness Equipment &mdash; Customer Portal</span>
+            <div class="flex gap-4">
+                <button onclick="switchTab('overview')" class="text-gray-600 hover:text-gray-300 transition-colors bg-transparent border-none p-0 cursor-pointer text-xs">Overview</button>
+                <button onclick="switchTab('orders')" class="text-gray-600 hover:text-gray-300 transition-colors bg-transparent border-none p-0 cursor-pointer text-xs">Orders</button>
+                <button onclick="switchTab('catalog')" class="text-gray-600 hover:text-gray-300 transition-colors bg-transparent border-none p-0 cursor-pointer text-xs">Catalog</button>
+                <button onclick="switchTab('support')" class="text-gray-600 hover:text-gray-300 transition-colors bg-transparent border-none p-0 cursor-pointer text-xs">Support</button>
+                <button onclick="confirmSignOut(event)" class="hover:text-red-400 transition-colors bg-transparent border-none p-0 cursor-pointer text-xs text-gray-600">Sign Out</button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('mobile-overlay').classList.toggle('show');
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('mobile-overlay').classList.remove('show');
+        }
+
+        function switchTab(name) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            const targetPanel = document.getElementById('tab-' + name);
+            if (targetPanel) targetPanel.classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const activeNav = document.getElementById('nav-' + name);
+            if (activeNav) activeNav.classList.add('active');
+
+            const titles = {
+                overview: 'Dashboard Overview',
+                orders: 'My Orders',
+                wishlist: 'Saved Wishlist',
+                catalog: 'Browse Equipment',
+                blog: 'Training & Knowledge Hub',
+                support: 'Support Desk & Inquiries',
+                profile: 'Profile & Security'
+            };
+            document.getElementById('topbar-title').textContent = titles[name] || 'Dashboard';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            closeSidebar();
+        }
+
+        function filterOrders(type, btn) {
+            document.querySelectorAll('#tab-orders .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.order-row').forEach(row => {
+                if (type === 'all') row.style.display = '';
+                else if (type === 'active') row.style.display = row.classList.contains('active') ? '' : 'none';
+                else row.style.display = row.classList.contains('delivered') ? '' : 'none';
+            });
+        }
+
+        function showOrderDetails(orderId, name, price, status, info) {
+            window.location.href = '404.html';
+        }
+
+        function removeWishlistItem(btn) {
+            const item = btn.closest('.wish-item');
+            if (item) {
+                showWebsiteModal({
+                    title: 'Remove Saved Item',
+                    subtitle: 'Wishlist Item Removal',
+                    message: 'Are you sure you want to remove this equipment from your saved wishlist?',
+                    type: 'danger',
+                    confirmText: 'Remove Item',
+                    cancelText: 'Keep Item',
+                    onConfirm: () => {
+                        item.remove();
+                        const remaining = document.querySelectorAll('#wishlist-container .wish-item').length;
+                        const badge = document.getElementById('wishlist-count-badge');
+                        if (badge) badge.textContent = remaining;
+                        const stat = document.getElementById('stat-wishlist-num');
+                        if (stat) stat.textContent = remaining;
+                        showWebsiteModal({
+                            title: 'Item Removed',
+                            message: 'The equipment was removed from your saved wishlist.',
+                            type: 'success'
+                        });
+                    }
+                });
+            }
+        }
+
+        // In-dashboard Catalog Filter
+        function setCatalogCat(cat, btn) {
+            document.querySelectorAll('#tab-catalog .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const items = document.querySelectorAll('.cat-item');
+            items.forEach(el => {
+                if (cat === 'all' || el.classList.contains(cat)) {
+                    el.style.display = '';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        }
+
+        function filterCatalog() {
+            const q = document.getElementById('catalog-search').value.toLowerCase();
+            document.querySelectorAll('.cat-item').forEach(el => {
+                const title = el.querySelector('h3').textContent.toLowerCase();
+                const desc = el.querySelector('p').textContent.toLowerCase();
+                if (title.includes(q) || desc.includes(q)) {
+                    el.style.display = '';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        }
+
+        function quickOrder(product, price) {
+            window.location.href = '404.html';
+        }
+
+        // Load user info
+        document.addEventListener('DOMContentLoaded', () => {
+            const email = localStorage.getItem('stackly_user_email');
+            const name = localStorage.getItem('stackly_user_name');
+            if (email) {
+                document.getElementById('sidebar-email').textContent = email;
+                if (document.getElementById('p-email')) document.getElementById('p-email').value = email;
+            }
+            if (name) {
+                document.getElementById('sidebar-name').textContent = name;
+                const first = name.split(' ')[0];
+                const last = name.split(' ').slice(1).join(' ');
+                document.getElementById('welcome-name').textContent = first || 'Champion';
+                const initials = (first[0] || '') + (last[0] || '');
+                document.getElementById('user-avatar-sidebar').textContent = initials.toUpperCase() || 'JD';
+                document.getElementById('user-avatar-top').textContent = initials.toUpperCase() || 'JD';
+                if (document.getElementById('p-fname')) document.getElementById('p-fname').value = first;
+                if (document.getElementById('p-lname')) document.getElementById('p-lname').value = last;
+            }
+            const phone = localStorage.getItem('stackly_user_phone');
+            if (phone && document.getElementById('p-phone')) document.getElementById('p-phone').value = phone;
+        });
+
+        // Profile form validation
+        function saveProfile(e) {
+            e.preventDefault();
+            let valid = true;
+            const fname = document.getElementById('p-fname').value.trim();
+            const lname = document.getElementById('p-lname').value.trim();
+            const email = document.getElementById('p-email').value.trim();
+            const phone = document.getElementById('p-phone').value.trim();
+
+            const toggleErr = (id, show) => document.getElementById(id).classList.toggle('show', show);
+
+            if (!fname || fname.length < 2) { toggleErr('p-fname-err', true); document.getElementById('p-fname').classList.add('input-error'); valid = false; }
+            else { toggleErr('p-fname-err', false); document.getElementById('p-fname').classList.remove('input-error'); document.getElementById('p-fname').classList.add('input-success'); }
+            
+            if (!lname || lname.length < 2) { toggleErr('p-lname-err', true); document.getElementById('p-lname').classList.add('input-error'); valid = false; }
+            else { toggleErr('p-lname-err', false); document.getElementById('p-lname').classList.remove('input-error'); document.getElementById('p-lname').classList.add('input-success'); }
+            
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toggleErr('p-email-err', true); document.getElementById('p-email').classList.add('input-error'); valid = false; }
+            else { toggleErr('p-email-err', false); document.getElementById('p-email').classList.remove('input-error'); document.getElementById('p-email').classList.add('input-success'); }
+            
+            if (!phone || !/^[0-9+\-\s]{7,15}$/.test(phone)) { toggleErr('p-phone-err', true); document.getElementById('p-phone').classList.add('input-error'); valid = false; }
+            else { toggleErr('p-phone-err', false); document.getElementById('p-phone').classList.remove('input-error'); document.getElementById('p-phone').classList.add('input-success'); }
+
+            if (!valid) return;
+
+            localStorage.setItem('stackly_user_name', fname + ' ' + lname);
+            localStorage.setItem('stackly_user_email', email);
+            localStorage.setItem('stackly_user_phone', phone);
+
+            document.getElementById('sidebar-name').textContent = fname + ' ' + lname;
+            document.getElementById('sidebar-email').textContent = email;
+            document.getElementById('welcome-name').textContent = fname;
+
+            const succ = document.getElementById('profile-success');
+            succ.classList.remove('hidden');
+            setTimeout(() => succ.classList.add('hidden'), 4000);
+        }
+
+        // Change password validation
+        function changePassword(e) {
+            e.preventDefault();
+            let valid = true;
+            const curr = document.getElementById('curr-pw').value;
+            const newPw = document.getElementById('new-pw').value;
+            const conf = document.getElementById('conf-pw').value;
+
+            const toggleErr = (id, show) => document.getElementById(id).classList.toggle('show', show);
+
+            if (!curr) { toggleErr('curr-pw-err', true); document.getElementById('curr-pw').classList.add('input-error'); valid = false; }
+            else { toggleErr('curr-pw-err', false); document.getElementById('curr-pw').classList.remove('input-error'); }
+            
+            if (!newPw || newPw.length < 8) { toggleErr('new-pw-err', true); document.getElementById('new-pw').classList.add('input-error'); valid = false; }
+            else { toggleErr('new-pw-err', false); document.getElementById('new-pw').classList.remove('input-error'); }
+            
+            if (!conf || conf !== newPw) { toggleErr('conf-pw-err', true); document.getElementById('conf-pw').classList.add('input-error'); valid = false; }
+            else { toggleErr('conf-pw-err', false); document.getElementById('conf-pw').classList.remove('input-error'); }
+
+            if (!valid) return;
+
+            const succ = document.getElementById('pw-success');
+            succ.classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => succ.classList.add('hidden'), 4000);
+        }
+
+        // Support ticket submission validation
+        function handleSupportSubmit(e) {
+            e.preventDefault();
+            let valid = true;
+            const cat = document.getElementById('sup-cat').value;
+            const subject = document.getElementById('sup-subject').value.trim();
+            const msg = document.getElementById('sup-msg').value.trim();
+
+            const toggleErr = (id, show) => document.getElementById(id).classList.toggle('show', show);
+
+            if (!cat) { toggleErr('sup-cat-err', true); document.getElementById('sup-cat').classList.add('input-error'); valid = false; }
+            else { toggleErr('sup-cat-err', false); document.getElementById('sup-cat').classList.remove('input-error'); }
+
+            if (!subject || subject.length < 5) { toggleErr('sup-subject-err', true); document.getElementById('sup-subject').classList.add('input-error'); valid = false; }
+            else { toggleErr('sup-subject-err', false); document.getElementById('sup-subject').classList.remove('input-error'); }
+
+            if (!msg || msg.length < 15) { toggleErr('sup-msg-err', true); document.getElementById('sup-msg').classList.add('input-error'); valid = false; }
+            else { toggleErr('sup-msg-err', false); document.getElementById('sup-msg').classList.remove('input-error'); }
+
+            if (!valid) return;
+
+            const succ = document.getElementById('sup-success');
+            succ.classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => succ.classList.add('hidden'), 5000);
+        }
+
+        // Modern Website Modal & Notification System (Overrides native browser alerts)
+        let modalConfirmCallback = null;
+
+        function showWebsiteModal(options) {
+            const modal = document.getElementById('website-modal');
+            const titleEl = document.getElementById('modal-title');
+            const subEl = document.getElementById('modal-subtitle');
+            const bodyEl = document.getElementById('modal-body');
+            const iconEl = document.getElementById('modal-icon');
+            const iconContainer = document.getElementById('modal-icon-container');
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+            const confirmBtn = document.getElementById('modal-confirm-btn');
+
+            const title = typeof options === 'string' ? 'Portal Notification' : (options.title || 'Notification');
+            const message = typeof options === 'string' ? options : (options.message || '');
+            const type = options.type || 'info'; // info, success, warning, danger
+            const isConfirm = !!options.onConfirm;
+
+            titleEl.textContent = title;
+            subEl.textContent = options.subtitle || 'Stackly Fitness Hub';
+            bodyEl.textContent = message;
+
+            // Type styling
+            iconContainer.className = 'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ';
+            if (type === 'danger') {
+                iconContainer.className += 'bg-red-500/10 text-red-400 border-red-500/20';
+                iconEl.className = 'fa-solid fa-trash text-base';
+            } else if (type === 'warning') {
+                iconContainer.className += 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+                iconEl.className = 'fa-solid fa-right-from-bracket text-base';
+            } else if (type === 'success') {
+                iconContainer.className += 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+                iconEl.className = 'fa-solid fa-circle-check text-base';
+            } else {
+                iconContainer.className += 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+                iconEl.className = 'fa-solid fa-circle-info text-base';
+            }
+
+            confirmBtn.textContent = options.confirmText || 'Acknowledge';
+            modalConfirmCallback = options.onConfirm || null;
+
+            if (isConfirm) {
+                cancelBtn.classList.remove('hidden');
+                cancelBtn.style.display = 'inline-flex';
+                cancelBtn.textContent = options.cancelText || 'Cancel';
+            } else {
+                cancelBtn.classList.add('hidden');
+                cancelBtn.style.display = 'none';
+            }
+
+            confirmBtn.onclick = function(e) {
+                if (e) { e.preventDefault(); e.stopPropagation(); }
+                const callback = modalConfirmCallback;
+                closeWebsiteModal();
+                if (callback) {
+                    callback();
+                }
+            };
+
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+        }
+
+        function closeWebsiteModal() {
+            const modal = document.getElementById('website-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            }
+            modalConfirmCallback = null;
+        }
+
+        function confirmSignOut(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            showWebsiteModal({
+                title: 'Sign Out Confirmation',
+                subtitle: 'Stackly Portal Session',
+                message: 'Are you sure you want to sign out of your customer account?',
+                type: 'warning',
+                confirmText: 'Sign Out',
+                cancelText: 'Stay Logged In',
+                onConfirm: () => {
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+
+        // Global override for native window.alert to guarantee no browser popups appear
+        window.alert = function(message) {
+            showWebsiteModal({
+                title: 'Stackly Notice',
+                message: message,
+                type: 'info'
+            });
+        };
+    </script>
+
+    <!-- Website Popup Modal (Replaces browser alert/confirm) -->
+    <div id="website-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in" style="display: none;">
+        <div class="bg-[#0e1219] border border-white/15 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-left transform transition-all scale-100">
+            <button onclick="closeWebsiteModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors text-lg" aria-label="Close modal">&times;</button>
+            <div class="flex items-start gap-3.5 mb-3">
+                <div id="modal-icon-container" class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                    <i id="modal-icon" class="fa-solid fa-circle-info text-base"></i>
+                </div>
+                <div>
+                    <h3 id="modal-title" class="text-base font-bold text-white leading-tight">Notification</h3>
+                    <p id="modal-subtitle" class="text-xs text-gray-400 mt-0.5">Stackly Customer Hub</p>
+                </div>
+            </div>
+            <div id="modal-body" class="text-xs sm:text-sm text-gray-300 leading-relaxed my-3 max-h-[60vh] overflow-y-auto whitespace-pre-line"></div>
+            <div id="modal-actions" class="flex items-center justify-end gap-2.5 mt-5 pt-3 border-t border-white/10">
+                <button id="modal-cancel-btn" onclick="closeWebsiteModal()" class="btn-ghost text-xs hidden">Cancel</button>
+                <button id="modal-confirm-btn" class="btn-primary text-xs">Acknowledge</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

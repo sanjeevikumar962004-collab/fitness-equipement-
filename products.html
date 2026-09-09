@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commercial Arsenal | Stackly Equipment</title>
+    <meta name="description" content="Explore Stackly's precision-engineered commercial fitness equipment. Barbells, power racks, bumper plates, dumbbell sets, and conditioning equipment manufactured in Salem.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#000000',
+                        card: '#0a0a0a',
+                        border: '#222222',
+                        brandAccent: '#ffffff'
+                    },
+                    fontSize: {
+                        'hero': 'clamp(3.5rem, 14vw, 13rem)',
+                        'hero-mobile': 'clamp(2.5rem, 12vw, 5rem)',
+                    },
+                    letterSpacing: {
+                        'widest-lg': '0.25em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image Hover Effects */
+        .img-zoom {
+            overflow: hidden;
+        }
+        .img-zoom img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+            opacity: 0.75;
+        }
+        .group:hover .img-zoom img {
+            transform: scale(1.06);
+            opacity: 1;
+        }
+
+        /* Diagonal Arrow Hover */
+        .arrow-icon {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .group:hover .arrow-icon, a:hover .arrow-icon, button:hover .arrow-icon {
+            transform: translate(3px, -3px);
+        }
+
+        /* Ticker Animation */
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        /* Custom Toast Notification */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .toast {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 14px 24px;
+            font-size: 0.825rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Section Spacing Utility */
+        .section-py {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+        @media (min-width: 768px) {
+            .section-py {
+                padding-top: 8rem;
+                padding-bottom: 8rem;
+            }
+        }
+
+        /* Hotspot pulse animation */
+        @keyframes pulseDot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        .hotspot-beacon {
+            animation: pulseDot 2s infinite;
+        }
+
+        /* Cart Drawer Transition */
+        #cart-drawer {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #cart-backdrop {
+            transition: opacity 0.4s ease;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans relative bg-dark text-white">
+
+    <!-- HEADER (Shared Design) -->
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="index.html" class="hover:text-gray-400 transition-colors">Home</a>
+            <a href="about.html" class="hover:text-gray-400 transition-colors">About</a>
+            <a href="products.html" class="text-white border-b border-white pb-1 transition-colors">Products</a>
+        </nav>
+
+        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center">
+            <a href="404.html" class="inline-flex items-center">
+                <img src="images/stackly logo.webp" alt="Stackly" class="h-7 md:h-9 object-contain">
+            </a>
+        </div>
+
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="blog.html" class="hover:text-gray-400 transition-colors">Blog</a>
+            <a href="contact.html" class="hover:text-gray-400 transition-colors">Contact</a>
+            <button id="cart-toggle-btn" class="hover:text-gray-400 transition-colors relative group focus:outline-none" aria-label="Open Shopping Cart">
+                <i class="fa-solid fa-shopping-cart text-base"></i>
+                <span id="cart-count-badge" class="absolute -top-2 -right-3 text-[9px] font-bold bg-white text-black rounded-full px-1.5 py-0.5 leading-none">2</span>
+            </button>
+        </nav>
+
+        <div class="flex items-center gap-4 lg:hidden z-50">
+            <button id="cart-toggle-btn-mob" class="hover:text-gray-400 transition-colors relative focus:outline-none mr-2" aria-label="Open Cart">
+                <i class="fa-solid fa-shopping-cart text-lg"></i>
+                <span id="cart-count-badge-mob" class="absolute -top-2 -right-3 text-[9px] font-bold bg-white text-black rounded-full px-1.5 py-0.5 leading-none">2</span>
+            </button>
+            <button id="mobile-menu-btn" class="text-2xl focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div id="mobile-menu" class="fixed inset-0 bg-dark z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <nav class="flex flex-col space-y-7 text-xl sm:text-2xl uppercase tracking-[0.2em] text-center font-semibold">
+            <a href="index.html" class="mobile-link hover:text-gray-400">Home</a>
+            <a href="about.html" class="mobile-link hover:text-gray-400">About</a>
+            <a href="products.html" class="mobile-link text-white font-bold border-b border-white pb-1 inline-block mx-auto">Products</a>
+            <a href="blog.html" class="mobile-link hover:text-gray-400">Blog</a>
+            <a href="contact.html" class="mobile-link hover:text-gray-400">Contact</a>
+            <a href="login.html" class="mobile-link hover:text-gray-400">Sign In</a>
+            <a href="signup.html" class="mobile-link hover:text-gray-400">Sign Up</a>
+        </nav>
+        <div class="mt-12 text-xs uppercase tracking-[0.2em] text-gray-500">
+            Salem, Tamil Nadu • (555) 123-4567
+        </div>
+    </div>
+
+    <!-- HERO SECTION (Centered, Balanced & Responsive) -->
+    <section class="relative min-h-[70vh] md:min-h-[80vh] w-full flex flex-col items-center justify-center overflow-hidden bg-dark px-4 md:px-8 pt-32 pb-20 border-b border-border text-center">
+        <div class="absolute inset-0 z-0">
+            <img src="images/product hero.webp" alt="Gym Iron Equipment" class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/70 via-dark/40 to-dark"></div>
+        </div>
+
+        <div class="z-10 max-w-5xl mx-auto w-full flex flex-col items-center justify-center">
+            <div class="inline-flex items-center gap-3 text-xs md:text-sm uppercase tracking-[0.3em] font-bold text-gray-400 mb-6 reveal">
+                <span class="w-2 h-2 bg-white inline-block"></span>
+                Commercial Grade Catalog
+            </div>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.88] tracking-tighter uppercase select-none drop-shadow-2xl reveal mb-8">
+                COMMERCIAL<br>ARSENAL
+            </h1>
+            <p class="text-gray-300 text-xs sm:text-sm md:text-base uppercase tracking-widest leading-relaxed max-w-2xl reveal mb-10">
+                Engineered from structural Indian steel. Built to withstand 24/7 commercial facility punishment with precision knurling and indestructible welds.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 border-t border-border/80 pt-6 text-xs uppercase tracking-[0.2em] text-gray-400 reveal">
+                <div><strong class="text-white text-base sm:text-lg block font-black">50+</strong> Heavy SKUs</div>
+                <div class="w-px h-8 bg-border"></div>
+                <div><strong class="text-white text-base sm:text-lg block font-black">100%</strong> Salem Forged</div>
+                <div class="w-px h-8 bg-border"></div>
+                <div><strong class="text-white text-base sm:text-lg block font-black">LIFETIME</strong> Warranty</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TICKER STRIP -->
+    <div class="w-full overflow-hidden bg-white text-black py-4 border-y border-border flex whitespace-nowrap select-none">
+        <div class="ticker-move text-sm md:text-base font-black uppercase tracking-[0.25em]">
+            <span>11-GAUGE STEEL RIGS • CERAKOTE POWER BARS • URETHANE BUMPERS • CNC MACHINED SLEEVES • LIFETIME WELD GUARANTEE • NATIONWIDE FREIGHT • </span>
+            <span>11-GAUGE STEEL RIGS • CERAKOTE POWER BARS • URETHANE BUMPERS • CNC MACHINED SLEEVES • LIFETIME WELD GUARANTEE • NATIONWIDE FREIGHT • </span>
+            <span>11-GAUGE STEEL RIGS • CERAKOTE POWER BARS • URETHANE BUMPERS • CNC MACHINED SLEEVES • LIFETIME WELD GUARANTEE • NATIONWIDE FREIGHT • </span>
+        </div>
+    </div>
+
+    <!-- FILTER & CATALOG SECTION -->
+    <section class="px-4 md:px-8 section-py bg-dark min-h-screen" id="catalog-section">
+        <div class="max-w-screen-2xl mx-auto">
+            
+            <!-- Controls Bar (Category tabs, Search, Sort) -->
+            <div class="border-b border-border pb-8 mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
+                
+                <!-- Category Tabs -->
+                <div class="flex flex-wrap gap-2 md:gap-3" id="category-tabs">
+                    <button class="cat-btn active px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-white bg-white text-black transition-all" data-category="all">
+                        All Iron
+                    </button>
+                    <button class="cat-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-category="bars">
+                        Barbells & Plates
+                    </button>
+                    <button class="cat-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-category="racks">
+                        Racks & Rigs
+                    </button>
+                    <button class="cat-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-category="weights">
+                        Benches & Dumbbells
+                    </button>
+                    <button class="cat-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-category="conditioning">
+                        Conditioning
+                    </button>
+                </div>
+
+                <!-- Search & Sort Row -->
+                <div class="flex flex-wrap sm:flex-nowrap items-center gap-4 w-full xl:w-auto">
+                    <!-- Search Input -->
+                    <div class="relative w-full sm:w-64 border-b border-border py-2 flex items-center">
+                        <i class="fa-solid fa-magnifying-glass text-gray-500 text-xs mr-3"></i>
+                        <input type="text" id="search-input" placeholder="SEARCH EQUIPMENT..." class="w-full bg-transparent text-white text-xs uppercase tracking-widest placeholder-gray-600 focus:outline-none">
+                        <button id="clear-search" class="hidden text-xs text-gray-500 hover:text-white">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <div class="relative">
+                        <select id="sort-select" class="bg-card border border-border text-white text-xs uppercase tracking-[0.15em] px-4 py-2.5 appearance-none pr-8 focus:outline-none cursor-pointer">
+                            <option value="featured">Featured Gear</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="name">Product Name</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    </div>
+
+                    <!-- Counter Badge -->
+                    <span id="product-count" class="text-xs uppercase tracking-[0.2em] text-gray-500 whitespace-nowrap">
+                        Showing 9 Items
+                    </span>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                
+                <!-- Product Card 1 -->
+                <div class="product-item group reveal" data-category="bars" data-name="Salem Cerakote Power Bar" data-price="18500">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(1)">
+                        <img src="images/salem power bar.webp" alt="Salem Cerakote Power Bar" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Best Seller
+                        </div>
+                        <div class="absolute top-4 right-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1">
+                            20KG / 28MM
+                        </div>
+                        <!-- Hover Quick Action -->
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(1, 'Salem Cerakote Power Bar', 18500, 'images/salem power bar.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(1)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors" title="Quick Specs">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(1)">
+                                Salem Power Bar <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">190,000 PSI • Dual Knurl Marks</p>
+                        </div>
+                        <span class="text-lg font-bold">₹18,500</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-item group reveal" data-category="racks" data-name="Apex 3x3 Commercial Power Cage" data-price="78000" style="transition-delay: 100ms;">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(2)">
+                        <img src="images/Apex 3x3 Power Cage.webp" alt="Apex Power Cage" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            11-Gauge
+                        </div>
+                        <div class="absolute top-4 right-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1">
+                            Salem Spec
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(2, 'Apex 3x3 Power Cage', 78000, 'images/Apex 3x3 Power Cage.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(2)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(2)">
+                                Apex 3x3 Power Cage <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">Laser Cut Numbers • Westside Hole Spacing</p>
+                        </div>
+                        <span class="text-lg font-bold">₹78,000</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-item group reveal" data-category="bars" data-name="Competition Calibrated Bumper Set" data-price="42000" style="transition-delay: 200ms;">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(3)">
+                        <img src="images/Calibrated Bumper Set.webp" alt="Calibrated Bumper Plates" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Competition Spec
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(3, '140kg Calibrated Bumper Set', 42000, 'images/Calibrated Bumper Set.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(3)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(3)">
+                                Calibrated Bumper Set <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">140KG Total • ±10 Gram Precision</p>
+                        </div>
+                        <span class="text-lg font-bold">₹42,000</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-item group reveal" data-category="weights" data-name="Heavy-Duty Commercial Incline Bench" data-price="24500">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(4)">
+                        <img src="images/Incline Utility Bench.webp" alt="Adjustable Incline Bench" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Zero Gap
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(4, 'Commercial Incline Bench', 24500, 'images/Incline Utility Bench.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(4)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(4)">
+                                Incline Utility Bench <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">850KG Load Capacity • 0-85° Angles</p>
+                        </div>
+                        <span class="text-lg font-bold">₹24,500</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 5 -->
+                <div class="product-item group reveal" data-category="weights" data-name="Pro Urethane Dumbbell Set" data-price="65000" style="transition-delay: 100ms;">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(5)">
+                        <img src="images/free weights.webp" alt="Urethane Dumbbells" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Urethane Head
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(5, 'Pro Urethane Dumbbell Set (2.5-25kg)', 65000, 'images/free weights.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(5)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(5)">
+                                Urethane Dumbbells <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">2.5KG to 25KG Pairs • Hard Chrome Handle</p>
+                        </div>
+                        <span class="text-lg font-bold">₹65,000</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 6 -->
+                <div class="product-item group reveal" data-category="racks" data-name="Modular Free-Standing Rig 4-Bay" data-price="145000" style="transition-delay: 200ms;">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(6)">
+                        <img src="images/Modular 4-Bay Rig.webp" alt="Modular Rig" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Commercial Rig
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(6, 'Modular 4-Bay Commercial Rig', 145000, 'images/Modular 4-Bay Rig.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(6)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(6)">
+                                Modular 4-Bay Rig <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">3x3 Box Section • Integrated Pull-Up Stations</p>
+                        </div>
+                        <span class="text-lg font-bold">₹1,45,000</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 7 -->
+                <div class="product-item group reveal" data-category="conditioning" data-name="Iron Beast Air Bike Pro" data-price="48000">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(7)">
+                        <img src="images/Iron Beast Air Bike.webp" alt="Commercial Air Bike" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Belt-Driven
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(7, 'Iron Beast Air Bike Pro', 48000, 'images/Iron Beast Air Bike.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(7)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(7)">
+                                Iron Beast Air Bike <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">Silent Belt Drive • Steel Fan Blades</p>
+                        </div>
+                        <span class="text-lg font-bold">₹48,000</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 8 -->
+                <div class="product-item group reveal" data-category="conditioning" data-name="Heavy Prowler Sled 2.0" data-price="16500" style="transition-delay: 100ms;">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(8)">
+                        <img src="images/Heavy Prowler Sled.webp" alt="Heavy Prowler Sled" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Turf Ready
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(8, 'Heavy Prowler Sled 2.0', 16500, 'images/Heavy Prowler Sled.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(8)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(8)">
+                                Heavy Prowler Sled <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">Dual Push Handles • Replaceable Skis</p>
+                        </div>
+                        <span class="text-lg font-bold">₹16,500</span>
+                    </div>
+                </div>
+
+                <!-- Product Card 9 -->
+                <div class="product-item group reveal" data-category="bars" data-name="Competition Cast Iron Kettlebells" data-price="3200" style="transition-delay: 200ms;">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="openQuickView(9)">
+                        <img src="images/conditioning.webp" alt="Competition Kettlebell" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                        <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Single Piece Cast
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button onclick="event.stopPropagation(); addToCart(9, 'Competition Kettlebell (16KG)', 3200, 'images/conditioning.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                                Add to Cart
+                            </button>
+                            <button onclick="event.stopPropagation(); openQuickView(9)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-1 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="openQuickView(9)">
+                                Comp Kettlebells <i class="fa-solid fa-arrow-up-right text-xs arrow-icon"></i>
+                            </h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">Single Cast Steel • Flat Machined Base</p>
+                        </div>
+                        <span class="text-lg font-bold">₹3,200+</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty State if no products match filter -->
+            <div id="no-results" class="hidden text-center py-24 border border-dashed border-border mt-8">
+                <i class="fa-solid fa-dumbbell text-4xl text-gray-600 mb-4 block"></i>
+                <h3 class="text-xl font-bold uppercase tracking-widest mb-2">No Matching Equipment Found</h3>
+                <p class="text-gray-500 text-xs uppercase tracking-widest mb-6">Try clearing your search keyword or switching category tabs.</p>
+                <button onclick="resetFilters()" class="bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">
+                    Reset All Filters
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODERN ANIMATED SECTION: ANATOMY OF COMMERCIAL IRON (INTERACTIVE SPEC EXPLORER) -->
+    <section class="px-4 md:px-8 section-py bg-card border-t border-border overflow-hidden relative">
+        <div class="max-w-screen-2xl mx-auto">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 reveal gap-6">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-400 block mb-3">Manufacturing Standards</span>
+                    <h2 class="text-3xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-none">
+                        ANATOMY OF<br>SALEM IRON
+                    </h2>
+                </div>
+                <p class="text-xs md:text-sm text-gray-400 uppercase tracking-widest max-w-md">
+                    Click any engineering focal point to inspect why Stackly bars withstand 1,500KG drops without permanent deflection.
+                </p>
+            </div>
+
+            <!-- Interactive Hotspot Diagram -->
+            <div class="relative w-full border border-border bg-dark/80 p-4 md:p-12 overflow-hidden reveal">
+                <div class="relative w-full aspect-[16/9] md:aspect-[21/9] flex items-center justify-center">
+                    <img src="images/anatomy.webp" alt="Stackly Barbell Specs" class="w-full h-full object-cover opacity-50 filter grayscale contrast-125">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-black/90"></div>
+
+                    <!-- Hotspot 1: CNC Machined Sleeve -->
+                    <button onclick="showHotspot(1)" class="absolute top-[32%] left-[18%] group focus:outline-none z-20">
+                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hotspot-beacon">
+                            <div class="w-4 h-4 rounded-full bg-white flex items-center justify-center text-[9px] font-black text-black">1</div>
+                        </div>
+                        <span class="hidden md:inline-block absolute top-10 -left-12 bg-black/90 border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            CNC Micro-Grooves
+                        </span>
+                    </button>
+
+                    <!-- Hotspot 2: Needle Bearing Rotation -->
+                    <button onclick="showHotspot(2)" class="absolute top-[48%] left-[30%] group focus:outline-none z-20">
+                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hotspot-beacon" style="animation-delay: 0.5s;">
+                            <div class="w-4 h-4 rounded-full bg-white flex items-center justify-center text-[9px] font-black text-black">2</div>
+                        </div>
+                        <span class="hidden md:inline-block absolute top-10 -left-12 bg-black/90 border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            Sealed Needle Bearings
+                        </span>
+                    </button>
+
+                    <!-- Hotspot 3: 1.2mm Volcano Knurl -->
+                    <button onclick="showHotspot(3)" class="absolute top-[52%] left-[62%] group focus:outline-none z-20">
+                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hotspot-beacon" style="animation-delay: 1s;">
+                            <div class="w-4 h-4 rounded-full bg-white flex items-center justify-center text-[9px] font-black text-black">3</div>
+                        </div>
+                        <span class="hidden md:inline-block absolute top-10 -left-12 bg-black/90 border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            Volcano Diamond Knurl
+                        </span>
+                    </button>
+
+                    <!-- Hotspot 4: 190,000 PSI Steel Core -->
+                    <button onclick="showHotspot(4)" class="absolute top-[38%] left-[78%] group focus:outline-none z-20">
+                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hotspot-beacon" style="animation-delay: 1.5s;">
+                            <div class="w-4 h-4 rounded-full bg-white flex items-center justify-center text-[9px] font-black text-black">4</div>
+                        </div>
+                        <span class="hidden md:inline-block absolute top-10 -left-12 bg-black/90 border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            Tensile Steel Core
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Detail Panel for Selected Hotspot -->
+                <div id="hotspot-detail" class="mt-8 border-t border-border pt-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-1">
+                        <span id="hotspot-num" class="text-xs uppercase tracking-[0.25em] font-bold text-gray-500">FEATURE 01</span>
+                        <h4 id="hotspot-title" class="text-xl md:text-2xl font-black uppercase tracking-wider mt-1">CNC Machined Micro-Grooved Sleeves</h4>
+                    </div>
+                    <div class="md:col-span-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <p id="hotspot-desc" class="text-xs md:text-sm text-gray-400 uppercase tracking-widest leading-relaxed">
+                            Fine radial ribbing holds bumper plates firmly in place during aggressive drops, preventing plate slippage without damaging collar inner rings.
+                        </p>
+                        <div class="flex gap-2">
+                            <button onclick="prevHotspot()" class="w-10 h-10 border border-border hover:border-white text-white flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
+                            </button>
+                            <button onclick="nextHotspot()" class="w-10 h-10 border border-border hover:border-white text-white flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CUSTOM RIG CONFIGURATOR CTA BANNER -->
+    <section class="px-4 md:px-8 section-py bg-dark border-t border-border">
+        <div class="max-w-screen-2xl mx-auto border border-border p-8 md:p-16 relative overflow-hidden bg-card">
+            <div class="relative z-10 max-w-3xl">
+                <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-400 block mb-4">Custom Fabrication Division</span>
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-tight mb-6">
+                    NEED A CUSTOM GYM RIG OR BRANDED COLOR COATING?
+                </h2>
+                <p class="text-sm md:text-base text-gray-400 uppercase tracking-widest leading-relaxed mb-8 max-w-xl">
+                    Our Salem factory manufactures tailored steel cages to your facility's exact ceiling height, footprint, and colorway.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="contact.html" class="bg-white text-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors inline-flex items-center gap-3 group">
+                        REQUEST CUSTOM FABRICATION <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                    </a>
+                    <a href="index.html#packages" class="border border-border text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:border-white transition-colors inline-flex items-center gap-3">
+                        VIEW SETUP PACKAGES
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK VIEW MODAL -->
+    <div id="quickview-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300 p-4">
+        <div class="bg-card border border-border max-w-4xl w-full max-h-[90vh] overflow-y-auto relative p-6 md:p-10">
+            <button onclick="closeQuickView()" class="absolute top-6 right-6 text-gray-400 hover:text-white text-xl z-20">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="aspect-square bg-dark overflow-hidden border border-border relative">
+                    <img id="qv-img" src="" alt="" class="w-full h-full object-cover">
+                    <span id="qv-tag" class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                        Commercial
+                    </span>
+                </div>
+
+                <div>
+                    <span id="qv-category" class="text-xs uppercase tracking-[0.25em] font-bold text-gray-500 block mb-2">Category</span>
+                    <h3 id="qv-title" class="text-2xl md:text-3xl font-black uppercase tracking-tight mb-3">Product Name</h3>
+                    <div id="qv-price" class="text-2xl font-bold mb-6">₹0</div>
+                    
+                    <p id="qv-description" class="text-xs md:text-sm text-gray-400 uppercase tracking-widest leading-relaxed mb-6">
+                        Full specification description.
+                    </p>
+
+                    <!-- Technical Specs Table -->
+                    <div class="border-t border-b border-border py-4 mb-6 space-y-2 text-xs uppercase tracking-widest">
+                        <div class="flex justify-between text-gray-400"><span class="text-gray-500">Material</span> <span id="qv-material" class="text-white font-semibold">11-Gauge Structural Steel</span></div>
+                        <div class="flex justify-between text-gray-400"><span class="text-gray-500">Finish</span> <span id="qv-finish" class="text-white font-semibold">Cerakote / Hard Chrome</span></div>
+                        <div class="flex justify-between text-gray-400"><span class="text-gray-500">Origin</span> <span class="text-white font-semibold">Salem, Tamil Nadu</span></div>
+                        <div class="flex justify-between text-gray-400"><span class="text-gray-500">Warranty</span> <span class="text-white font-semibold">Lifetime On Welds</span></div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button id="qv-add-btn" class="w-full bg-white text-black py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-cart-shopping"></i> Add to Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE-OUT CART DRAWER -->
+    <div id="cart-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-card border-l border-border z-50 flex flex-col justify-between transform translate-x-full">
+        <!-- Drawer Header -->
+        <div class="p-6 border-b border-border flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-shopping-cart text-white"></i>
+                <h3 class="text-sm font-bold uppercase tracking-[0.2em]">Equipment Order (<span id="cart-drawer-count">2</span>)</h3>
+            </div>
+            <button id="cart-close-btn" class="text-gray-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="p-6 overflow-y-auto flex-1 space-y-6">
+            <!-- Dynamic Items injected via JS -->
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-6 border-t border-border bg-dark space-y-4">
+            <div class="flex justify-between text-xs uppercase tracking-widest text-gray-400">
+                <span>Shipping Estimate</span>
+                <span class="text-white font-bold">Calculated At Freight Desk</span>
+            </div>
+            <div class="flex justify-between text-base uppercase tracking-widest font-black">
+                <span>Subtotal</span>
+                <span id="cart-subtotal-price">₹96,500</span>
+            </div>
+            <button onclick="checkoutCart()" class="w-full bg-white text-black py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+                PROCEED TO QUOTE & ORDER <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+            </button>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest text-center">
+                All commercial shipments dispatched from Salem Central Warehouse.
+            </p>
+        </div>
+    </div>
+
+    <!-- FOOTER (Shared Identical Design) -->
+    <footer class="bg-dark border-t border-border pt-20 pb-10 px-4 md:px-8">
+        <div class="max-w-screen-2xl mx-auto">
+            
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12 reveal">
+                <h3 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none max-w-lg">
+                    SUBSCRIBE FOR NEWSLETTER
+                </h3>
+                <form class="w-full lg:w-1/2 flex border-b border-border py-4" id="newsletter-form">
+                    <label class="uppercase text-xs font-bold tracking-[0.2em] w-24 text-gray-500 flex items-center">EMAIL</label>
+                    <input type="email" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="YOUR@EMAIL.COM" required>
+                    <button type="submit" class="uppercase text-xs font-bold tracking-[0.2em] hover:text-gray-400 transition-colors pl-4">
+                        SUBSCRIBE
+                    </button>
+                </form>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-border pb-12 mb-12 reveal">
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4">Powered by</p>
+                    <p class="text-sm font-bold uppercase tracking-[0.2em]">Stackly Tech</p>
+                </div>
+                
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="index.html" class="hover:text-gray-400 transition-colors">HOME</a>
+                    <a href="about.html" class="hover:text-gray-400 transition-colors">ABOUT</a>
+                    <a href="products.html" class="text-white hover:text-gray-400 transition-colors">PRODUCTS</a>
+                </nav>
+
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="blog.html" class="hover:text-gray-400 transition-colors">BLOG</a>
+                    <a href="contact.html" class="hover:text-gray-400 transition-colors">CONTACT</a>
+                </nav>
+
+                <div class="text-xs text-gray-500 uppercase tracking-widest leading-relaxed flex flex-col justify-end">
+                    <a href="mailto:contact@stackly.in" class="text-white hover:text-gray-400 transition-colors mb-2 font-bold tracking-[0.2em]">CONTACT@STACKLY.IN</a>
+                    <p class="mb-4">(555) 123-4567</p>
+                    <p>Meyyanur Bypass Road, Salem, Tamil Nadu 636004</p>
+                    <div class="flex flex-wrap gap-4 mt-6 text-base text-white">
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full text-center reveal py-6">
+                <a href="404.html" class="inline-block hover:opacity-75 transition-opacity">
+                    <img src="images/stackly logo.webp" alt="Stackly" class="h-16 md:h-28 mx-auto object-contain opacity-80">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        // Data Store for Products
+        const productsData = [
+            {
+                id: 1,
+                name: "Salem Cerakote Power Bar",
+                category: "bars",
+                price: 18500,
+                tag: "Best Seller",
+                image: "images/salem power bar.webp",
+                desc: "Machined from 190,000 PSI high-tensile Indian alloy steel. Features custom Cerakote ceramic shaft finish, industrial hard chrome sleeves, and moderate volcano knurling for aggressive yet skin-friendly grip.",
+                material: "190K PSI High Tensile Steel",
+                finish: "Cerakote Black / Hard Chrome Sleeves"
+            },
+            {
+                id: 2,
+                name: "Apex 3x3 Commercial Power Cage",
+                category: "racks",
+                price: 78000,
+                tag: "11-Gauge",
+                image: "images/Apex 3x3 Power Cage.webp",
+                desc: "Fabricated from 3x3 inch 11-gauge box section steel with Westside 1-inch hole spacing through the bench zone. Laser-cut key numbers, UHMW-lined sandwich J-cups, and strap safety system included.",
+                material: "11-Gauge Structural 3x3 Steel",
+                finish: "Matte Black Powder Coat"
+            },
+            {
+                id: 3,
+                name: "Competition Calibrated Bumper Set (140KG)",
+                category: "bars",
+                price: 42000,
+                tag: "Competition Spec",
+                image: "images/Calibrated Bumper Set.webp",
+                desc: "Calibrated within ±10 grams of declared weight. Steel disc core with high-grade virgin rubber rim and chrome hub ring. Dead bounce rating for commercial lifting platforms.",
+                material: "Virgin Rubber & Forged Chrome Hub",
+                finish: "Matte Competition Color Scheme"
+            },
+            {
+                id: 4,
+                name: "Commercial Incline Utility Bench",
+                category: "weights",
+                price: 24500,
+                tag: "Zero Gap",
+                image: "images/Incline Utility Bench.webp",
+                desc: "Engineered with a sliding pivot mechanism that eliminates the pad gap across all 7 backrest positions (0° to 85°). High-density bonded foam padding with tear-resistant textured vinyl.",
+                material: "Heavy 3-inch Rectangular Steel",
+                finish: "High Density Grip Vinyl"
+            },
+            {
+                id: 5,
+                name: "Pro Urethane Dumbbell Set (2.5-25KG)",
+                category: "weights",
+                price: 65000,
+                tag: "Urethane Head",
+                image: "images/free weights.webp",
+                desc: "Solid steel head welded to a hard-chromed knurled contour handle and encapsulated in heavy-duty CPU urethane. Will never crack, peel, or damage facility rubber flooring.",
+                material: "Cast Solid Steel & CPU Urethane",
+                finish: "Precision Knurled Chrome Handle"
+            },
+            {
+                id: 6,
+                name: "Modular 4-Bay Commercial Rig",
+                category: "racks",
+                price: 145000,
+                tag: "Commercial Rig",
+                image: "images/Modular 4-Bay Rig.webp",
+                desc: "Full modular free-standing crossfit and strength rig with 4 squat stations and 8 pull-up bays. Expansion holes on all 4 sides of uprights for dip attachments, wall ball targets, and pegboards.",
+                material: "3x3 11-Gauge Certified Tubing",
+                finish: "Dual Powder Coated Textured Finish"
+            },
+            {
+                id: 7,
+                name: "Iron Beast Air Bike Pro",
+                category: "conditioning",
+                price: 48000,
+                tag: "Belt-Driven",
+                image: "images/Iron Beast Air Bike.webp",
+                desc: "Silent Kevlar belt-drive mechanism mated to a 27-inch steel air resistance fan. Sealed cartridge bearings in every joint with a high-contrast HIIT interval tracking console.",
+                material: "High-Tensile Tubular Steel Frame",
+                finish: "Corrosion Resistant Zinc Plating"
+            },
+            {
+                id: 8,
+                name: "Heavy Prowler Sled 2.0",
+                category: "conditioning",
+                price: 16500,
+                tag: "Turf Ready",
+                image: "images/Heavy Prowler Sled.webp",
+                desc: "Universal sled suitable for grass, rubber, or concrete with replaceable UHMW plastic ski plates. Removable upright handles and low horizontal push bar with central Olympic plate horn.",
+                material: "Formed Steel Plate & Tubing",
+                finish: "Textured Black Epoxy"
+            },
+            {
+                id: 9,
+                name: "Comp Cast Iron Kettlebells (16KG)",
+                category: "bars",
+                price: 3200,
+                tag: "Single Piece Cast",
+                image: "images/conditioning.webp",
+                desc: "Single-piece gravity cast iron with zero weld points. Machined flat base eliminates wobbling during renegade rows. Color-coded handle rings for instantaneous weight identification.",
+                material: "High Density Cast Iron",
+                finish: "Smooth Chalk-Gripping E-Coat"
+            }
+        ];
+
+        // In-memory Shopping Cart
+        let cart = [
+            { id: 1, name: "Salem Cerakote Power Bar", price: 18500, qty: 1, image: "images/salem power bar.webp" },
+            { id: 2, name: "Apex 3x3 Power Cage", price: 78000, qty: 1, image: "images/Apex 3x3 Power Cage.webp" }
+        ];
+
+        // Hotspot Data for Anatomy Section
+        const hotspots = [
+            {
+                num: "FEATURE 01",
+                title: "CNC Machined Micro-Grooved Sleeves",
+                desc: "Fine radial ribbing holds bumper plates firmly in place during aggressive drops, preventing plate slippage without damaging collar inner rings."
+            },
+            {
+                num: "FEATURE 02",
+                title: "Sealed Precision Needle Bearings",
+                desc: "5 needle bearings per sleeve provide glass-smooth, friction-free turnover under maximum 700KG Olympic snatch and clean-and-jerk loads."
+            },
+            {
+                num: "FEATURE 03",
+                title: "1.2MM Volcano Diamond Knurling",
+                desc: "Carefully calibrated tooth height and crater depth provide maximum grip adhesion without lacerating calluses during high-repetition power sessions."
+            },
+            {
+                num: "FEATURE 04",
+                title: "190,000 PSI Tensile Steel Core",
+                desc: "Sourced from premier metallurgical foundries in Tamil Nadu. Provides optimal whip under load with zero permanent shaft bend over decades of use."
+            }
+        ];
+        let currentHotspot = 0;
+
+        // Toast Notification System
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-500"></i> ${message}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => { toast.classList.add('show'); }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => { toast.remove(); }, 400);
+            }, 3200);
+        }
+
+        // Add item to Cart
+        function addToCart(id, name, price, image) {
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ id, name, price, qty: 1, image });
+            }
+            updateCartUI();
+            showToast(`Added ${name} to order.`);
+        }
+
+        // Remove item from Cart
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        // Change item quantity
+        function changeQty(id, delta) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    removeFromCart(id);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        // Update Cart Drawer UI
+        function updateCartUI() {
+            const count = cart.reduce((acc, item) => acc + item.qty, 0);
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            
+            // Badges
+            document.getElementById('cart-count-badge').innerText = count;
+            document.getElementById('cart-count-badge-mob').innerText = count;
+            document.getElementById('cart-drawer-count').innerText = count;
+            document.getElementById('cart-subtotal-price').innerText = `₹${total.toLocaleString('en-IN')}`;
+
+            const container = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-cart-arrow-down text-3xl mb-3 block"></i>
+                        <p class="text-xs uppercase tracking-widest font-bold">Your order list is empty.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-4 border-b border-border pb-4 items-center">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover bg-dark border border-border">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-white truncate">${item.name}</h4>
+                        <div class="text-xs text-gray-400 mt-1">₹${item.price.toLocaleString('en-IN')}</div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 border border-border text-white text-[10px] flex items-center justify-center hover:bg-white hover:text-black transition-colors">-</button>
+                            <span class="text-xs font-bold px-1">${item.qty}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 border border-border text-white text-[10px] flex items-center justify-center hover:bg-white hover:text-black transition-colors">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-gray-500 hover:text-white text-xs p-1" title="Remove">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Cart Drawer open/close
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartBackdrop = document.getElementById('cart-backdrop');
+        function openCart() {
+            cartDrawer.classList.remove('translate-x-full');
+            cartBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeCart() {
+            cartDrawer.classList.add('translate-x-full');
+            cartBackdrop.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('cart-toggle-btn').addEventListener('click', openCart);
+        document.getElementById('cart-toggle-btn-mob').addEventListener('click', openCart);
+        document.getElementById('cart-close-btn').addEventListener('click', closeCart);
+        cartBackdrop.addEventListener('click', closeCart);
+
+        function checkoutCart() {
+            closeCart();
+            showToast('Freight quotation submitted! Our Salem logistics desk will contact you.');
+        }
+
+        // Quick View Modal
+        let activeQuickViewId = null;
+        function openQuickView(id) {
+            const product = productsData.find(p => p.id === id);
+            if (!product) return;
+            activeQuickViewId = id;
+
+            document.getElementById('qv-img').src = product.image;
+            document.getElementById('qv-tag').innerText = product.tag;
+            document.getElementById('qv-category').innerText = product.category;
+            document.getElementById('qv-title').innerText = product.name;
+            document.getElementById('qv-price').innerText = `₹${product.price.toLocaleString('en-IN')}`;
+            document.getElementById('qv-description').innerText = product.desc;
+            document.getElementById('qv-material').innerText = product.material;
+            document.getElementById('qv-finish').innerText = product.finish;
+
+            document.getElementById('qv-add-btn').onclick = () => {
+                addToCart(product.id, product.name, product.price, product.image);
+                closeQuickView();
+            };
+
+            const modal = document.getElementById('quickview-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quickview-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = '';
+        }
+
+        // Hotspot Inspector Logic
+        function showHotspot(index) {
+            currentHotspot = index - 1;
+            renderHotspot();
+        }
+        function nextHotspot() {
+            currentHotspot = (currentHotspot + 1) % hotspots.length;
+            renderHotspot();
+        }
+        function prevHotspot() {
+            currentHotspot = (currentHotspot - 1 + hotspots.length) % hotspots.length;
+            renderHotspot();
+        }
+        function renderHotspot() {
+            const data = hotspots[currentHotspot];
+            document.getElementById('hotspot-num').innerText = data.num;
+            document.getElementById('hotspot-title').innerText = data.title;
+            document.getElementById('hotspot-desc').innerText = data.desc;
+        }
+
+        // Category Filter & Search Logic
+        const catButtons = document.querySelectorAll('.cat-btn');
+        const searchInput = document.getElementById('search-input');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const sortSelect = document.getElementById('sort-select');
+        const productItems = document.querySelectorAll('.product-item');
+        const noResults = document.getElementById('no-results');
+        const countBadge = document.getElementById('product-count');
+
+        let currentCat = 'all';
+        let currentSearch = '';
+
+        function filterProducts() {
+            let visibleCount = 0;
+            const itemsArray = Array.from(productItems);
+
+            itemsArray.forEach(item => {
+                const itemCat = item.getAttribute('data-category');
+                const itemName = item.getAttribute('data-name').toLowerCase();
+                
+                const matchesCat = (currentCat === 'all' || itemCat === currentCat);
+                const matchesSearch = itemName.includes(currentSearch);
+
+                if (matchesCat && matchesSearch) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            countBadge.innerText = `Showing ${visibleCount} Items`;
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        function sortProducts() {
+            const grid = document.getElementById('product-grid');
+            const items = Array.from(productItems);
+            const val = sortSelect.value;
+
+            items.sort((a, b) => {
+                const priceA = parseInt(a.getAttribute('data-price'));
+                const priceB = parseInt(b.getAttribute('data-price'));
+                const nameA = a.getAttribute('data-name');
+                const nameB = b.getAttribute('data-name');
+
+                if (val === 'price-asc') return priceA - priceB;
+                if (val === 'price-desc') return priceB - priceA;
+                if (val === 'name') return nameA.localeCompare(nameB);
+                return 0; // default featured
+            });
+
+            items.forEach(item => grid.appendChild(item));
+        }
+
+        catButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                catButtons.forEach(b => {
+                    b.classList.remove('active', 'bg-white', 'text-black', 'border-white');
+                    b.classList.add('border-border', 'text-gray-400');
+                });
+                btn.classList.add('active', 'bg-white', 'text-black', 'border-white');
+                btn.classList.remove('border-border', 'text-gray-400');
+                currentCat = btn.getAttribute('data-category');
+                filterProducts();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase().trim();
+            if (currentSearch.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
+            filterProducts();
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            currentSearch = '';
+            clearSearchBtn.classList.add('hidden');
+            filterProducts();
+        });
+
+        sortSelect.addEventListener('change', sortProducts);
+
+        function resetFilters() {
+            searchInput.value = '';
+            currentSearch = '';
+            clearSearchBtn.classList.add('hidden');
+            catButtons[0].click();
+        }
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let menuOpen = false;
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                document.body.style.overflow = '';
+            }
+        }
+
+        mobileBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', () => { if(menuOpen) toggleMenu(); }));
+
+        // Navbar Scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('py-4');
+                header.classList.remove('py-6');
+            } else {
+                header.classList.add('py-6');
+                header.classList.remove('py-4');
+            }
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Form Submit
+        document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Subscribed to VIP Newsletter!');
+            e.target.reset();
+        });
+
+        // Initialize UI on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartUI();
+            renderHotspot();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Iron Dispatch | Stackly Equipment Journal</title>
+    <meta name="description" content="Commercial gym floor plans, barbell metallurgical guides, facility outfitting blueprints, and elite strength engineering from the craftsmen at Stackly Salem.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#000000',
+                        card: '#0a0a0a',
+                        border: '#222222',
+                        brandAccent: '#ffffff'
+                    },
+                    fontSize: {
+                        'hero': 'clamp(3.5rem, 14vw, 13rem)',
+                        'hero-mobile': 'clamp(2.5rem, 12vw, 5rem)',
+                    },
+                    letterSpacing: {
+                        'widest-lg': '0.25em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image Hover Zoom */
+        .img-zoom {
+            overflow: hidden;
+        }
+        .img-zoom img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+            opacity: 0.75;
+        }
+        .group:hover .img-zoom img {
+            transform: scale(1.06);
+            opacity: 1;
+        }
+
+        /* Diagonal Arrow Hover */
+        .arrow-icon {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .group:hover .arrow-icon, a:hover .arrow-icon, button:hover .arrow-icon {
+            transform: translate(3px, -3px);
+        }
+
+        /* Ticker Animation */
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        /* Article Reader Drawer */
+        #reader-drawer {
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #reader-backdrop {
+            transition: opacity 0.4s ease;
+        }
+
+        /* Custom Toast Notification */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .toast {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 14px 24px;
+            font-size: 0.825rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Section Spacing Utility */
+        .section-py {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+        @media (min-width: 768px) {
+            .section-py {
+                padding-top: 8rem;
+                padding-bottom: 8rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans relative bg-dark text-white">
+
+    <!-- HEADER (Shared Design) -->
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="index.html" class="hover:text-gray-400 transition-colors">Home</a>
+            <a href="about.html" class="hover:text-gray-400 transition-colors">About</a>
+            <a href="products.html" class="hover:text-gray-400 transition-colors">Products</a>
+        </nav>
+
+        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center">
+            <a href="404.html" class="inline-flex items-center">
+                <img src="images/stackly logo.webp" alt="Stackly" class="h-7 md:h-9 object-contain">
+            </a>
+        </div>
+
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="blog.html" class="text-white border-b border-white pb-1 transition-colors">Blog</a>
+            <a href="contact.html" class="hover:text-gray-400 transition-colors">Contact</a>
+            <a href="products.html" class="hover:text-gray-400 transition-colors relative group" onclick="showToast('Open cart on Products page')">
+                <i class="fa-solid fa-shopping-cart text-base"></i>
+                <span class="absolute -top-2 -right-3 text-[9px] font-bold bg-white text-black rounded-full px-1.5 py-0.5 leading-none">2</span>
+            </a>
+        </nav>
+
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl z-50 focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div id="mobile-menu" class="fixed inset-0 bg-dark z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <nav class="flex flex-col space-y-7 text-xl sm:text-2xl uppercase tracking-[0.2em] text-center font-semibold">
+            <a href="index.html" class="mobile-link hover:text-gray-400">Home</a>
+            <a href="about.html" class="mobile-link hover:text-gray-400">About</a>
+            <a href="products.html" class="mobile-link hover:text-gray-400">Products</a>
+            <a href="blog.html" class="mobile-link text-white font-bold border-b border-white pb-1 inline-block mx-auto">Blog</a>
+            <a href="contact.html" class="mobile-link hover:text-gray-400">Contact</a>
+        </nav>
+        <div class="mt-12 text-xs uppercase tracking-[0.2em] text-gray-500">
+            Salem, Tamil Nadu • (555) 123-4567
+        </div>
+    </div>
+
+    <!-- HERO SECTION (Centered, Balanced & Responsive) -->
+    <section class="relative min-h-[70vh] md:min-h-[80vh] w-full flex flex-col items-center justify-center overflow-hidden bg-dark px-4 md:px-8 pt-32 pb-20 border-b border-border text-center">
+        <div class="absolute inset-0 z-0">
+            <img src="images/blog hero.webp" alt="Gym Blueprint Architecture" class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/70 via-dark/40 to-dark"></div>
+        </div>
+
+        <div class="z-10 max-w-5xl mx-auto w-full flex flex-col items-center justify-center">
+            <div class="inline-flex items-center gap-3 text-xs md:text-sm uppercase tracking-[0.3em] font-bold text-gray-400 mb-6 reveal">
+                <span class="w-2 h-2 bg-white inline-block"></span>
+                Engineering & Facility Journal
+            </div>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.88] tracking-tighter uppercase select-none drop-shadow-2xl reveal mb-8">
+                THE IRON<br>DISPATCH
+            </h1>
+            <p class="text-gray-300 text-xs sm:text-sm md:text-base uppercase tracking-widest leading-relaxed max-w-2xl reveal mb-10">
+                Rigorous analysis on commercial gym layout, steel metallurgy, barbell tolerances, and barbell care written by factory engineers and strength architects.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 border-t border-border/80 pt-6 text-xs uppercase tracking-[0.2em] text-gray-400 reveal">
+                <div><strong class="text-white text-base sm:text-lg block font-black">24+</strong> Technical Guides</div>
+                <div class="w-px h-8 bg-border"></div>
+                <div><strong class="text-white text-base sm:text-lg block font-black">500+</strong> Facilities Consulted</div>
+                <div class="w-px h-8 bg-border"></div>
+                <div><strong class="text-white text-base sm:text-lg block font-black">WEEKLY</strong> Editions</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TICKER STRIP -->
+    <div class="w-full overflow-hidden bg-white text-black py-4 border-y border-border flex whitespace-nowrap select-none">
+        <div class="ticker-move text-sm md:text-base font-black uppercase tracking-[0.25em]">
+            <span>BLUEPRINTS • KNURLING DEPTH ANALYSIS • TENSIL TESTING • CROSSFIT RIG GEOMETRY • UHMW LINING BENEFITS • BLUEPRINTS • </span>
+            <span>BLUEPRINTS • KNURLING DEPTH ANALYSIS • TENSIL TESTING • CROSSFIT RIG GEOMETRY • UHMW LINING BENEFITS • BLUEPRINTS • </span>
+            <span>BLUEPRINTS • KNURLING DEPTH ANALYSIS • TENSIL TESTING • CROSSFIT RIG GEOMETRY • UHMW LINING BENEFITS • BLUEPRINTS • </span>
+        </div>
+    </div>
+
+    <!-- FEATURED EDITORIAL ARTICLE -->
+    <section class="px-4 md:px-8 py-16 md:py-24 bg-card border-b border-border">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-400 block mb-6 reveal">Cover Feature / Issue #42</span>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
+                <!-- Large Image Block -->
+                <div class="lg:col-span-7 aspect-[16/10] bg-dark overflow-hidden relative cursor-pointer group reveal" onclick="openArticleReader(1)">
+                    <img src="images/photo-1540497077202-7c8a3999166f.webp" alt="Commercial Powerlifting Facility" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute top-6 left-6 bg-white text-black text-[10px] font-black uppercase tracking-widest px-3 py-1">
+                        Featured Case Study
+                    </div>
+                </div>
+
+                <!-- Text Summary Block -->
+                <div class="lg:col-span-5 flex flex-col justify-between reveal" style="transition-delay: 150ms;">
+                    <div>
+                        <div class="flex items-center gap-4 text-xs uppercase tracking-widest text-gray-500 mb-4">
+                            <span>Facility Architecture</span>
+                            <span>•</span>
+                            <span>8 Min Read</span>
+                            <span>•</span>
+                            <span>Feb 12, 2026</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight leading-tight mb-6 hover:text-gray-300 transition-colors cursor-pointer" onclick="openArticleReader(1)">
+                            Architecting a 10,000 Sq.Ft Commercial Strength Facility: Flow, Drop Zones & Steel Density
+                        </h2>
+                        <p class="text-xs sm:text-sm text-gray-400 uppercase tracking-widest leading-relaxed mb-8">
+                            A breakdown of traffic bottlenecks, acoustic dampening under high-load deadlift bays, and optimal 3x3 power cage placement in premier athletic training institutions.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-border pt-6 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center font-black text-xs">
+                                SK
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider block">S. Kumaravel</span>
+                                <span class="text-[10px] text-gray-500 uppercase tracking-widest">Lead Facility Architect, Stackly</span>
+                            </div>
+                        </div>
+                        <button onclick="openArticleReader(1)" class="bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors inline-flex items-center gap-2 group">
+                            READ DISPATCH <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARTICLE FILTER & GRID SECTION -->
+    <section class="px-4 md:px-8 section-py bg-dark min-h-screen">
+        <div class="max-w-screen-2xl mx-auto">
+            
+            <!-- Filter Bar -->
+            <div class="border-b border-border pb-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <!-- Topic Filter Pills -->
+                <div class="flex flex-wrap gap-2 md:gap-3" id="blog-filters">
+                    <button class="blog-btn active px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-white bg-white text-black transition-all" data-filter="all">
+                        All Stories
+                    </button>
+                    <button class="blog-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-filter="architecture">
+                        Facility Design
+                    </button>
+                    <button class="blog-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-filter="engineering">
+                        Steel Metallurgy
+                    </button>
+                    <button class="blog-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-filter="maintenance">
+                        Equipment Care
+                    </button>
+                    <button class="blog-btn px-4 py-2 text-xs uppercase tracking-[0.2em] font-bold border border-border text-gray-400 hover:text-white hover:border-gray-500 transition-all" data-filter="training">
+                        Strength Science
+                    </button>
+                </div>
+
+                <div class="text-xs uppercase tracking-[0.2em] text-gray-500" id="article-count-label">
+                    6 Dispatches Published
+                </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                
+                <!-- Article 1 -->
+                <article class="article-card group reveal cursor-pointer" data-category="architecture" onclick="openArticleReader(2)">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-card mb-6 relative">
+                        <img src="images/photo-1599058945522-28d584b6f0ff.webp" alt="Gym Layout Blueprint" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <span class="absolute top-4 left-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Facility Design
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 uppercase tracking-widest mb-3">
+                        <span>Feb 05, 2026</span>
+                        <span>•</span>
+                        <span>6 Min Read</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-gray-300 transition-colors leading-tight">
+                        Unlock Your Facility's Potential: A Master Guide to Open Rig Layouts
+                    </h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed mb-6 line-clamp-2">
+                        How modular rigs unlock group training capacity and triple member retention in commercial gym footprints.
+                    </p>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        READ ARTICLE <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                    </span>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="article-card group reveal cursor-pointer" data-category="engineering" onclick="openArticleReader(3)" style="transition-delay: 100ms;">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-card mb-6 relative">
+                        <img src="images/photo-1583454110551-21f2fa2afe61.webp" alt="Barbell Knurling Macro" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <span class="absolute top-4 left-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Steel Metallurgy
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 uppercase tracking-widest mb-3">
+                        <span>Jan 28, 2026</span>
+                        <span>•</span>
+                        <span>5 Min Read</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-gray-300 transition-colors leading-tight">
+                        Volcano vs Mountain Knurl: The Biomechanics of Barbell Adhesion
+                    </h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed mb-6 line-clamp-2">
+                        Examining skin shear rates, contact point distribution, and why CNC volcano knurling preserves hand health.
+                    </p>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        READ ARTICLE <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                    </span>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="article-card group reveal cursor-pointer" data-category="maintenance" onclick="openArticleReader(4)" style="transition-delay: 200ms;">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-card mb-6 relative">
+                        <img src="images/photo-1518310383802-640c2de311b2.webp" alt="Barbell Cleaning Guide" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <span class="absolute top-4 left-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Equipment Care
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 uppercase tracking-widest mb-3">
+                        <span>Jan 19, 2026</span>
+                        <span>•</span>
+                        <span>4 Min Read</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-gray-300 transition-colors leading-tight">
+                        Preventing Oxidation: How to Clean & Protect Cerakote & Hard Chrome Sleeves
+                    </h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed mb-6 line-clamp-2">
+                        Chalk removal protocols, 3-in-1 oil application, and nylon brush routines that keep bars rotating smoothly for decades.
+                    </p>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        READ ARTICLE <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                    </span>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="article-card group reveal cursor-pointer" data-category="training" onclick="openArticleReader(5)">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-card mb-6 relative">
+                        <img src="images/photo-1517836357463-d25dfeac3438.webp" alt="Powerlifting Barbell Load" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <span class="absolute top-4 left-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Strength Science
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 uppercase tracking-widest mb-3">
+                        <span>Jan 11, 2026</span>
+                        <span>•</span>
+                        <span>7 Min Read</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-gray-300 transition-colors leading-tight">
+                        Whip & Oscillation: Choosing the Right Barbell for Dynamic vs Power Movements
+                    </h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed mb-6 line-clamp-2">
+                        Why stiff 29mm power bars maximize squat transfer while 28mm Olympic bars provide the whip required for clean and jerk.
+                    </p>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        READ ARTICLE <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                    </span>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="article-card group reveal cursor-pointer" data-category="engineering" onclick="openArticleReader(6)" style="transition-delay: 100ms;">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-card mb-6 relative">
+                        <img src="images/photo-1581009146145-b5ef050c2e1e.webp" alt="Steel Fabrication Shop" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <span class="absolute top-4 left-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Steel Metallurgy
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 uppercase tracking-widest mb-3">
+                        <span>Dec 29, 2025</span>
+                        <span>•</span>
+                        <span>6 Min Read</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-gray-300 transition-colors leading-tight">
+                        11-Gauge vs 14-Gauge Steel: Why Wall Thickness Dictates Rig Longevity
+                    </h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed mb-6 line-clamp-2">
+                        Inside the Salem fabrication shop: structural deflection tests, shear loads on 1-inch hardware, and weld penetration.
+                    </p>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        READ ARTICLE <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                    </span>
+                </article>
+
+                <!-- Article 6 -->
+                <article class="article-card group reveal cursor-pointer" data-category="architecture" onclick="openArticleReader(7)" style="transition-delay: 200ms;">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-card mb-6 relative">
+                        <img src="images/photo-1534438327276-14e5300c3a48.webp" alt="Acoustic Flooring Solutions" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <span class="absolute top-4 left-4 bg-black/80 border border-border text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                            Facility Design
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 uppercase tracking-widest mb-3">
+                        <span>Dec 14, 2025</span>
+                        <span>•</span>
+                        <span>5 Min Read</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-gray-300 transition-colors leading-tight">
+                        Sound & Vibration Mitigation in Multi-Story Commercial Gyms
+                    </h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed mb-6 line-clamp-2">
+                        How dual-layer vulcanized rubber tiles and air-gap lifting platforms prevent structural floor tremors in commercial complexes.
+                    </p>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        READ ARTICLE <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                    </span>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VIP NEWSLETTER DISPATCH -->
+    <section class="px-4 md:px-8 section-py bg-card border-t border-border">
+        <div class="max-w-screen-xl mx-auto border border-border p-8 md:p-16 bg-dark">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-400 block mb-3">Free Weekly Engineering Intel</span>
+                    <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">
+                        THE SALEM DISPATCH
+                    </h2>
+                    <p class="text-xs sm:text-sm text-gray-400 uppercase tracking-widest leading-relaxed">
+                        Join 2,500+ gym founders, strength directors, and commercial facility operators receiving our weekly equipment guides, CAD layouts, and fabrication updates.
+                    </p>
+                </div>
+                <div>
+                    <form class="space-y-6" id="dispatch-form">
+                        <div class="border-b border-border py-3 flex items-center">
+                            <label class="uppercase text-xs font-bold tracking-[0.2em] w-24 text-gray-500">EMAIL</label>
+                            <input type="email" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="OPERATOR@FACILITY.COM" required>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">No marketing noise. Pure iron telemetry.</span>
+                            <button type="submit" class="bg-white text-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors flex items-center gap-2">
+                                JOIN DISPATCH <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE-IN ARTICLE READER DRAWER -->
+    <div id="reader-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="reader-drawer" class="fixed top-0 right-0 h-full w-full max-w-3xl bg-card border-l border-border z-50 flex flex-col justify-between transform translate-x-full overflow-y-auto">
+        <!-- Reader Header -->
+        <div class="sticky top-0 bg-card/95 backdrop-blur border-b border-border p-6 flex justify-between items-center z-20">
+            <div class="flex items-center gap-3">
+                <span class="w-2 h-2 bg-white"></span>
+                <span id="drawer-category" class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">FACILITY ARCHITECTURE</span>
+            </div>
+            <button onclick="closeArticleReader()" class="text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Reader Body -->
+        <div class="p-6 md:p-12 space-y-8 flex-1">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3 text-xs text-gray-500 uppercase tracking-widest">
+                    <span id="drawer-date">Feb 12, 2026</span>
+                    <span>•</span>
+                    <span id="drawer-readtime">8 Min Read</span>
+                </div>
+                <h1 id="drawer-title" class="text-2xl md:text-4xl font-black uppercase tracking-tight leading-tight">
+                    Article Title Goes Here
+                </h1>
+            </div>
+
+            <div class="aspect-video w-full bg-dark overflow-hidden border border-border">
+                <img id="drawer-img" src="" alt="Article Banner" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Full Article Content -->
+            <div id="drawer-content" class="text-gray-300 text-sm md:text-base leading-relaxed space-y-6">
+                <!-- Injected dynamically -->
+            </div>
+
+            <!-- Related Equipment Callout -->
+            <div class="border border-border p-6 bg-dark/80 mt-12">
+                <span class="text-[10px] uppercase tracking-[0.25em] font-bold text-gray-500 block mb-2">Featured In This Dispatch</span>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h4 id="drawer-gear-name" class="text-base font-bold uppercase tracking-wider text-white">Salem Cerakote Power Bar</h4>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest">Commercial Spec 20KG / 190K PSI</p>
+                    </div>
+                    <a href="products.html" class="bg-white text-black px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors inline-flex items-center gap-2">
+                        View In Arsenal <i class="fa-solid fa-arrow-up-right text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reader Footer -->
+        <div class="p-6 border-t border-border bg-dark flex justify-between items-center text-xs uppercase tracking-widest text-gray-500">
+            <span>Stackly Technical Publications</span>
+            <button onclick="closeArticleReader()" class="text-white hover:text-gray-400 font-bold">
+                Close Dispatch
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER (Shared Identical Design) -->
+    <footer class="bg-dark border-t border-border pt-20 pb-10 px-4 md:px-8">
+        <div class="max-w-screen-2xl mx-auto">
+            
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12 reveal">
+                <h3 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none max-w-lg">
+                    SUBSCRIBE FOR NEWSLETTER
+                </h3>
+                <form class="w-full lg:w-1/2 flex border-b border-border py-4" id="newsletter-form">
+                    <label class="uppercase text-xs font-bold tracking-[0.2em] w-24 text-gray-500 flex items-center">EMAIL</label>
+                    <input type="email" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="YOUR@EMAIL.COM" required>
+                    <button type="submit" class="uppercase text-xs font-bold tracking-[0.2em] hover:text-gray-400 transition-colors pl-4">
+                        SUBSCRIBE
+                    </button>
+                </form>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-border pb-12 mb-12 reveal">
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4">Powered by</p>
+                    <p class="text-sm font-bold uppercase tracking-[0.2em]">Stackly Tech</p>
+                </div>
+                
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="index.html" class="hover:text-gray-400 transition-colors">HOME</a>
+                    <a href="about.html" class="hover:text-gray-400 transition-colors">ABOUT</a>
+                    <a href="products.html" class="hover:text-gray-400 transition-colors">PRODUCTS</a>
+                </nav>
+
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="blog.html" class="text-white hover:text-gray-400 transition-colors">BLOG</a>
+                    <a href="contact.html" class="hover:text-gray-400 transition-colors">CONTACT</a>
+                </nav>
+
+                <div class="text-xs text-gray-500 uppercase tracking-widest leading-relaxed flex flex-col justify-end">
+                    <a href="mailto:contact@stackly.in" class="text-white hover:text-gray-400 transition-colors mb-2 font-bold tracking-[0.2em]">CONTACT@STACKLY.IN</a>
+                    <p class="mb-4">(555) 123-4567</p>
+                    <p>Meyyanur Bypass Road, Salem, Tamil Nadu 636004</p>
+                    <div class="flex flex-wrap gap-4 mt-6 text-base text-white">
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full text-center reveal py-6">
+                <a href="404.html" class="inline-block hover:opacity-75 transition-opacity">
+                    <img src="images/stackly logo.webp" alt="Stackly" class="h-16 md:h-28 mx-auto object-contain opacity-80">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        // Article Database
+        const articlesDB = {
+            1: {
+                category: "Facility Architecture",
+                title: "Architecting a 10,000 Sq.Ft Commercial Strength Facility: Flow, Drop Zones & Steel Density",
+                date: "Feb 12, 2026",
+                readtime: "8 Min Read",
+                img: "images/photo-1540497077202-7c8a3999166f.webp",
+                gearName: "Apex 3x3 Commercial Power Cage",
+                content: `
+                    <p class="text-lg font-medium text-white leading-relaxed">
+                        When designing large-scale strength training environments, the greatest enemy of member retention is neither equipment brand nor aesthetic styling—it is poor circulatory flow and acoustic chaos.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">1. Establishing Unobstructed Perimeter Flow</h3>
+                    <p>
+                        A minimum 6-foot corridor must exist along the outer perimeter of the free weight floor. Racks should never back onto main footpaths; instead, power cages must face inward towards open turf lanes or central accessory zones. This prevents collisions during heavy eccentric drop phases and creates designated safety buffers.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">2. Kinetic Energy Dissipation</h3>
+                    <p>
+                        Dropping a 260KG deadlift from hip height generates substantial shock waves. Standard concrete subfloors fracture over time without proper impact layering. At Stackly, we prescribe a 3-layer sandwich: a high-density 25mm acoustic underlayment, a 20mm marine-grade birch plywood deck, capped with vulcanized 30mm dead-bounce rubber tiles.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">3. Cage Density Optimization</h3>
+                    <p>
+                        To maximize throughput without crowding, maintain a center-to-center distance of 12 feet between adjacent 3x3 uprights. This provides ample lateral clearance for Olympic barbell loading while keeping plate storage horns within arm's reach of the spotter.
+                    </p>
+                `
+            },
+            2: {
+                category: "Facility Design",
+                title: "Unlock Your Facility's Potential: A Master Guide to Open Rig Layouts",
+                date: "Feb 05, 2026",
+                readtime: "6 Min Read",
+                img: "images/photo-1599058945522-28d584b6f0ff.webp",
+                gearName: "Modular 4-Bay Commercial Rig",
+                content: `
+                    <p class="text-lg font-medium text-white leading-relaxed">
+                        Commercial gym real estate costs demand higher utilization rates per square foot than ever before. Modular free-standing rigs allow multi-disciplinary training within single structural footprints.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">The Multi-Discipline Advantage</h3>
+                    <p>
+                        By combining squat cells, pull-up stations, and cantilevered storage on a single 3x3 steel spine, a 400 sq.ft footprint can simultaneously support 8 athletes in powerlifting, gymnastics, and functional endurance drills without equipment bottlenecks.
+                    </p>
+                `
+            },
+            3: {
+                category: "Steel Metallurgy",
+                title: "Volcano vs Mountain Knurl: The Biomechanics of Barbell Adhesion",
+                date: "Jan 28, 2026",
+                readtime: "5 Min Read",
+                img: "images/photo-1583454110551-21f2fa2afe61.webp",
+                gearName: "Salem Cerakote Power Bar",
+                content: `
+                    <p class="text-lg font-medium text-white leading-relaxed">
+                        The tactile interface between human palm and steel shaft determines neural confidence under submaximal and 1RM deadlifts.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">Volcano Knurling Explained</h3>
+                    <p>
+                        Unlike pointed 'mountain' knurls which puncture skin dermis and create calluses, CNC volcano knurls terminate in a microscopic concave crater. This dramatically multiplies friction contact points without sharp ridges, allowing lifters to train high volumes with chalk without hand tearing.
+                    </p>
+                `
+            },
+            4: {
+                category: "Equipment Care",
+                title: "Preventing Oxidation: How to Clean & Protect Cerakote & Hard Chrome Sleeves",
+                date: "Jan 19, 2026",
+                readtime: "4 Min Read",
+                img: "images/photo-1518310383802-640c2de311b2.webp",
+                gearName: "Salem Cerakote Power Bar",
+                content: `
+                    <p class="text-lg font-medium text-white leading-relaxed">
+                        Gym chalk is fundamentally magnesium carbonate—a hygroscopic salt that attracts ambient moisture from facility air directly onto your steel bar shafts.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">The 3-Step Cleaning Protocol</h3>
+                    <p>
+                        1. Brush thoroughly using a stiff nylon-bristle brush after every session. Never use brass or steel brushes on Cerakote coatings.<br>
+                        2. Wipe down the shaft using a microfiber towel moistened with mineral oil or 3-in-1 maintenance lubricant.<br>
+                        3. Clean sleeve seams to ensure needle bearings remain free of chalk powder intrusion.
+                    </p>
+                `
+            },
+            5: {
+                category: "Strength Science",
+                title: "Whip & Oscillation: Choosing the Right Barbell for Dynamic vs Power Movements",
+                date: "Jan 11, 2026",
+                readtime: "7 Min Read",
+                img: "images/photo-1517836357463-d25dfeac3438.webp",
+                gearName: "Competition Calibrated Bumper Set",
+                content: `
+                    <p class="text-lg font-medium text-white leading-relaxed">
+                        Barbell shaft elasticity is engineered, not accidental. Understanding tensile yield point and shaft diameter defines whether a bar behaves as a kinetic whip or an unyielding beam.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">28mm vs 29mm Diameter Differences</h3>
+                    <p>
+                        A 1mm difference represents almost a 20% variance in torsional rigidity. For Olympic snatches, 28mm allows the lifter to harness whip out of the bottom of the catch. For 300KG back squats, a rigid 29mm shaft prevents unwanted bar bounce at the sticking point.
+                    </p>
+                `
+            },
+            6: {
+                category: "Steel Metallurgy",
+                title: "11-Gauge vs 14-Gauge Steel: Why Wall Thickness Dictates Rig Longevity",
+                date: "Dec 29, 2025",
+                readtime: "6 Min Read",
+                img: "images/photo-1581009146145-b5ef050c2e1e.webp",
+                gearName: "Apex 3x3 Commercial Power Cage",
+                content: `
+                    <p class="text-lg font-medium text-white leading-relaxed">
+                        Budget gym equipment often masks thin 14-gauge (approx 1.9mm) steel behind heavy powder coats. Commercial facilities should accept nothing less than structural 11-gauge (3.0mm) tubing.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">Load Capacity & Attachment Rigidity</h3>
+                    <p>
+                        When J-cups and heavy loaded barbells drop onto uprights, 14-gauge tubing eventually bows, crimping attachment holes. 11-gauge Indian structural steel provides the necessary tensile yield strength to withstand thousands of high-velocity bar drops with zero deformation.
+                    </p>
+                `
+            },
+            7: {
+                category: "Facility Design",
+                title: "Sound & Vibration Mitigation in Multi-Story Commercial Gyms",
+                date: "Dec 14, 2025",
+                readtime: "5 Min Read",
+                img: "images/photo-1534438327276-14e5300c3a48.webp",
+                gearName: "Heavy Prowler Sled 2.0",
+                content: `
+                    <p class="text-lg font-medium text-white leading-relaxed">
+                        Opening a fitness facility above or adjacent to corporate tenancies requires professional acoustic engineering. Low-frequency ground vibrations travel directly through structural pillars.
+                    </p>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-white mt-8 mb-3">Isolation Platforms & Sub-floor Dampeners</h3>
+                    <p>
+                        Decoupling the deadlift platform from the concrete slab through air-pocket dampeners eliminates up to 94% of low-frequency structure-borne vibration, keeping landlords and neighboring businesses happy.
+                    </p>
+                `
+            }
+        };
+
+        // Open Reader Modal
+        function openArticleReader(id) {
+            const article = articlesDB[id];
+            if (!article) return;
+
+            document.getElementById('drawer-category').innerText = article.category;
+            document.getElementById('drawer-title').innerText = article.title;
+            document.getElementById('drawer-date').innerText = article.date;
+            document.getElementById('drawer-readtime').innerText = article.readtime;
+            document.getElementById('drawer-img').src = article.img;
+            document.getElementById('drawer-content').innerHTML = article.content;
+            document.getElementById('drawer-gear-name').innerText = article.gearName;
+
+            const drawer = document.getElementById('reader-drawer');
+            const backdrop = document.getElementById('reader-backdrop');
+            drawer.classList.remove('translate-x-full');
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Reader Modal
+        function closeArticleReader() {
+            const drawer = document.getElementById('reader-drawer');
+            const backdrop = document.getElementById('reader-backdrop');
+            drawer.classList.add('translate-x-full');
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('reader-backdrop').addEventListener('click', closeArticleReader);
+
+        // Filter Logic
+        const filterBtns = document.querySelectorAll('.blog-btn');
+        const articles = document.querySelectorAll('.article-card');
+        const countLabel = document.getElementById('article-count-label');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-white', 'text-black', 'border-white');
+                    b.classList.add('border-border', 'text-gray-400');
+                });
+                btn.classList.add('active', 'bg-white', 'text-black', 'border-white');
+                btn.classList.remove('border-border', 'text-gray-400');
+
+                const filter = btn.getAttribute('data-filter');
+                let visible = 0;
+
+                articles.forEach(art => {
+                    const cat = art.getAttribute('data-category');
+                    if (filter === 'all' || cat === filter) {
+                        art.style.display = 'block';
+                        visible++;
+                    } else {
+                        art.style.display = 'none';
+                    }
+                });
+
+                countLabel.innerText = `${visible} Dispatches Published`;
+            });
+        });
+
+        // Toast System
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-500"></i> ${message}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => { toast.classList.add('show'); }, 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => { toast.remove(); }, 400);
+            }, 3200);
+        }
+
+        // Newsletter Form
+        document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Subscribed to VIP Newsletter!');
+            e.target.reset();
+        });
+
+        document.getElementById('dispatch-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Welcome to The Salem Dispatch VIP intel list.');
+            e.target.reset();
+        });
+
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let menuOpen = false;
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                document.body.style.overflow = '';
+            }
+        }
+
+        mobileBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', () => { if(menuOpen) toggleMenu(); }));
+
+        // Navbar Scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('py-4');
+                header.classList.remove('py-6');
+            } else {
+                header.classList.add('py-6');
+                header.classList.remove('py-4');
+            }
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>

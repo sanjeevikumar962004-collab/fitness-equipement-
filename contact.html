@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Establish Contact | Stackly Commercial Equipment Salem</title>
+    <meta name="description" content="Connect with Stackly's facility outfitting team or schedule a visit to our Salem showroom and steel manufacturing headquarters.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#000000',
+                        card: '#0a0a0a',
+                        border: '#222222',
+                        brandAccent: '#ffffff'
+                    },
+                    fontSize: {
+                        'hero': 'clamp(3.5rem, 14vw, 13rem)',
+                        'hero-mobile': 'clamp(2.5rem, 12vw, 5rem)',
+                    },
+                    letterSpacing: {
+                        'widest-lg': '0.25em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image Hover Zoom */
+        .img-zoom {
+            overflow: hidden;
+        }
+        .img-zoom img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+            opacity: 0.75;
+        }
+        .group:hover .img-zoom img {
+            transform: scale(1.06);
+            opacity: 1;
+        }
+
+        /* Diagonal Arrow Hover */
+        .arrow-icon {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .group:hover .arrow-icon, a:hover .arrow-icon, button:hover .arrow-icon {
+            transform: translate(3px, -3px);
+        }
+
+        /* Ticker Animation */
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        /* FAQ Accordion */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, margin 0.3s ease;
+            opacity: 0;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 400px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        /* Custom Toast Notification */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .toast {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 14px 24px;
+            font-size: 0.825rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Section Spacing Utility */
+        .section-py {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+        @media (min-width: 768px) {
+            .section-py {
+                padding-top: 8rem;
+                padding-bottom: 8rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans relative bg-dark text-white">
+
+    <!-- HEADER (Shared Design) -->
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="index.html" class="hover:text-gray-400 transition-colors">Home</a>
+            <a href="about.html" class="hover:text-gray-400 transition-colors">About</a>
+            <a href="products.html" class="hover:text-gray-400 transition-colors">Products</a>
+        </nav>
+
+        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center">
+            <a href="404.html" class="inline-flex items-center">
+                <img src="images/stackly logo.webp" alt="Stackly" class="h-7 md:h-9 object-contain">
+            </a>
+        </div>
+
+        <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
+            <a href="blog.html" class="hover:text-gray-400 transition-colors">Blog</a>
+            <a href="contact.html" class="text-white border-b border-white pb-1 transition-colors">Contact</a>
+            <a href="login.html" class="hover:text-gray-400 transition-colors">Sign In</a>
+        </nav>
+
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl z-50 focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div id="mobile-menu" class="fixed inset-0 bg-dark z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <nav class="flex flex-col space-y-7 text-xl sm:text-2xl uppercase tracking-[0.2em] text-center font-semibold">
+            <a href="index.html" class="mobile-link hover:text-gray-400">Home</a>
+            <a href="about.html" class="mobile-link hover:text-gray-400">About</a>
+            <a href="products.html" class="mobile-link hover:text-gray-400">Products</a>
+            <a href="blog.html" class="mobile-link hover:text-gray-400">Blog</a>
+            <a href="contact.html" class="mobile-link text-white font-bold border-b border-white pb-1 inline-block mx-auto">Contact</a>
+            <a href="login.html" class="mobile-link hover:text-gray-400">Sign In</a>
+            <a href="signup.html" class="mobile-link hover:text-gray-400">Sign Up</a>
+        </nav>
+        <div class="mt-12 text-xs uppercase tracking-[0.2em] text-gray-500">
+            Salem, Tamil Nadu • (555) 123-4567
+        </div>
+    </div>
+
+    <!-- HERO SECTION (Centered, Balanced & Responsive) -->
+    <section class="relative min-h-[70vh] md:min-h-[80vh] w-full flex flex-col items-center justify-center overflow-hidden bg-dark px-4 md:px-8 pt-32 pb-20 border-b border-border text-center">
+        <div class="absolute inset-0 z-0">
+            <img src="images/contact hero.webp" alt="Salem Headquarters" class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/70 via-dark/40 to-dark"></div>
+        </div>
+
+        <div class="z-10 max-w-5xl mx-auto w-full flex flex-col items-center justify-center">
+            <div class="inline-flex items-center gap-3 text-xs md:text-sm uppercase tracking-[0.3em] font-bold text-gray-400 mb-6 reveal">
+                <span class="w-2 h-2 bg-white inline-block"></span>
+                Commercial Consultation & Factory Showroom
+            </div>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.88] tracking-tighter uppercase select-none drop-shadow-2xl reveal mb-8">
+                ESTABLISH<br>CONTACT
+            </h1>
+            <p class="text-gray-300 text-xs sm:text-sm md:text-base uppercase tracking-widest leading-relaxed max-w-2xl reveal mb-10">
+                Connect with our Salem fabrication engineers for custom rig architectural CAD models, commercial outfitting quotes, or schedule a physical showroom test session.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 border-t border-border/80 pt-6 text-xs uppercase tracking-[0.2em] text-gray-400 reveal">
+                <div><strong class="text-white text-base sm:text-lg block font-black">24H</strong> Response Time</div>
+                <div class="w-px h-8 bg-border"></div>
+                <div><strong class="text-white text-base sm:text-lg block font-black">FREE</strong> 3D CAD Layout</div>
+                <div class="w-px h-8 bg-border"></div>
+                <div><strong class="text-white text-base sm:text-lg block font-black">SALEM</strong> Showroom Open</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TICKER STRIP -->
+    <div class="w-full overflow-hidden bg-white text-black py-4 border-y border-border flex whitespace-nowrap select-none">
+        <div class="ticker-move text-sm md:text-base font-black uppercase tracking-[0.25em]">
+            <span>VISIT SALEM SHOWROOM • CUSTOM CAD FLOOR PLANNING • NATIONWIDE FREIGHT DISPATCH • DIRECT FACTORY PRICING • </span>
+            <span>VISIT SALEM SHOWROOM • CUSTOM CAD FLOOR PLANNING • NATIONWIDE FREIGHT DISPATCH • DIRECT FACTORY PRICING • </span>
+            <span>VISIT SALEM SHOWROOM • CUSTOM CAD FLOOR PLANNING • NATIONWIDE FREIGHT DISPATCH • DIRECT FACTORY PRICING • </span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTACT INTERACTIVE SECTION -->
+    <section class="px-4 md:px-8 section-py bg-dark">
+        <div class="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+            
+            <!-- LEFT COLUMN: DIRECT CHANNELS, HOURS & DARK MAP -->
+            <div class="lg:col-span-5 space-y-12 reveal">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-500 block mb-3">Facility Coordinates</span>
+                    <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-tight mb-6">
+                        SALEM HEADQUARTERS & FORGE
+                    </h2>
+                    <p class="text-xs sm:text-sm text-gray-400 uppercase tracking-widest leading-relaxed">
+                        Where raw Indian steel is laser-cut, machined, powder-coated, and assembled into championship-grade equipment.
+                    </p>
+                </div>
+
+                <!-- Department Desks -->
+                <div class="space-y-6 border-t border-b border-border py-8 text-xs uppercase tracking-widest">
+                    <div class="flex justify-between items-start gap-4">
+                        <div>
+                            <span class="text-gray-500 block mb-1">Commercial Outfitting Desk</span>
+                            <a href="mailto:sales@stackly.in" class="text-white hover:text-gray-400 font-bold text-sm tracking-wider transition-colors">sales@stackly.in</a>
+                        </div>
+                        <span class="text-gray-500 font-medium">B2B Facility Quotes</span>
+                    </div>
+
+                    <div class="flex justify-between items-start gap-4">
+                        <div>
+                            <span class="text-gray-500 block mb-1">Custom Rig Fabrication</span>
+                            <a href="mailto:forge@stackly.in" class="text-white hover:text-gray-400 font-bold text-sm tracking-wider transition-colors">forge@stackly.in</a>
+                        </div>
+                        <span class="text-gray-500 font-medium">CAD Engineering</span>
+                    </div>
+
+                    <div class="flex justify-between items-start gap-4">
+                        <div>
+                            <span class="text-gray-500 block mb-1">Logistics & Freight</span>
+                            <a href="mailto:freight@stackly.in" class="text-white hover:text-gray-400 font-bold text-sm tracking-wider transition-colors">freight@stackly.in</a>
+                        </div>
+                        <span class="text-gray-500 font-medium">All-India Transport</span>
+                    </div>
+                </div>
+
+                <!-- Operating Hours & Address -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs uppercase tracking-widest leading-relaxed">
+                    <div>
+                        <span class="text-gray-500 block mb-2 font-bold">Physical Address</span>
+                        <p class="text-white font-bold">Stackly Industries Ltd.</p>
+                        <p class="text-gray-400">Meyyanur Bypass Road</p>
+                        <p class="text-gray-400">Salem, Tamil Nadu 636004</p>
+                        <p class="text-gray-400 pt-2">+91 (555) 123-4567</p>
+                    </div>
+
+                    <div>
+                        <span class="text-gray-500 block mb-2 font-bold">Showroom Hours</span>
+                        <p class="text-white font-bold">Mon — Fri: 08:00 — 20:00</p>
+                        <p class="text-gray-400">Saturday: 09:00 — 18:00</p>
+                        <p class="text-gray-400">Sunday: By Appointment</p>
+                        <button onclick="document.getElementById('inquiry-type').value='showroom'; document.getElementById('project-form').scrollIntoView({behavior: 'smooth'}); showToast('Showroom visit selected on inquiry form.');" class="mt-3 text-[10px] font-bold border-b border-white pb-0.5 hover:text-gray-400 hover:border-gray-400 transition-all flex items-center gap-1">
+                            BOOK TEST SESSION <i class="fa-solid fa-arrow-up-right text-[8px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Google Maps Interactive Embed Card -->
+                <div class="border border-border p-6 bg-card relative overflow-hidden group">
+                    <div class="w-full h-72 sm:h-80 bg-dark border border-border relative overflow-hidden rounded-lg shadow-inner">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4024.1728838782633!2d78.17140487513792!3d11.682961841818727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babefef7fd970bb%3A0xe11aef1a71994f9!2sStackly!5e1!3m2!1sen!2sin!4v1788940017522!5m2!1sen!2sin" 
+                            class="w-full h-full border-0 filter invert-[0.9] hue-rotate-180 contrast-125 hover:filter-none transition-all duration-500" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            title="Stackly Salem Location Map">
+                        </iframe>
+                    </div>
+                    <div class="mt-4 flex flex-wrap justify-between items-center text-xs uppercase tracking-widest gap-2">
+                        <div class="flex items-center gap-2 text-gray-300">
+                            <i class="fa-solid fa-location-dot text-white"></i>
+                            <span>Stackly &middot; Salem, Tamil Nadu</span>
+                        </div>
+                        <a href="https://maps.google.com/?q=Stackly+Salem+Tamil+Nadu" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-400 font-bold flex items-center gap-2">
+                            OPEN IN GOOGLE MAPS <i class="fa-solid fa-arrow-up-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: ADVANCED COMMERCIAL PROJECT BUILDER FORM -->
+            <div class="lg:col-span-7 bg-card border border-border p-8 md:p-12 reveal" style="transition-delay: 150ms;">
+                <div class="border-b border-border pb-6 mb-8">
+                    <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-500 block mb-2">Architectural Desk</span>
+                    <h3 class="text-2xl md:text-3xl font-black uppercase tracking-tight">
+                        COMMERCIAL FACILITY INQUIRY & QUOTE
+                    </h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest mt-2">
+                        Complete this brief to receive a customized pricing bill of quantities and complimentary 3D facility layout.
+                    </p>
+                </div>
+
+                <form id="project-form" class="space-y-8">
+                    
+                    <!-- Row 1: Name & Phone -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="border-b border-border py-2">
+                            <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-1">Your Name *</label>
+                            <input type="text" id="contact-name" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="ARJUN SUNDARAM" pattern="^[^0-9]*$" title="Numbers are not allowed in the name field." required>
+                        </div>
+                        <div class="border-b border-border py-2">
+                            <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-1">Phone Number *</label>
+                            <input type="tel" id="contact-phone" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="9876543210" pattern="[0-9]{10}" title="Phone number must be exactly 10 digits." required>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Email & Facility Name -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="border-b border-border py-2">
+                            <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-1">Work Email *</label>
+                            <input type="email" id="contact-email" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="OPERATOR@FACILITY.COM" required>
+                        </div>
+                        <div class="border-b border-border py-2">
+                            <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-1">Gym / Project Name</label>
+                            <input type="text" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="IRON CLAN ATHLETICS">
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Facility Type Selector -->
+                    <div>
+                        <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-3">Project Scope *</label>
+                        <select id="inquiry-type" class="w-full bg-dark border border-border text-white text-xs uppercase tracking-[0.15em] px-4 py-3 appearance-none focus:outline-none cursor-pointer">
+                            <option value="commercial-small">Commercial Facility (1,000 - 3,000 Sq.Ft)</option>
+                            <option value="commercial-large">Commercial Powerlifting Facility (5,000+ Sq.Ft)</option>
+                            <option value="crossfit-box">Crossfit Box / Functional Rig Rigout</option>
+                            <option value="home-gym">Luxury Private Garage / Home Gym</option>
+                            <option value="custom-rig">Custom Rig Fabrication & Custom Powder Coating</option>
+                            <option value="bulk-weights">Bulk Free Weights & Barbell Replacement</option>
+                            <option value="showroom">Schedule Salem Showroom Visit</option>
+                        </select>
+                    </div>
+
+                    <!-- Row 4: Estimated Budget Tier Selector -->
+                    <div>
+                        <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-3">Estimated Equipment Budget</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="budget-card cursor-pointer border border-border p-3 text-center hover:border-white transition-colors has-[:checked]:border-white has-[:checked]:bg-white has-[:checked]:text-black">
+                                <input type="radio" name="budget" value="1L-3L" class="sr-only">
+                                <span class="text-xs font-bold uppercase tracking-wider block">₹1L — ₹3L</span>
+                                <span class="text-[9px] text-gray-400 block mt-1 uppercase">Starter Kit</span>
+                            </label>
+                            <label class="budget-card cursor-pointer border border-border p-3 text-center hover:border-white transition-colors has-[:checked]:border-white has-[:checked]:bg-white has-[:checked]:text-black">
+                                <input type="radio" name="budget" value="3L-10L" class="sr-only" checked>
+                                <span class="text-xs font-bold uppercase tracking-wider block">₹3L — ₹10L</span>
+                                <span class="text-[9px] text-gray-400 block mt-1 uppercase">Studio Box</span>
+                            </label>
+                            <label class="budget-card cursor-pointer border border-border p-3 text-center hover:border-white transition-colors has-[:checked]:border-white has-[:checked]:bg-white has-[:checked]:text-black">
+                                <input type="radio" name="budget" value="10L-25L" class="sr-only">
+                                <span class="text-xs font-bold uppercase tracking-wider block">₹10L — ₹25L</span>
+                                <span class="text-[9px] text-gray-400 block mt-1 uppercase">Full Facility</span>
+                            </label>
+                            <label class="budget-card cursor-pointer border border-border p-3 text-center hover:border-white transition-colors has-[:checked]:border-white has-[:checked]:bg-white has-[:checked]:text-black">
+                                <input type="radio" name="budget" value="25L+" class="sr-only">
+                                <span class="text-xs font-bold uppercase tracking-wider block">₹25L+</span>
+                                <span class="text-[9px] text-gray-400 block mt-1 uppercase">Mega Athletic</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Equipment Checklist -->
+                    <div>
+                        <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-3">Gear Categories Required</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs uppercase tracking-wider">
+                            <label class="flex items-center gap-2 border border-border p-2.5 cursor-pointer hover:border-gray-500">
+                                <input type="checkbox" name="gear" value="power-cages" checked class="accent-white">
+                                <span>Power Cages & Rigs</span>
+                            </label>
+                            <label class="flex items-center gap-2 border border-border p-2.5 cursor-pointer hover:border-gray-500">
+                                <input type="checkbox" name="gear" value="barbells" checked class="accent-white">
+                                <span>Barbells & Bumpers</span>
+                            </label>
+                            <label class="flex items-center gap-2 border border-border p-2.5 cursor-pointer hover:border-gray-500">
+                                <input type="checkbox" name="gear" value="dumbbells" class="accent-white">
+                                <span>Urethane Dumbbells</span>
+                            </label>
+                            <label class="flex items-center gap-2 border border-border p-2.5 cursor-pointer hover:border-gray-500">
+                                <input type="checkbox" name="gear" value="benches" class="accent-white">
+                                <span>Adjustable Benches</span>
+                            </label>
+                            <label class="flex items-center gap-2 border border-border p-2.5 cursor-pointer hover:border-gray-500">
+                                <input type="checkbox" name="gear" value="flooring" class="accent-white">
+                                <span>Rubber Flooring</span>
+                            </label>
+                            <label class="flex items-center gap-2 border border-border p-2.5 cursor-pointer hover:border-gray-500">
+                                <input type="checkbox" name="gear" value="custom-color" class="accent-white">
+                                <span>Custom Colorway</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Row 6: Message -->
+                    <div class="border-b border-border py-2">
+                        <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-2">Project Brief & Details</label>
+                        <textarea rows="3" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-xs resize-none" placeholder="DESCRIBE CEILING HEIGHT, CURRENT STAGE (CONSTRUCTION / RENOVATION), OR TARGET OPENING DATE..."></textarea>
+                    </div>
+
+                    <!-- Submit Button with Loading State -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-4">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">
+                            Direct factory guarantee • NDA on custom engineering
+                        </p>
+                        <button type="submit" id="submit-btn" class="bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors inline-flex items-center gap-3">
+                            <span id="btn-text">SUBMIT INQUIRY</span>
+                            <i id="btn-icon" class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODERN ANIMATED SHOWROOM & FACTORY GALLERY -->
+    <section class="px-4 md:px-8 section-py bg-card border-t border-border">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 reveal gap-6">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-400 block mb-3">Behind The Steel</span>
+                    <h2 class="text-3xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-none">
+                        THE SALEM<br>MANUFACTORY
+                    </h2>
+                </div>
+                <p class="text-xs md:text-sm text-gray-400 uppercase tracking-widest max-w-md">
+                    Take an inside look at our 25,000 sq.ft precision manufacturing plant and visitor showroom in Salem, Tamil Nadu.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Gallery 1 -->
+                <div class="group aspect-[3/4] bg-dark overflow-hidden relative border border-border reveal">
+                    <img src="images/photo-1581009146145-b5ef050c2e1e.webp" alt="CNC Laser Cutting" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest block mb-1">Station 01</span>
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-white">Fiber Laser Cutting</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery 2 -->
+                <div class="group aspect-[3/4] bg-dark overflow-hidden relative border border-border reveal" style="transition-delay: 100ms;">
+                    <img src="images/photo-1541534741688-6078c6bfb5c5.webp" alt="MIG Robotic Welding" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest block mb-1">Station 02</span>
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-white">Certified MIG Welds</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery 3 -->
+                <div class="group aspect-[3/4] bg-dark overflow-hidden relative border border-border reveal" style="transition-delay: 200ms;">
+                    <img src="images/photo-1583454110551-21f2fa2afe61.webp" alt="Cerakote Coating" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest block mb-1">Station 03</span>
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-white">Thermal Cerakote Baking</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery 4 -->
+                <div class="group aspect-[3/4] bg-dark overflow-hidden relative border border-border reveal" style="transition-delay: 300ms;">
+                    <img src="images/photo-1534438327276-14e5300c3a48.webp" alt="Testing Showroom" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest block mb-1">Station 04</span>
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-white">Salem Athlete Showroom</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ ACCORDION -->
+    <section class="px-4 md:px-8 section-py bg-dark border-t border-border">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 md:mb-16 reveal gap-6">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] font-bold text-gray-400 block mb-3">Facility Outfitting Protocols</span>
+                    <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">COMMERCIAL FAQ</h2>
+                </div>
+                <a href="mailto:contact@stackly.in" class="uppercase text-xs font-bold tracking-[0.2em] flex items-center gap-2 hover:text-gray-400 transition-all group">
+                    SPEAK WITH AN ENGINEER <i class="fa-solid fa-arrow-up-right arrow-icon"></i>
+                </a>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-4 reveal">
+                <!-- FAQ 1 -->
+                <div class="faq-item border-t border-border cursor-pointer py-6 md:py-8 group">
+                    <div class="flex justify-between items-center text-base md:text-xl font-medium uppercase tracking-wide">
+                        <h3 class="group-hover:text-gray-300 transition-colors pr-8">Do you provide complimentary 3D facility CAD modeling?</h3>
+                        <i class="fa-solid fa-plus faq-icon text-gray-500 group-hover:text-white text-base"></i>
+                    </div>
+                    <div class="faq-answer text-gray-400 text-xs md:text-sm leading-relaxed uppercase tracking-widest font-medium">
+                        <p>Yes. Send us your floor dimensions or architect blueprint. Within 48 hours, our drafting team produces rendered 3D CAD layouts showing exact rig footprint, clearance corridors, and plate storage zoning.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item border-t border-border cursor-pointer py-6 md:py-8 group">
+                    <div class="flex justify-between items-center text-base md:text-xl font-medium uppercase tracking-wide">
+                        <h3 class="group-hover:text-gray-300 transition-colors pr-8">Can our gym cages be custom powder-coated in our brand colors?</h3>
+                        <i class="fa-solid fa-plus faq-icon text-gray-500 group-hover:text-white text-base"></i>
+                    </div>
+                    <div class="faq-answer text-gray-400 text-xs md:text-sm leading-relaxed uppercase tracking-widest font-medium">
+                        <p>Absolutely. We operate our own in-house electrostatic powder coating line. We match RAL color codes and can laser-cut your facility's insignia directly into the crossmembers and nameplates.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item border-t border-border cursor-pointer py-6 md:py-8 group">
+                    <div class="flex justify-between items-center text-base md:text-xl font-medium uppercase tracking-wide">
+                        <h3 class="group-hover:text-gray-300 transition-colors pr-8">How does shipping and professional installation work?</h3>
+                        <i class="fa-solid fa-plus faq-icon text-gray-500 group-hover:text-white text-base"></i>
+                    </div>
+                    <div class="faq-answer text-gray-400 text-xs md:text-sm leading-relaxed uppercase tracking-widest font-medium">
+                        <p>We palletize all steel components in wooden shipping crates and ship via dedicated logistics carriers throughout India. For large facilities, our Salem installation crew travels on-site for bolt-down commissioning.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item border-t border-b border-border cursor-pointer py-6 md:py-8 group">
+                    <div class="flex justify-between items-center text-base md:text-xl font-medium uppercase tracking-wide">
+                        <h3 class="group-hover:text-gray-300 transition-colors pr-8">Can I test equipment before placing a commercial order?</h3>
+                        <i class="fa-solid fa-plus faq-icon text-gray-500 group-hover:text-white text-base"></i>
+                    </div>
+                    <div class="faq-answer text-gray-400 text-xs md:text-sm leading-relaxed uppercase tracking-widest font-medium">
+                        <p>Yes. Our Salem Showroom on Meyyanur Bypass Road is fully outfitted with all power cages, barbells, and machines. Contact us or select "Showroom Visit" on the inquiry form to book an appointment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (Shared Identical Design) -->
+    <footer class="bg-dark border-t border-border pt-20 pb-10 px-4 md:px-8">
+        <div class="max-w-screen-2xl mx-auto">
+            
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12 reveal">
+                <h3 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-none max-w-lg">
+                    SUBSCRIBE FOR NEWSLETTER
+                </h3>
+                <form class="w-full lg:w-1/2 flex border-b border-border py-4" id="newsletter-form">
+                    <label class="uppercase text-xs font-bold tracking-[0.2em] w-24 text-gray-500 flex items-center">EMAIL</label>
+                    <input type="email" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="YOUR@EMAIL.COM" required>
+                    <button type="submit" class="uppercase text-xs font-bold tracking-[0.2em] hover:text-gray-400 transition-colors pl-4">
+                        SUBSCRIBE
+                    </button>
+                </form>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-border pb-12 mb-12 reveal">
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4">Powered by</p>
+                    <p class="text-sm font-bold uppercase tracking-[0.2em]">Stackly Tech</p>
+                </div>
+                
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="index.html" class="hover:text-gray-400 transition-colors">HOME</a>
+                    <a href="about.html" class="hover:text-gray-400 transition-colors">ABOUT</a>
+                    <a href="products.html" class="hover:text-gray-400 transition-colors">PRODUCTS</a>
+                </nav>
+
+                <nav class="flex flex-col space-y-4 text-xs font-bold uppercase tracking-[0.2em]">
+                    <a href="blog.html" class="hover:text-gray-400 transition-colors">BLOG</a>
+                    <a href="contact.html" class="text-white hover:text-gray-400 transition-colors">CONTACT</a>
+                </nav>
+
+                <div class="text-xs text-gray-500 uppercase tracking-widest leading-relaxed flex flex-col justify-end">
+                    <a href="mailto:contact@stackly.in" class="text-white hover:text-gray-400 transition-colors mb-2 font-bold tracking-[0.2em]">CONTACT@STACKLY.IN</a>
+                    <p class="mb-4">(555) 123-4567</p>
+                    <p>Meyyanur Bypass Road, Salem, Tamil Nadu 636004</p>
+                    <div class="flex flex-wrap gap-4 mt-6 text-base text-white">
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="404.html" class="hover:text-gray-400 transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full text-center reveal py-6">
+                <a href="404.html" class="inline-block hover:opacity-75 transition-opacity">
+                    <img src="images/stackly logo.webp" alt="Stackly" class="h-16 md:h-28 mx-auto object-contain opacity-80">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        // Toast System
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-500"></i> ${message}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => { toast.classList.add('show'); }, 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => { toast.remove(); }, 400);
+            }, 3500);
+        }
+
+        // Project Form Handler with realistic loading state
+        const form = document.getElementById('project-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nameEl = document.getElementById('contact-name');
+            const phoneEl = document.getElementById('contact-phone');
+            const emailEl = document.getElementById('contact-email');
+
+            const name = nameEl.value.trim();
+            const phone = phoneEl.value.trim();
+            const email = emailEl.value.trim();
+
+            // Remove old error messages
+            document.querySelectorAll('.contact-field-error').forEach(e => e.remove());
+            [nameEl, phoneEl, emailEl].forEach(el => el.style.borderColor = '');
+
+            let valid = true;
+
+            function markError(el, msg) {
+                el.style.borderBottomColor = '#ef4444';
+                const err = document.createElement('p');
+                err.className = 'contact-field-error';
+                err.style.cssText = 'font-size:0.65rem;color:#ef4444;margin-top:4px;text-transform:uppercase;letter-spacing:0.1em;';
+                err.textContent = msg;
+                el.parentNode.appendChild(err);
+                valid = false;
+            }
+
+            if (!name || name.length < 2) markError(nameEl, 'Full name is required.');
+            if (!phone || !/^[+]?[\d\s\-().]{7,15}$/.test(phone)) markError(phoneEl, 'Enter a valid phone number.');
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) markError(emailEl, 'Enter a valid work email address.');
+
+            if (!valid) return;
+
+            btnText.innerText = "TRANSMITTING BRIEF...";
+            btnIcon.className = "fa-solid fa-circle-notch fa-spin";
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                btnText.innerText = "SUBMIT INQUIRY";
+                btnIcon.className = "fa-solid fa-arrow-up-right arrow-icon";
+                submitBtn.disabled = false;
+                form.reset();
+                document.querySelectorAll('.contact-field-error').forEach(e => e.remove());
+                showToast(`Inquiry received, ${name}! Our Salem engineering desk will call within 24h.`);
+            }, 1200);
+        });
+
+        // Newsletter Form
+        document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Subscribed to VIP Newsletter!');
+            e.target.reset();
+        });
+
+        // FAQ Accordion Logic
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                faqItems.forEach(other => {
+                    if (other !== item && other.classList.contains('active')) {
+                        other.classList.remove('active');
+                    }
+                });
+                item.classList.toggle('active');
+            });
+        });
+
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let menuOpen = false;
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+                document.body.style.overflow = '';
+            }
+        }
+
+        mobileBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', () => { if(menuOpen) toggleMenu(); }));
+
+        // Navbar Scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('py-4');
+                header.classList.remove('py-6');
+            } else {
+                header.classList.add('py-6');
+                header.classList.remove('py-4');
+            }
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>

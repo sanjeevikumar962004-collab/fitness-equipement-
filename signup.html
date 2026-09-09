@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Stackly Fitness Equipment</title>
+    <meta name="description" content="Join Stackly Fitness Equipment to browse commercial-grade gym equipment, track your orders, and get exclusive member pricing.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: '#000000',
+                        card: '#0a0a0a',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        /* Auth Input */
+        .auth-input {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ffffff;
+            transition: all 0.3s ease;
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 2.75rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .auth-input::placeholder { color: #555; }
+        .auth-input:focus {
+            border-color: rgba(255,255,255,0.35);
+            background: #161616;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+        }
+        .auth-input.input-error {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.1) !important;
+        }
+        .auth-input.input-success {
+            border-color: #22c55e !important;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.08) !important;
+        }
+        .auth-input.no-icon {
+            padding-left: 1rem;
+        }
+
+        /* Password strength meter */
+        .strength-bar-container {
+            display: flex;
+            gap: 4px;
+            margin-top: 0.4rem;
+        }
+        .strength-segment {
+            flex: 1;
+            height: 3px;
+            background: #222;
+            border-radius: 2px;
+            transition: background 0.3s ease;
+        }
+        .strength-segment.weak { background: #ef4444; }
+        .strength-segment.medium { background: #f59e0b; }
+        .strength-segment.strong { background: #22c55e; }
+
+        /* Password requirements */
+        .req-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            color: #555;
+            transition: color 0.3s;
+        }
+        .req-item.met { color: #22c55e; }
+        .req-item i { font-size: 0.65rem; }
+
+        /* Role Switcher */
+        .role-switcher {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 4px;
+            display: flex;
+            position: relative;
+        }
+        .role-pill {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            background: #ffffff;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .role-btn {
+            flex: 1;
+            padding: 0.65rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            z-index: 2;
+            position: relative;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            transition: color 0.3s;
+        }
+        .role-btn.active { color: #000000; }
+
+        /* Progress Steps */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .step-dot {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            border: 1.5px solid #333;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 800;
+            color: #555;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .step-dot.active { border-color: #fff; color: #fff; background: transparent; }
+        .step-dot.completed { border-color: #22c55e; color: #000; background: #22c55e; }
+        .step-line {
+            flex: 1; height: 1px; background: #222;
+            margin: 0 6px;
+        }
+        .step-line.completed { background: #22c55e; }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 0.95rem 2rem;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 800;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-submit:hover {
+            background: #e5e5e5;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.12);
+        }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .btn-outline {
+            width: 100%;
+            padding: 0.875rem 2rem;
+            background: transparent;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); }
+
+        /* Alert Boxes */
+        .alert-error {
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.2);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.8rem;
+            color: #fca5a5;
+        }
+        .alert-success {
+            background: rgba(34,197,94,0.08);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.8rem;
+            color: #86efac;
+        }
+
+        .error-text {
+            font-size: 0.72rem;
+            color: #ef4444;
+            margin-top: 0.35rem;
+            margin-left: 0.25rem;
+            display: none;
+        }
+        .error-text.show { display: block; }
+
+        .nav-link {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.5);
+            transition: color 0.25s;
+        }
+        .nav-link:hover { color: #fff; }
+
+        /* Left Panel */
+        .auth-left-image {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/home hero.webp');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+        }
+        .auth-left-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 100%);
+        }
+
+        .divider { height: 1px; background: rgba(255,255,255,0.07); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+
+        .spinner {
+            width: 16px; height: 16px;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            display: none;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Checkbox custom style */
+        .check-label { display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer; }
+        .check-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: white; margin-top: 2px; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+
+    <div class="flex min-h-screen">
+
+        <!-- Left Panel (hidden on mobile) -->
+        <div class="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 relative bg-black">
+            <div class="auth-left-image"></div>
+            <div class="auth-left-overlay"></div>
+
+            <div class="relative z-10">
+                <a href="404.html" class="inline-flex items-center">
+                    <img src="images/stackly logo.webp" alt="Stackly" class="h-8 object-contain">
+                </a>
+            </div>
+
+            <div class="relative z-10">
+                <div class="text-xs uppercase tracking-widest text-gray-400 mb-4 font-medium">Member Benefits</div>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3 text-sm text-gray-300">
+                        <i class="fa-solid fa-check text-white text-xs mt-1 shrink-0"></i>
+                        <span>Exclusive member-only pricing on commercial gym equipment</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-gray-300">
+                        <i class="fa-solid fa-check text-white text-xs mt-1 shrink-0"></i>
+                        <span>Real-time order tracking with delivery updates</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-gray-300">
+                        <i class="fa-solid fa-check text-white text-xs mt-1 shrink-0"></i>
+                        <span>Personalized equipment recommendations for your facility</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-gray-300">
+                        <i class="fa-solid fa-check text-white text-xs mt-1 shrink-0"></i>
+                        <span>Priority access to new product launches and bulk deals</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="relative z-10 border-t border-white/10 pt-6">
+                <div class="text-[10px] uppercase tracking-widest text-gray-600 mb-3">Trusted by</div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs text-gray-400 border border-white/10 px-3 py-1 rounded-full">Gold's Gym Partners</span>
+                    <span class="text-xs text-gray-400 border border-white/10 px-3 py-1 rounded-full">CrossFit Boxes</span>
+                    <span class="text-xs text-gray-400 border border-white/10 px-3 py-1 rounded-full">Hotels & Resorts</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Sign Up Form -->
+        <div class="w-full lg:w-7/12 flex flex-col min-h-screen bg-black">
+
+            <!-- Top Navigation -->
+            <header class="flex justify-between items-center px-6 md:px-10 py-6 border-b border-white/5">
+                <a href="404.html" class="lg:hidden inline-flex items-center">
+                    <img src="images/stackly logo.webp" alt="Stackly" class="h-6 object-contain">
+                </a>
+                <div class="hidden lg:flex items-center gap-6">
+                    <a href="products.html" class="nav-link">Products</a>
+                    <a href="blog.html" class="nav-link">Blog</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                <div class="flex items-center gap-3 ml-auto lg:ml-0">
+                    <span class="text-xs text-gray-500">Have account?</span>
+                    <a href="login.html" class="text-xs font-bold uppercase tracking-wider border border-white/15 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300">Sign In</a>
+                </div>
+            </header>
+
+            <!-- Form Area -->
+            <main class="flex-1 flex items-center justify-center px-6 md:px-12 py-10">
+                <div class="w-full max-w-lg fade-up">
+
+                    <!-- Header -->
+                    <div class="mb-7">
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-3 font-medium">New Account</div>
+                        <h2 class="text-3xl font-black uppercase tracking-tight mb-2">Join Stackly</h2>
+                        <p class="text-sm text-gray-400">Create your account and start building your dream gym today.</p>
+                    </div>
+
+                    <!-- Role Switcher -->
+                    <div class="role-switcher mb-7 fade-up delay-100">
+                        <div class="role-pill" id="role-pill" style="left:4px; width: calc(50% - 8px);"></div>
+                        <button type="button" class="role-btn active" id="btn-user" onclick="selectRole('user')">
+                            <i class="fa-solid fa-user mr-2"></i> Customer
+                        </button>
+                        <button type="button" class="role-btn" id="btn-admin" onclick="selectRole('admin')">
+                            <i class="fa-solid fa-shield-halved mr-2"></i> Admin
+                        </button>
+                    </div>
+
+                    <!-- Alerts -->
+                    <div class="alert-error mb-5 fade-up delay-100" id="error-alert" style="display:none;">
+                        <i class="fa-solid fa-triangle-exclamation mt-0.5 shrink-0"></i>
+                        <span id="error-text">Please fix the errors below.</span>
+                    </div>
+                    <div class="alert-success mb-5 fade-up delay-100" id="success-alert" style="display:none;">
+                        <i class="fa-solid fa-circle-check mt-0.5 shrink-0"></i>
+                        <span id="success-text">Account created! Redirecting...</span>
+                    </div>
+
+                    <!-- Form -->
+                    <form id="signup-form" onsubmit="handleSignup(event)" novalidate class="space-y-5 fade-up delay-200">
+                        <input type="hidden" id="signup-role" value="user">
+
+                        <!-- Name Row -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="first-name" class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">First Name</label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                                    <input type="text" id="first-name" class="auth-input" placeholder="John" autocomplete="given-name" pattern="^[^0-9]*$" title="Numbers are not allowed in the first name field." required>
+                                </div>
+                                <div class="error-text" id="fname-error"><i class="fa-solid fa-circle-xmark mr-1"></i><span id="fname-msg"></span></div>
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Last Name</label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                                    <input type="text" id="last-name" class="auth-input" placeholder="Doe" autocomplete="family-name" pattern="^[^0-9]*$" title="Numbers are not allowed in the last name field." required>
+                                </div>
+                                <div class="error-text" id="lname-error"><i class="fa-solid fa-circle-xmark mr-1"></i><span id="lname-msg"></span></div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="signup-email" class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Email Address</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                                <input type="email" id="signup-email" class="auth-input" placeholder="you@example.com" autocomplete="email">
+                            </div>
+                            <div class="error-text" id="email-error"><i class="fa-solid fa-circle-xmark mr-1"></i><span id="email-msg"></span></div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div>
+                            <label for="signup-phone" class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Phone Number</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                                <input type="tel" id="signup-phone" class="auth-input" placeholder="9876543210" autocomplete="tel" pattern="[0-9]{10}" title="Phone number must be exactly 10 digits." required>
+                            </div>
+                            <div class="error-text" id="phone-error"><i class="fa-solid fa-circle-xmark mr-1"></i><span id="phone-msg"></span></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label for="signup-password" class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Password</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                                <input type="password" id="signup-password" class="auth-input pr-11" placeholder="Create strong password" autocomplete="new-password" oninput="checkStrength(this.value)">
+                                <button type="button" onclick="togglePwd('signup-password', 'signup-pwd-icon')" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors focus:outline-none">
+                                    <i class="fa-solid fa-eye text-sm" id="signup-pwd-icon"></i>
+                                </button>
+                            </div>
+                            <div class="error-text" id="pw-error"><i class="fa-solid fa-circle-xmark mr-1"></i><span id="pw-msg"></span></div>
+                            <!-- Strength Meter -->
+                            <div class="strength-bar-container mt-2" id="strength-bars">
+                                <div class="strength-segment" id="seg1"></div>
+                                <div class="strength-segment" id="seg2"></div>
+                                <div class="strength-segment" id="seg3"></div>
+                                <div class="strength-segment" id="seg4"></div>
+                            </div>
+                            <div id="strength-text" class="text-[10px] text-gray-500 mt-1"></div>
+                            <!-- Requirements -->
+                            <div class="grid grid-cols-2 gap-1 mt-2">
+                                <div class="req-item" id="req-length"><i class="fa-solid fa-circle-dot"></i> 8+ characters</div>
+                                <div class="req-item" id="req-upper"><i class="fa-solid fa-circle-dot"></i> Uppercase letter</div>
+                                <div class="req-item" id="req-number"><i class="fa-solid fa-circle-dot"></i> Number</div>
+                                <div class="req-item" id="req-special"><i class="fa-solid fa-circle-dot"></i> Special character</div>
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div>
+                            <label for="confirm-password" class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Confirm Password</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                                <input type="password" id="confirm-password" class="auth-input pr-11" placeholder="Repeat password" autocomplete="new-password">
+                                <button type="button" onclick="togglePwd('confirm-password', 'confirm-pwd-icon')" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors focus:outline-none">
+                                    <i class="fa-solid fa-eye text-sm" id="confirm-pwd-icon"></i>
+                                </button>
+                            </div>
+                            <div class="error-text" id="confirm-error"><i class="fa-solid fa-circle-xmark mr-1"></i><span id="confirm-msg"></span></div>
+                        </div>
+
+                        <!-- Terms -->
+                        <div>
+                            <label class="check-label">
+                                <input type="checkbox" id="terms-check">
+                                <span class="text-xs text-gray-400 leading-relaxed">I agree to the <a href="404.html" class="text-white underline">Terms of Service</a> and <a href="404.html" class="text-white underline">Privacy Policy</a> of Stackly Fitness Equipment.</span>
+                            </label>
+                            <div class="error-text" id="terms-error"><i class="fa-solid fa-circle-xmark mr-1"></i><span id="terms-msg"></span></div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn-submit" id="signup-btn">
+                            <span class="spinner" id="signup-spinner"></span>
+                            <span id="signup-btn-text">Create Account</span>
+                            <i class="fa-solid fa-arrow-right text-xs" id="signup-btn-icon"></i>
+                        </button>
+                    </form>
+
+                    <div class="mt-6 text-center text-xs text-gray-500 fade-up delay-300">
+                        Already have an account?
+                        <a href="login.html" class="text-white font-bold hover:underline ml-1">Sign In</a>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="px-6 md:px-10 py-5 border-t border-white/5 flex flex-wrap justify-between items-center gap-3">
+                <p class="text-[10px] text-gray-600 uppercase tracking-widest">&copy; 2026 Stackly Fitness Equipment. Meyyanur Bypass Road, Salem, Tamil Nadu 636004.</p>
+                <div class="flex gap-4">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        let currentRole = 'user';
+
+        function selectRole(role) {
+            currentRole = role;
+            document.getElementById('signup-role').value = role;
+            const pill = document.getElementById('role-pill');
+            const btnUser = document.getElementById('btn-user');
+            const btnAdmin = document.getElementById('btn-admin');
+            if (role === 'user') {
+                pill.style.left = '4px';
+                pill.style.width = 'calc(50% - 8px)';
+                btnUser.classList.add('active');
+                btnAdmin.classList.remove('active');
+            } else {
+                pill.style.left = 'calc(50% + 4px)';
+                pill.style.width = 'calc(50% - 8px)';
+                btnAdmin.classList.add('active');
+                btnUser.classList.remove('active');
+            }
+        }
+
+        function togglePwd(id, iconId) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        function validatePhone(phone) {
+            return /^[+]?[\d\s\-().]{7,15}$/.test(phone);
+        }
+
+        function showErr(inputId, errId, msgId, msg) {
+            const el = document.getElementById(inputId);
+            const err = document.getElementById(errId);
+            if (msgId) document.getElementById(msgId).textContent = msg;
+            if (el) { el.classList.add('input-error'); el.classList.remove('input-success'); }
+            if (err) err.classList.add('show');
+        }
+        function showOk(inputId, errId) {
+            const el = document.getElementById(inputId);
+            const err = document.getElementById(errId);
+            if (el) { el.classList.remove('input-error'); el.classList.add('input-success'); }
+            if (err) err.classList.remove('show');
+        }
+
+        // Password strength
+        function checkStrength(val) {
+            const segs = ['seg1','seg2','seg3','seg4'];
+            const hasLength = val.length >= 8;
+            const hasUpper = /[A-Z]/.test(val);
+            const hasNumber = /[0-9]/.test(val);
+            const hasSpecial = /[^a-zA-Z0-9]/.test(val);
+
+            // Update req items
+            document.getElementById('req-length').className = 'req-item' + (hasLength ? ' met' : '');
+            document.getElementById('req-upper').className = 'req-item' + (hasUpper ? ' met' : '');
+            document.getElementById('req-number').className = 'req-item' + (hasNumber ? ' met' : '');
+            document.getElementById('req-special').className = 'req-item' + (hasSpecial ? ' met' : '');
+
+            const score = [hasLength, hasUpper, hasNumber, hasSpecial].filter(Boolean).length;
+            const classes = ['', 'weak', 'medium', 'medium', 'strong'];
+            const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+            const textColors = ['', '#ef4444', '#f59e0b', '#f59e0b', '#22c55e'];
+
+            segs.forEach((id, i) => {
+                const seg = document.getElementById(id);
+                seg.className = 'strength-segment' + (i < score ? ' ' + classes[score] : '');
+            });
+
+            const st = document.getElementById('strength-text');
+            if (val.length > 0) {
+                st.textContent = labels[score];
+                st.style.color = textColors[score];
+            } else {
+                st.textContent = '';
+            }
+        }
+
+        // Live validations
+        const fields = [
+            { id: 'first-name', errId: 'fname-error', msgId: 'fname-msg', validate: v => v.trim().length < 2 ? 'First name must be at least 2 characters.' : null },
+            { id: 'last-name', errId: 'lname-error', msgId: 'lname-msg', validate: v => v.trim().length < 2 ? 'Last name must be at least 2 characters.' : null },
+            { id: 'signup-email', errId: 'email-error', msgId: 'email-msg', validate: v => !v.trim() ? 'Email is required.' : !validateEmail(v.trim()) ? 'Enter a valid email.' : null },
+            { id: 'signup-phone', errId: 'phone-error', msgId: 'phone-msg', validate: v => !v.trim() ? 'Phone number is required.' : !validatePhone(v.trim()) ? 'Enter a valid phone number.' : null },
+        ];
+
+        fields.forEach(f => {
+            const el = document.getElementById(f.id);
+            if (!el) return;
+            el.addEventListener('blur', () => {
+                const err = f.validate(el.value);
+                if (err) showErr(f.id, f.errId, f.msgId, err);
+                else showOk(f.id, f.errId);
+            });
+            el.addEventListener('input', () => {
+                if (el.classList.contains('input-error')) {
+                    const err = f.validate(el.value);
+                    if (!err) showOk(f.id, f.errId);
+                }
+            });
+        });
+
+        document.getElementById('signup-password').addEventListener('blur', function() {
+            if (!this.value) showErr('signup-password','pw-error','pw-msg','Password is required.');
+            else if (this.value.length < 8) showErr('signup-password','pw-error','pw-msg','Password must be at least 8 characters.');
+            else showOk('signup-password','pw-error');
+        });
+
+        document.getElementById('confirm-password').addEventListener('blur', function() {
+            const pw = document.getElementById('signup-password').value;
+            if (!this.value) showErr('confirm-password','confirm-error','confirm-msg','Please confirm your password.');
+            else if (this.value !== pw) showErr('confirm-password','confirm-error','confirm-msg','Passwords do not match.');
+            else showOk('confirm-password','confirm-error');
+        });
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const fname = document.getElementById('first-name').value.trim();
+            const lname = document.getElementById('last-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const phone = document.getElementById('signup-phone').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirmPw = document.getElementById('confirm-password').value;
+            const terms = document.getElementById('terms-check').checked;
+            const role = currentRole;
+
+            let valid = true;
+
+            if (fname.length < 2) { showErr('first-name','fname-error','fname-msg','First name is required.'); valid = false; } else showOk('first-name','fname-error');
+            if (lname.length < 2) { showErr('last-name','lname-error','lname-msg','Last name is required.'); valid = false; } else showOk('last-name','lname-error');
+            if (!email) { showErr('signup-email','email-error','email-msg','Email is required.'); valid = false; }
+            else if (!validateEmail(email)) { showErr('signup-email','email-error','email-msg','Enter a valid email.'); valid = false; }
+            else showOk('signup-email','email-error');
+            if (!phone) { showErr('signup-phone','phone-error','phone-msg','Phone is required.'); valid = false; }
+            else if (!validatePhone(phone)) { showErr('signup-phone','phone-error','phone-msg','Enter a valid phone number.'); valid = false; }
+            else showOk('signup-phone','phone-error');
+            if (!password || password.length < 8) { showErr('signup-password','pw-error','pw-msg','Password must be at least 8 characters.'); valid = false; } else showOk('signup-password','pw-error');
+            if (!confirmPw) { showErr('confirm-password','confirm-error','confirm-msg','Please confirm your password.'); valid = false; }
+            else if (confirmPw !== password) { showErr('confirm-password','confirm-error','confirm-msg','Passwords do not match.'); valid = false; }
+            else showOk('confirm-password','confirm-error');
+            if (!terms) {
+                document.getElementById('terms-error').classList.add('show');
+                document.getElementById('terms-msg').textContent = 'You must accept the Terms of Service.';
+                valid = false;
+            } else {
+                document.getElementById('terms-error').classList.remove('show');
+            }
+
+            if (!valid) {
+                const errAlert = document.getElementById('error-alert');
+                document.getElementById('error-text').textContent = 'Please correct all highlighted errors before creating your account.';
+                errAlert.style.display = 'flex';
+                setTimeout(() => errAlert.style.display = 'none', 6000);
+                return;
+            }
+
+            document.getElementById('error-alert').style.display = 'none';
+
+            // Loading state
+            const btn = document.getElementById('signup-btn');
+            btn.disabled = true;
+            document.getElementById('signup-spinner').style.display = 'block';
+            document.getElementById('signup-btn-text').textContent = 'Creating Account...';
+            document.getElementById('signup-btn-icon').style.display = 'none';
+
+            // Store data
+            localStorage.setItem('stackly_user_email', email);
+            localStorage.setItem('stackly_user_name', fname + ' ' + lname);
+            localStorage.setItem('stackly_user_role', role);
+            localStorage.setItem('stackly_user_phone', phone);
+
+            const successAlert = document.getElementById('success-alert');
+            document.getElementById('success-text').textContent = `Account created! Welcome to Stackly, ${fname}!`;
+            successAlert.style.display = 'flex';
+
+            setTimeout(() => {
+                window.location.href = `login.html?email=${encodeURIComponent(email)}&msg=${encodeURIComponent('Account created! Please sign in to continue.')}`;
+            }, 1600);
+        }
+    </script>
+</body>
+</html>

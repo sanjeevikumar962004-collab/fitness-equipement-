@@ -160,7 +160,7 @@
 <body class="antialiased font-sans relative bg-dark text-white">
 
     <!-- HEADER (Shared Design) -->
-    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-5 bg-black border-b border-white/10 text-white transition-all duration-300 shadow-lg" id="header">
         <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
             <a href="index.html" class="hover:text-gray-400 transition-colors">Home</a>
             <a href="about.html" class="hover:text-gray-400 transition-colors">About</a>
@@ -176,21 +176,13 @@
         <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
             <a href="blog.html" class="hover:text-gray-400 transition-colors">Blog</a>
             <a href="contact.html" class="hover:text-gray-400 transition-colors">Contact</a>
-            <button id="cart-toggle-btn" class="hover:text-gray-400 transition-colors relative group focus:outline-none" aria-label="Open Shopping Cart">
-                <i class="fa-solid fa-shopping-cart text-base"></i>
-                <span id="cart-count-badge" class="absolute -top-2 -right-3 text-[9px] font-bold bg-white text-black rounded-full px-1.5 py-0.5 leading-none">2</span>
-            </button>
+            <a href="login.html" class="hover:text-gray-400 transition-colors">Sign In</a>
+            <a href="signup.html" class="border border-white/40 px-3 py-1.5 rounded-full hover:bg-white hover:text-black transition-all duration-300 text-[10px]">Sign Up</a>
         </nav>
 
-        <div class="flex items-center gap-4 lg:hidden z-50">
-            <button id="cart-toggle-btn-mob" class="hover:text-gray-400 transition-colors relative focus:outline-none mr-2" aria-label="Open Cart">
-                <i class="fa-solid fa-shopping-cart text-lg"></i>
-                <span id="cart-count-badge-mob" class="absolute -top-2 -right-3 text-[9px] font-bold bg-white text-black rounded-full px-1.5 py-0.5 leading-none">2</span>
-            </button>
-            <button id="mobile-menu-btn" class="text-2xl focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl text-white hover:text-gray-300 focus:outline-none transition-colors ml-auto z-50" aria-label="Toggle Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </header>
 
     <!-- MOBILE MENU OVERLAY -->
@@ -317,7 +309,7 @@
                         </div>
                         <!-- Hover Quick Action -->
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(1, 'Salem Cerakote Power Bar', 18500, 'images/salem power bar.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(1)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors" title="Quick Specs">
@@ -348,7 +340,7 @@
                             Salem Spec
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(2, 'Apex 3x3 Power Cage', 78000, 'images/Apex 3x3 Power Cage.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(2)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -376,7 +368,7 @@
                             Competition Spec
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(3, '140kg Calibrated Bumper Set', 42000, 'images/Calibrated Bumper Set.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(3)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -404,7 +396,7 @@
                             Zero Gap
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(4, 'Commercial Incline Bench', 24500, 'images/Incline Utility Bench.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(4)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -432,7 +424,7 @@
                             Urethane Head
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(5, 'Pro Urethane Dumbbell Set (2.5-25kg)', 65000, 'images/free weights.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(5)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -460,7 +452,7 @@
                             Commercial Rig
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(6, 'Modular 4-Bay Commercial Rig', 145000, 'images/Modular 4-Bay Rig.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(6)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -488,7 +480,7 @@
                             Belt-Driven
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(7, 'Iron Beast Air Bike Pro', 48000, 'images/Iron Beast Air Bike.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(7)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -516,7 +508,7 @@
                             Turf Ready
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(8, 'Heavy Prowler Sled 2.0', 16500, 'images/Heavy Prowler Sled.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(8)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -544,7 +536,7 @@
                             Single Piece Cast
                         </div>
                         <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button onclick="event.stopPropagation(); addToCart(9, 'Competition Kettlebell (16KG)', 3200, 'images/conditioning.webp')" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
+                            <button onclick="event.stopPropagation(); window.location.href='404.html'" class="bg-white text-black text-xs font-bold uppercase tracking-widest px-5 py-3 hover:bg-gray-200 transition-colors">
                                 Add to Cart
                             </button>
                             <button onclick="event.stopPropagation(); openQuickView(9)" class="bg-black/90 border border-white text-white text-xs font-bold uppercase tracking-widest px-4 py-3 hover:bg-white hover:text-black transition-colors">
@@ -723,7 +715,7 @@
                     </div>
 
                     <div class="flex gap-4">
-                        <button id="qv-add-btn" class="w-full bg-white text-black py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors flex items-center justify-center gap-3">
+                        <button id="qv-add-btn" onclick="window.location.href='404.html'" class="w-full bg-white text-black py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors flex items-center justify-center gap-3">
                             <i class="fa-solid fa-cart-shopping"></i> Add to Order
                         </button>
                     </div>
@@ -982,16 +974,9 @@
             }, 3200);
         }
 
-        // Add item to Cart
+        // Add item to Cart - navigates to 404
         function addToCart(id, name, price, image) {
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ id, name, price, qty: 1, image });
-            }
-            updateCartUI();
-            showToast(`Added ${name} to order.`);
+            window.location.href = '404.html';
         }
 
         // Remove item from Cart
@@ -1019,12 +1004,17 @@
             const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
             
             // Badges
-            document.getElementById('cart-count-badge').innerText = count;
-            document.getElementById('cart-count-badge-mob').innerText = count;
-            document.getElementById('cart-drawer-count').innerText = count;
-            document.getElementById('cart-subtotal-price').innerText = `₹${total.toLocaleString('en-IN')}`;
+            const b1 = document.getElementById('cart-count-badge');
+            if (b1) b1.innerText = count;
+            const b2 = document.getElementById('cart-count-badge-mob');
+            if (b2) b2.innerText = count;
+            const b3 = document.getElementById('cart-drawer-count');
+            if (b3) b3.innerText = count;
+            const subtotal = document.getElementById('cart-subtotal-price');
+            if (subtotal) subtotal.innerText = `₹${total.toLocaleString('en-IN')}`;
 
             const container = document.getElementById('cart-items-container');
+            if (!container) return;
             if (cart.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-12 text-gray-500">
@@ -1058,24 +1048,28 @@
         const cartDrawer = document.getElementById('cart-drawer');
         const cartBackdrop = document.getElementById('cart-backdrop');
         function openCart() {
+            if (!cartDrawer || !cartBackdrop) return;
             cartDrawer.classList.remove('translate-x-full');
             cartBackdrop.classList.remove('opacity-0', 'pointer-events-none');
             document.body.style.overflow = 'hidden';
         }
         function closeCart() {
+            if (!cartDrawer || !cartBackdrop) return;
             cartDrawer.classList.add('translate-x-full');
             cartBackdrop.classList.add('opacity-0', 'pointer-events-none');
             document.body.style.overflow = '';
         }
 
-        document.getElementById('cart-toggle-btn').addEventListener('click', openCart);
-        document.getElementById('cart-toggle-btn-mob').addEventListener('click', openCart);
-        document.getElementById('cart-close-btn').addEventListener('click', closeCart);
-        cartBackdrop.addEventListener('click', closeCart);
+        const cartToggleBtn = document.getElementById('cart-toggle-btn');
+        if (cartToggleBtn) cartToggleBtn.addEventListener('click', openCart);
+        const cartToggleBtnMob = document.getElementById('cart-toggle-btn-mob');
+        if (cartToggleBtnMob) cartToggleBtnMob.addEventListener('click', openCart);
+        const cartCloseBtn = document.getElementById('cart-close-btn');
+        if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
+        if (cartBackdrop) cartBackdrop.addEventListener('click', closeCart);
 
         function checkoutCart() {
-            closeCart();
-            showToast('Freight quotation submitted! Our Salem logistics desk will contact you.');
+            window.location.href = '404.html';
         }
 
         // Quick View Modal
@@ -1095,8 +1089,7 @@
             document.getElementById('qv-finish').innerText = product.finish;
 
             document.getElementById('qv-add-btn').onclick = () => {
-                addToCart(product.id, product.name, product.price, product.image);
-                closeQuickView();
+                window.location.href = '404.html';
             };
 
             const modal = document.getElementById('quickview-modal');
@@ -1254,12 +1247,12 @@
         // Navbar Scroll
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('py-4');
-                header.classList.remove('py-6');
+            if (window.scrollY > 30) {
+                header.classList.add('py-3.5', 'shadow-2xl');
+                header.classList.remove('py-5');
             } else {
-                header.classList.add('py-6');
-                header.classList.remove('py-4');
+                header.classList.add('py-5');
+                header.classList.remove('py-3.5', 'shadow-2xl');
             }
         });
 

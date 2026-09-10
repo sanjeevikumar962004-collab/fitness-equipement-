@@ -157,6 +157,31 @@
             padding: 1rem 0; border-bottom: 1px solid var(--border);
         }
         .wish-item:last-child { border-bottom: none; }
+        @media (max-width: 640px) {
+            .wish-item {
+                flex-wrap: wrap;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            .wish-item-info {
+                min-width: 0;
+                flex: 1 1 calc(100% - 5.5rem);
+            }
+            .wish-item-actions {
+                width: 100%;
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center;
+                gap: 0.5rem;
+                margin-top: 0.25rem;
+            }
+            .wish-item-actions .btn-primary {
+                flex: 1;
+                justify-content: center;
+                text-align: center;
+                white-space: nowrap;
+            }
+        }
 
         /* Input */
         .form-input {
@@ -562,36 +587,36 @@
                     <div class="space-y-0" id="wishlist-container">
                         <div class="wish-item gap-4">
                             <img src="images/Iron Beast Air Bike.webp" class="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-white/10" alt="Treadmill">
-                            <div class="flex-1 min-w-0">
+                            <div class="wish-item-info flex-1 min-w-0">
                                 <div class="text-sm font-bold truncate">Commercial Treadmill X12 Pro</div>
-                                <div class="text-xs text-gray-500 mt-0.5">Cardio Equipment · Salem Warehouse</div>
+                                <div class="text-xs text-gray-500 mt-0.5 truncate">Cardio Equipment · Salem Warehouse</div>
                                 <div class="text-sm font-black mt-1">₹1,85,000</div>
                             </div>
-                            <div class="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+                            <div class="wish-item-actions flex flex-col sm:flex-row gap-2 flex-shrink-0">
                                 <button class="btn-primary text-xs py-1.5 px-3" onclick="window.location.href='404.html'"><i class="fa-solid fa-cart-plus"></i> Order Now</button>
                                 <button class="btn-ghost text-xs py-1.5 px-2.5" onclick="removeWishlistItem(this)"><i class="fa-solid fa-trash-can"></i></button>
                             </div>
                         </div>
                         <div class="wish-item gap-4">
                             <img src="images/Apex 3x3 Power Cage.webp" class="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-white/10" alt="Weight Rack">
-                            <div class="flex-1 min-w-0">
+                            <div class="wish-item-info flex-1 min-w-0">
                                 <div class="text-sm font-bold truncate">Heavy Duty Power Squat Rack</div>
-                                <div class="text-xs text-gray-500 mt-0.5">Strength Training · In Stock (Salem)</div>
+                                <div class="text-xs text-gray-500 mt-0.5 truncate">Strength Training · In Stock (Salem)</div>
                                 <div class="text-sm font-black mt-1">₹35,000</div>
                             </div>
-                            <div class="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+                            <div class="wish-item-actions flex flex-col sm:flex-row gap-2 flex-shrink-0">
                                 <button class="btn-primary text-xs py-1.5 px-3" onclick="window.location.href='404.html'"><i class="fa-solid fa-cart-plus"></i> Order Now</button>
                                 <button class="btn-ghost text-xs py-1.5 px-2.5" onclick="removeWishlistItem(this)"><i class="fa-solid fa-trash-can"></i></button>
                             </div>
                         </div>
                         <div class="wish-item gap-4">
                             <img src="images/Modular 4-Bay Rig.webp" class="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-white/10" alt="Cable Machine">
-                            <div class="flex-1 min-w-0">
+                            <div class="wish-item-info flex-1 min-w-0">
                                 <div class="text-sm font-bold truncate">Dual Cable Cross Machine Elite</div>
-                                <div class="text-xs text-gray-500 mt-0.5">Strength Training · Commercial Build</div>
+                                <div class="text-xs text-gray-500 mt-0.5 truncate">Strength Training · Commercial Build</div>
                                 <div class="text-sm font-black mt-1">₹2,45,000</div>
                             </div>
-                            <div class="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+                            <div class="wish-item-actions flex flex-col sm:flex-row gap-2 flex-shrink-0">
                                 <button class="btn-primary text-xs py-1.5 px-3" onclick="window.location.href='404.html'"><i class="fa-solid fa-cart-plus"></i> Pre-order</button>
                                 <button class="btn-ghost text-xs py-1.5 px-2.5" onclick="removeWishlistItem(this)"><i class="fa-solid fa-trash-can"></i></button>
                             </div>
@@ -641,7 +666,7 @@
                                 <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">22 km/h</span>
                             </div>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                        <div class="pt-4 mt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-xs text-gray-500">Unit Price</div>
                                 <div class="text-base font-black text-white">₹1,24,000</div>
@@ -667,7 +692,7 @@
                                 <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Counterbalanced</span>
                             </div>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                        <div class="pt-4 mt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-xs text-gray-500">Unit Price</div>
                                 <div class="text-base font-black text-white">₹3,45,000</div>
@@ -693,7 +718,7 @@
                                 <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Quick-Dial</span>
                             </div>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                        <div class="pt-4 mt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-xs text-gray-500">Unit Price</div>
                                 <div class="text-base font-black text-white">₹42,000</div>
@@ -719,7 +744,7 @@
                                 <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">180kg Bumpers</span>
                             </div>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                        <div class="pt-4 mt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-xs text-gray-500">Unit Price</div>
                                 <div class="text-base font-black text-white">₹68,500</div>
@@ -745,7 +770,7 @@
                                 <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">PM5 Bluetooth</span>
                             </div>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                        <div class="pt-4 mt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-xs text-gray-500">Unit Price</div>
                                 <div class="text-base font-black text-white">₹88,000</div>
@@ -771,7 +796,7 @@
                                 <span class="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-400">Ozone Filter</span>
                             </div>
                         </div>
-                        <div class="pt-4 mt-3 border-t border-white/5 flex items-center justify-between">
+                        <div class="pt-4 mt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-2">
                             <div>
                                 <div class="text-xs text-gray-500">Unit Price</div>
                                 <div class="text-base font-black text-white">₹2,15,000</div>
@@ -1157,24 +1182,51 @@
 
         // Load user info
         document.addEventListener('DOMContentLoaded', () => {
-            const email = localStorage.getItem('stackly_user_email');
-            const name = localStorage.getItem('stackly_user_name');
+            const email = localStorage.getItem('stackly_user_email') || localStorage.getItem('userEmail') || localStorage.getItem('email');
+            let name = localStorage.getItem('stackly_user_name') || localStorage.getItem('name');
+            let phone = localStorage.getItem('stackly_user_phone');
+
+            // Look up in registered users dictionary if name is missing or default placeholder
+            if ((!name || name === 'John Doe') && email) {
+                try {
+                    const users = JSON.parse(localStorage.getItem('stackly_registered_users') || '{}');
+                    const registered = users[email.toLowerCase()];
+                    if (registered && registered.name) {
+                        name = registered.name;
+                        if (!phone && registered.phone) phone = registered.phone;
+                        localStorage.setItem('stackly_user_name', name);
+                    }
+                } catch (err) {}
+            }
+
+            // If name is still missing or default placeholder, derive intelligently from email
+            if ((!name || name === 'John Doe') && email) {
+                const local = email.split('@')[0].replace(/[._-]/g, ' ');
+                name = local.split(' ').filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                localStorage.setItem('stackly_user_name', name);
+            }
+
+            if (!name) {
+                name = 'Member';
+            }
+
             if (email) {
                 document.getElementById('sidebar-email').textContent = email;
                 if (document.getElementById('p-email')) document.getElementById('p-email').value = email;
             }
-            if (name) {
-                document.getElementById('sidebar-name').textContent = name;
-                const first = name.split(' ')[0];
-                const last = name.split(' ').slice(1).join(' ');
-                document.getElementById('welcome-name').textContent = first || 'Champion';
-                const initials = (first[0] || '') + (last[0] || '');
-                document.getElementById('user-avatar-sidebar').textContent = initials.toUpperCase() || 'JD';
-                document.getElementById('user-avatar-top').textContent = initials.toUpperCase() || 'JD';
-                if (document.getElementById('p-fname')) document.getElementById('p-fname').value = first;
-                if (document.getElementById('p-lname')) document.getElementById('p-lname').value = last;
-            }
-            const phone = localStorage.getItem('stackly_user_phone');
+
+            document.getElementById('sidebar-name').textContent = name;
+            const parts = name.split(' ').filter(Boolean);
+            const first = parts[0] || 'Member';
+            const last = parts.slice(1).join(' ');
+            document.getElementById('welcome-name').textContent = first;
+
+            const initials = ((parts[0] ? parts[0][0] : '') + (parts[1] ? parts[1][0] : (parts[0] && parts[0].length > 1 ? parts[0][1] : ''))).toUpperCase() || 'ST';
+            document.getElementById('user-avatar-sidebar').textContent = initials;
+            document.getElementById('user-avatar-top').textContent = initials;
+
+            if (document.getElementById('p-fname')) document.getElementById('p-fname').value = first;
+            if (document.getElementById('p-lname')) document.getElementById('p-lname').value = last;
             if (phone && document.getElementById('p-phone')) document.getElementById('p-phone').value = phone;
         });
 
@@ -1203,13 +1255,32 @@
 
             if (!valid) return;
 
-            localStorage.setItem('stackly_user_name', fname + ' ' + lname);
+            const fullName = fname + ' ' + lname;
+            localStorage.setItem('stackly_user_name', fullName);
             localStorage.setItem('stackly_user_email', email);
             localStorage.setItem('stackly_user_phone', phone);
 
-            document.getElementById('sidebar-name').textContent = fname + ' ' + lname;
+            // Update registered accounts map
+            try {
+                const users = JSON.parse(localStorage.getItem('stackly_registered_users') || '{}');
+                users[email.toLowerCase()] = {
+                    name: fullName,
+                    fname: fname,
+                    lname: lname,
+                    email: email,
+                    phone: phone,
+                    role: localStorage.getItem('stackly_user_role') || 'user'
+                };
+                localStorage.setItem('stackly_registered_users', JSON.stringify(users));
+            } catch (err) {}
+
+            document.getElementById('sidebar-name').textContent = fullName;
             document.getElementById('sidebar-email').textContent = email;
             document.getElementById('welcome-name').textContent = fname;
+
+            const initials = ((fname ? fname[0] : '') + (lname ? lname[0] : '')).toUpperCase() || 'ST';
+            document.getElementById('user-avatar-sidebar').textContent = initials;
+            document.getElementById('user-avatar-top').textContent = initials;
 
             const succ = document.getElementById('profile-success');
             succ.classList.remove('hidden');

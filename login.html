@@ -307,7 +307,7 @@
         <div class="w-full lg:w-1/2 flex flex-col min-h-screen bg-black">
 
             <!-- Top Navigation -->
-            <header class="flex justify-between items-center px-6 md:px-10 py-6 border-b border-white/5">
+            <header class="sticky top-0 bg-black z-30 flex justify-between items-center px-6 md:px-10 py-5 border-b border-white/10">
                 <a href="index.html" class="lg:hidden inline-flex items-center">
                     <img src="images/stackly logo.webp" alt="Stackly" class="h-6 object-contain">
                 </a>
@@ -318,7 +318,7 @@
                     <a href="about.html" class="nav-link">About</a>
                 </div>
                 <div class="flex items-center gap-3 ml-auto lg:ml-0">
-                    <span class="text-xs text-gray-500">No account?</span>
+                    <span class="text-xs text-gray-500 hidden sm:inline">No account?</span>
                     <a href="signup.html" class="text-xs font-bold uppercase tracking-wider border border-white/15 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300">Sign Up</a>
                 </div>
             </header>
@@ -572,6 +572,37 @@
             // Store session
             localStorage.setItem('stackly_user_email', email);
             localStorage.setItem('stackly_user_role', role);
+
+            // Resolve and store user name
+            let userName = '';
+            let userPhone = '';
+            try {
+                const users = JSON.parse(localStorage.getItem('stackly_registered_users') || '{}');
+                const registered = users[email.toLowerCase()];
+                if (registered && registered.name) {
+                    userName = registered.name;
+                    if (registered.phone) userPhone = registered.phone;
+                }
+            } catch (err) {}
+
+            if (!userName) {
+                const storedEmail = localStorage.getItem('stackly_user_email');
+                const storedName = localStorage.getItem('stackly_user_name');
+                if (storedEmail && storedEmail.toLowerCase() === email.toLowerCase() && storedName) {
+                    userName = storedName;
+                }
+            }
+
+            if (!userName) {
+                // Derive name from email (e.g. john.doe@example.com -> John Doe)
+                const local = email.split('@')[0].replace(/[._-]/g, ' ');
+                userName = local.split(' ').filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            }
+
+            localStorage.setItem('stackly_user_name', userName || 'Member');
+            if (userPhone) {
+                localStorage.setItem('stackly_user_phone', userPhone);
+            }
 
             const successAlert = document.getElementById('success-alert');
             document.getElementById('success-text').textContent = `Welcome back! Redirecting to your ${role === 'admin' ? 'admin' : 'customer'} dashboard...`;

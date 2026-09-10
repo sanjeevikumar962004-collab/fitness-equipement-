@@ -164,7 +164,7 @@
 </head>
 <body class="antialiased font-sans relative">
 
-    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-5 bg-black border-b border-white/10 text-white transition-all duration-300 shadow-lg" id="header">
         <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
             <a href="index.html" class="text-white border-b border-white pb-1 transition-colors">Home</a>
             <a href="about.html" class="hover:text-gray-400 transition-colors">About</a>
@@ -184,7 +184,7 @@
             <a href="signup.html" class="border border-white/40 px-3 py-1.5 rounded-full hover:bg-white hover:text-black transition-all duration-300 text-[10px]">Sign Up</a>
         </nav>
 
-        <button id="mobile-menu-btn" class="lg:hidden text-2xl z-50 focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl text-white hover:text-gray-300 focus:outline-none transition-colors ml-auto z-50" aria-label="Toggle Menu">
             <i class="fa-solid fa-bars"></i>
         </button>
     </header>
@@ -323,7 +323,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                 <!-- Product 1 -->
                 <div class="group reveal">
-                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="showToast('Added Salem Power Bar to cart!')">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="window.location.href='404.html'">
                         <img src="images/salem power bar.webp" alt="Olympic Barbell" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
                         <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
                         <div class="absolute top-4 left-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1">Best Seller</div>
@@ -334,7 +334,7 @@
                     </div>
                     <div class="flex justify-between items-start">
                         <div>
-                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-2 flex items-center gap-2 cursor-pointer hover:text-gray-300">
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-2 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="window.location.href='404.html'">
                                 Salem Power Bar <i class="fa-solid fa-arrow-up-right text-sm"></i>
                             </h3>
                             <p class="text-sm text-gray-500 uppercase tracking-widest">20KG / Cerakote</p>
@@ -345,7 +345,7 @@
 
                 <!-- Product 2 -->
                 <div class="group reveal" style="transition-delay: 100ms;">
-                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="showToast('Added Hex Dumbbells to cart!')">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="window.location.href='404.html'">
                         <img src="images/free weights.webp" alt="Hex Dumbbells" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
                         <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -354,7 +354,7 @@
                     </div>
                     <div class="flex justify-between items-start">
                         <div>
-                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-2 flex items-center gap-2 cursor-pointer hover:text-gray-300">
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-2 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="window.location.href='404.html'">
                                 Pro Hex Dumbbells <i class="fa-solid fa-arrow-up-right text-sm"></i>
                             </h3>
                             <p class="text-sm text-gray-500 uppercase tracking-widest">5kg - 30kg Sets</p>
@@ -365,7 +365,7 @@
 
                 <!-- Product 3 -->
                 <div class="group reveal" style="transition-delay: 200ms;">
-                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="showToast('Added Competition Kettlebell to cart!')">
+                    <div class="aspect-[3/4] bg-card overflow-hidden mb-6 relative cursor-pointer" onclick="window.location.href='404.html'">
                         <img src="images/conditioning.webp" alt="Kettlebells" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
                         <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -374,7 +374,7 @@
                     </div>
                     <div class="flex justify-between items-start">
                         <div>
-                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-2 flex items-center gap-2 cursor-pointer hover:text-gray-300">
+                            <h3 class="text-xl md:text-2xl font-bold uppercase tracking-wide mb-2 flex items-center gap-2 cursor-pointer hover:text-gray-300" onclick="window.location.href='404.html'">
                                 Comp Kettlebells <i class="fa-solid fa-arrow-up-right text-sm"></i>
                             </h3>
                             <p class="text-sm text-gray-500 uppercase tracking-widest">8kg - 32kg</p>
@@ -801,12 +801,12 @@
             // Navbar scroll effect
             const header = document.getElementById('header');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('py-4');
-                    header.classList.remove('py-6');
+                if (window.scrollY > 30) {
+                    header.classList.add('py-3.5', 'shadow-2xl');
+                    header.classList.remove('py-5');
                 } else {
-                    header.classList.add('py-6');
-                    header.classList.remove('py-4');
+                    header.classList.add('py-5');
+                    header.classList.remove('py-3.5', 'shadow-2xl');
                 }
             });
 

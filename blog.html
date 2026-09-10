@@ -150,7 +150,7 @@
 <body class="antialiased font-sans relative bg-dark text-white">
 
     <!-- HEADER (Shared Design) -->
-    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-5 bg-black border-b border-white/10 text-white transition-all duration-300 shadow-lg" id="header">
         <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
             <a href="index.html" class="hover:text-gray-400 transition-colors">Home</a>
             <a href="about.html" class="hover:text-gray-400 transition-colors">About</a>
@@ -166,13 +166,11 @@
         <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
             <a href="blog.html" class="text-white border-b border-white pb-1 transition-colors">Blog</a>
             <a href="contact.html" class="hover:text-gray-400 transition-colors">Contact</a>
-            <a href="products.html" class="hover:text-gray-400 transition-colors relative group" onclick="showToast('Open cart on Products page')">
-                <i class="fa-solid fa-shopping-cart text-base"></i>
-                <span class="absolute -top-2 -right-3 text-[9px] font-bold bg-white text-black rounded-full px-1.5 py-0.5 leading-none">2</span>
-            </a>
+            <a href="login.html" class="hover:text-gray-400 transition-colors">Sign In</a>
+            <a href="signup.html" class="border border-white/40 px-3 py-1.5 rounded-full hover:bg-white hover:text-black transition-all duration-300 text-[10px]">Sign Up</a>
         </nav>
 
-        <button id="mobile-menu-btn" class="lg:hidden text-2xl z-50 focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl text-white hover:text-gray-300 focus:outline-none transition-colors ml-auto z-50" aria-label="Toggle Menu">
             <i class="fa-solid fa-bars"></i>
         </button>
     </header>
@@ -185,6 +183,8 @@
             <a href="products.html" class="mobile-link hover:text-gray-400">Products</a>
             <a href="blog.html" class="mobile-link text-white font-bold border-b border-white pb-1 inline-block mx-auto">Blog</a>
             <a href="contact.html" class="mobile-link hover:text-gray-400">Contact</a>
+            <a href="login.html" class="mobile-link hover:text-gray-400">Sign In</a>
+            <a href="signup.html" class="mobile-link hover:text-gray-400">Sign Up</a>
         </nav>
         <div class="mt-12 text-xs uppercase tracking-[0.2em] text-gray-500">
             Salem, Tamil Nadu • (555) 123-4567
@@ -862,12 +862,12 @@
         // Navbar Scroll
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('py-4');
-                header.classList.remove('py-6');
+            if (window.scrollY > 30) {
+                header.classList.add('py-3.5', 'shadow-2xl');
+                header.classList.remove('py-5');
             } else {
-                header.classList.add('py-6');
-                header.classList.remove('py-4');
+                header.classList.add('py-5');
+                header.classList.remove('py-3.5', 'shadow-2xl');
             }
         });
 

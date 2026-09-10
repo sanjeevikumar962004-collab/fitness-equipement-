@@ -161,7 +161,7 @@
 <body class="antialiased font-sans relative bg-dark text-white">
 
     <!-- HEADER (Shared Design) -->
-    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-6 mix-blend-difference text-white transition-all duration-300" id="header">
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-5 bg-black border-b border-white/10 text-white transition-all duration-300 shadow-lg" id="header">
         <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
             <a href="index.html" class="hover:text-gray-400 transition-colors">Home</a>
             <a href="about.html" class="hover:text-gray-400 transition-colors">About</a>
@@ -178,9 +178,10 @@
             <a href="blog.html" class="hover:text-gray-400 transition-colors">Blog</a>
             <a href="contact.html" class="text-white border-b border-white pb-1 transition-colors">Contact</a>
             <a href="login.html" class="hover:text-gray-400 transition-colors">Sign In</a>
+            <a href="signup.html" class="border border-white/40 px-3 py-1.5 rounded-full hover:bg-white hover:text-black transition-all duration-300 text-[10px]">Sign Up</a>
         </nav>
 
-        <button id="mobile-menu-btn" class="lg:hidden text-2xl z-50 focus:outline-none mix-blend-difference" aria-label="Toggle Menu">
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl text-white hover:text-gray-300 focus:outline-none transition-colors ml-auto z-50" aria-label="Toggle Menu">
             <i class="fa-solid fa-bars"></i>
         </button>
     </header>
@@ -339,17 +340,26 @@
                     </p>
                 </div>
 
-                <form id="project-form" class="space-y-8">
+                <!-- Form Status Alert -->
+                <div id="contact-success-alert" class="hidden mb-6 p-4 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-wider flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-lg text-green-400 shrink-0"></i>
+                    <div class="flex-1">
+                        <div>INQUIRY TRANSMITTED SUCCESSFULLY!</div>
+                        <div class="text-[10px] text-gray-300 font-normal mt-0.5 normal-case tracking-normal">Our Salem facility engineering desk has received your brief and will call within 24 hours. Reference: <span id="contact-ref-id" class="font-mono text-green-400 font-bold">#INQ-8821</span></div>
+                    </div>
+                </div>
+
+                <form id="project-form" onsubmit="handleProjectSubmit(event)" novalidate class="space-y-8">
                     
                     <!-- Row 1: Name & Phone -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div class="border-b border-border py-2">
                             <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-1">Your Name *</label>
-                            <input type="text" id="contact-name" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="ARJUN SUNDARAM" pattern="^[^0-9]*$" title="Numbers are not allowed in the name field." required>
+                            <input type="text" id="contact-name" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="ARJUN SUNDARAM" required>
                         </div>
                         <div class="border-b border-border py-2">
                             <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-1">Phone Number *</label>
-                            <input type="tel" id="contact-phone" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="9876543210" pattern="[0-9]{10}" title="Phone number must be exactly 10 digits." required>
+                            <input type="tel" id="contact-phone" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="9876543210" required>
                         </div>
                     </div>
 
@@ -361,7 +371,7 @@
                         </div>
                         <div class="border-b border-border py-2">
                             <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-1">Gym / Project Name</label>
-                            <input type="text" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="IRON CLAN ATHLETICS">
+                            <input type="text" id="contact-gym" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-sm" placeholder="IRON CLAN ATHLETICS">
                         </div>
                     </div>
 
@@ -440,7 +450,7 @@
                     <!-- Row 6: Message -->
                     <div class="border-b border-border py-2">
                         <label class="uppercase text-xs font-bold tracking-[0.2em] text-gray-500 block mb-2">Project Brief & Details</label>
-                        <textarea rows="3" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-xs resize-none" placeholder="DESCRIBE CEILING HEIGHT, CURRENT STAGE (CONSTRUCTION / RENOVATION), OR TARGET OPENING DATE..."></textarea>
+                        <textarea id="contact-message" rows="3" class="w-full bg-transparent text-white focus:outline-none uppercase tracking-widest text-xs resize-none" placeholder="DESCRIBE CEILING HEIGHT, CURRENT STAGE (CONSTRUCTION / RENOVATION), OR TARGET OPENING DATE..."></textarea>
                     </div>
 
                     <!-- Submit Button with Loading State -->
@@ -657,58 +667,137 @@
             }, 3500);
         }
 
-        // Project Form Handler with realistic loading state
+        // Project Form Handler with realistic loading state & inquiry recording
         const form = document.getElementById('project-form');
         const submitBtn = document.getElementById('submit-btn');
         const btnText = document.getElementById('btn-text');
         const btnIcon = document.getElementById('btn-icon');
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+        function clearContactErrors() {
+            document.querySelectorAll('.contact-field-error').forEach(e => e.remove());
+            const nameEl = document.getElementById('contact-name');
+            const phoneEl = document.getElementById('contact-phone');
+            const emailEl = document.getElementById('contact-email');
+            if (nameEl) nameEl.style.borderBottomColor = '';
+            if (phoneEl) phoneEl.style.borderBottomColor = '';
+            if (emailEl) emailEl.style.borderBottomColor = '';
+        }
+
+        // Live error clearing on input
+        ['contact-name', 'contact-phone', 'contact-email'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', () => {
+                    el.style.borderBottomColor = '';
+                    const err = el.parentNode ? el.parentNode.querySelector('.contact-field-error') : null;
+                    if (err) err.remove();
+                });
+            }
+        });
+
+        function handleProjectSubmit(e) {
+            if (e) e.preventDefault();
 
             const nameEl = document.getElementById('contact-name');
             const phoneEl = document.getElementById('contact-phone');
             const emailEl = document.getElementById('contact-email');
+            const gymEl = document.getElementById('contact-gym');
+            const typeEl = document.getElementById('inquiry-type');
+            const msgEl = document.getElementById('contact-message');
 
-            const name = nameEl.value.trim();
-            const phone = phoneEl.value.trim();
-            const email = emailEl.value.trim();
+            const name = nameEl ? nameEl.value.trim() : '';
+            const phone = phoneEl ? phoneEl.value.trim() : '';
+            const email = emailEl ? emailEl.value.trim() : '';
+            const gym = gymEl ? gymEl.value.trim() : '';
+            const scope = typeEl ? typeEl.value : '';
+            const message = msgEl ? msgEl.value.trim() : '';
 
-            // Remove old error messages
-            document.querySelectorAll('.contact-field-error').forEach(e => e.remove());
-            [nameEl, phoneEl, emailEl].forEach(el => el.style.borderColor = '');
+            clearContactErrors();
 
             let valid = true;
+            let firstInvalidEl = null;
 
             function markError(el, msg) {
+                if (!el) return;
                 el.style.borderBottomColor = '#ef4444';
                 const err = document.createElement('p');
                 err.className = 'contact-field-error';
-                err.style.cssText = 'font-size:0.65rem;color:#ef4444;margin-top:4px;text-transform:uppercase;letter-spacing:0.1em;';
+                err.style.cssText = 'font-size:0.65rem;color:#ef4444;margin-top:4px;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;';
                 err.textContent = msg;
-                el.parentNode.appendChild(err);
+                if (el.parentNode) el.parentNode.appendChild(err);
+                if (!firstInvalidEl) firstInvalidEl = el;
                 valid = false;
             }
 
-            if (!name || name.length < 2) markError(nameEl, 'Full name is required.');
-            if (!phone || !/^[+]?[\d\s\-().]{7,15}$/.test(phone)) markError(phoneEl, 'Enter a valid phone number.');
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) markError(emailEl, 'Enter a valid work email address.');
+            if (!name || name.length < 2) {
+                markError(nameEl, 'Full name is required (at least 2 characters).');
+            }
+            if (!phone || !/^[+]?[\d\s\-().]{7,15}$/.test(phone)) {
+                markError(phoneEl, 'Enter a valid phone number (e.g. 9876543210).');
+            }
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                markError(emailEl, 'Enter a valid work email address.');
+            }
 
-            if (!valid) return;
+            if (!valid) {
+                if (firstInvalidEl) {
+                    firstInvalidEl.focus();
+                    firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
 
+            // Loading state
             btnText.innerText = "TRANSMITTING BRIEF...";
             btnIcon.className = "fa-solid fa-circle-notch fa-spin";
             submitBtn.disabled = true;
+
+            const refId = '#INQ-' + Math.floor(1000 + Math.random() * 9000);
+
+            // Persist inquiry in localStorage
+            try {
+                const budgetInput = document.querySelector('input[name="budget"]:checked');
+                const budget = budgetInput ? budgetInput.value : '3L-10L';
+                const gear = Array.from(document.querySelectorAll('input[name="gear"]:checked')).map(cb => cb.value);
+
+                const inquiries = JSON.parse(localStorage.getItem('stackly_inquiries') || '[]');
+                inquiries.unshift({
+                    refId: refId,
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    gym: gym,
+                    scope: scope,
+                    budget: budget,
+                    gear: gear,
+                    message: message,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('stackly_inquiries', JSON.stringify(inquiries));
+            } catch (err) {}
 
             setTimeout(() => {
                 btnText.innerText = "SUBMIT INQUIRY";
                 btnIcon.className = "fa-solid fa-arrow-up-right arrow-icon";
                 submitBtn.disabled = false;
                 form.reset();
-                document.querySelectorAll('.contact-field-error').forEach(e => e.remove());
-                showToast(`Inquiry received, ${name}! Our Salem engineering desk will call within 24h.`);
-            }, 1200);
-        });
+                clearContactErrors();
+
+                // Show in-card success alert
+                const successAlert = document.getElementById('contact-success-alert');
+                const refSpan = document.getElementById('contact-ref-id');
+                if (refSpan) refSpan.textContent = refId;
+                if (successAlert) {
+                    successAlert.classList.remove('hidden');
+                    successAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    setTimeout(() => successAlert.classList.add('hidden'), 9000);
+                }
+
+                showToast(`Inquiry received, ${name}! Reference ${refId}. Salem desk will call within 24h.`);
+            }, 1000);
+        }
+
+        form.addEventListener('submit', handleProjectSubmit);
 
         // Newsletter Form
         document.getElementById('newsletter-form').addEventListener('submit', (e) => {
@@ -755,12 +844,12 @@
         // Navbar Scroll
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('py-4');
-                header.classList.remove('py-6');
+            if (window.scrollY > 30) {
+                header.classList.add('py-3.5', 'shadow-2xl');
+                header.classList.remove('py-5');
             } else {
-                header.classList.add('py-6');
-                header.classList.remove('py-4');
+                header.classList.add('py-5');
+                header.classList.remove('py-3.5', 'shadow-2xl');
             }
         });
 

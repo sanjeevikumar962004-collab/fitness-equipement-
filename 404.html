@@ -46,8 +46,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 2rem;
-            mix-blend-mode: difference;
+            padding: 1.25rem 2rem;
+            background-color: #000000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
         }
         .nav-link {
             font-size: 0.72rem;
@@ -225,7 +228,7 @@
     <div class="particle" style="left:40%;animation-duration:7s;animation-delay:5s;"></div>
 
     <!-- HEADER -->
-    <header id="header">
+    <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-8 py-5 bg-black border-b border-white/10 text-white transition-all duration-300 shadow-lg" id="header">
         <nav class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] font-medium items-center">
             <a href="index.html" class="nav-link">Home</a>
             <a href="about.html" class="nav-link">About</a>
@@ -242,15 +245,16 @@
             <a href="blog.html" class="nav-link">Blog</a>
             <a href="contact.html" class="nav-link">Contact</a>
             <a href="login.html" class="nav-link">Sign In</a>
+            <a href="signup.html" class="nav-link border border-white/40 px-3 py-1.5 rounded-full hover:bg-white hover:text-black transition-all duration-300 text-[10px]">Sign Up</a>
         </nav>
 
-        <button id="mobile-menu-btn" class="lg:hidden text-2xl z-50 focus:outline-none" aria-label="Toggle Menu">
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl text-white hover:text-gray-300 focus:outline-none transition-colors ml-auto z-50" aria-label="Toggle Menu">
             <i class="fa-solid fa-bars"></i>
         </button>
     </header>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 bg-black/95">
         <button id="mobile-close-btn" class="absolute top-6 right-6 text-2xl text-white focus:outline-none">
             <i class="fa-solid fa-xmark"></i>
         </button>
@@ -415,6 +419,18 @@
         // Close menu on link click
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeMenu);
+        });
+
+        // Navbar Scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                header.classList.add('py-3.5', 'shadow-2xl');
+                header.classList.remove('py-5');
+            } else {
+                header.classList.add('py-5');
+                header.classList.remove('py-3.5', 'shadow-2xl');
+            }
         });
 
         // Auto-redirect countdown (optional)
